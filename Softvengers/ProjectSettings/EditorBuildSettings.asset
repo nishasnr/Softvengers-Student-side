@@ -11,4 +11,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ResetPassScene.unity
     guid: f0acac2655a9ac340bd93f0ad5e054f4
+  - enabled: 1
+    path: Assets/Scenes/UniverseScene.unity
+    guid: 93279d58da8d36d44a435321fd500c45
+  - enabled: 1
+    path: Assets/Scenes/SolarSystemScene.unity
+    guid: 874d596afb98eba44a13809fc2cc562e
+  - enabled: 1
+    path: Assets/Scenes/PlanetScene.unity
+    guid: 83caef465ea088a4ea1dc8c8ef1c0219
+  - enabled: 1
+    path: Assets/Scenes/GamePlayScene.unity
+    guid: 3f67c12e8757a3947965239691b98b4e
   m_configObjects: {}

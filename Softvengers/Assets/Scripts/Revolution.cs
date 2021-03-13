@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlanetMovement : MonoBehaviour
+public class Revolution : MonoBehaviour
 {
 
 	public Transform target; // the object to rotate around

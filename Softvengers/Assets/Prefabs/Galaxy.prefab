@@ -88,6 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7682334653522913172}
   - component: {fileID: 7682334653522913173}
+  - component: {fileID: 3601368029669400656}
   m_Layer: 0
   m_Name: Galaxy
   m_TagString: Untagged
@@ -124,6 +125,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 6586706250789475771, guid: 4621a4ea9b267354e97a480b983ad0bf, type: 3}
+--- !u!114 &3601368029669400656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7682334653522913195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d29a2d0ec2c024dab3a6814b20bf23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
 --- !u!114 &7682334653013996009
 MonoBehaviour:
   m_ObjectHideFlags: 0

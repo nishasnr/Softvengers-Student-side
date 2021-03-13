@@ -335,6 +335,7 @@ GameObject:
   - component: {fileID: 3982352176001045882}
   - component: {fileID: 3982352176001045881}
   - component: {fileID: 3982352176001045880}
+  - component: {fileID: 4201040015647948707}
   m_Layer: 0
   m_Name: Planet2
   m_TagString: Untagged
@@ -429,7 +430,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 3982352175823701101}
-  speed: 10
+  speed: 20
+--- !u!114 &4201040015647948707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3982352176001045878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d29a2d0ec2c024dab3a6814b20bf23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 40
 --- !u!1 &3982352176001872900
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,6 +457,7 @@ GameObject:
   - component: {fileID: 3982352176001872904}
   - component: {fileID: 3982352176001872903}
   - component: {fileID: 3982352176001872902}
+  - component: {fileID: 2467171451597917759}
   m_Layer: 0
   m_Name: Planet1
   m_TagString: Untagged
@@ -538,6 +553,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 3982352175823701101}
   speed: 50
+--- !u!114 &2467171451597917759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3982352176001872900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d29a2d0ec2c024dab3a6814b20bf23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 50
 --- !u!1 &3982352176106321951
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,6 +579,7 @@ GameObject:
   - component: {fileID: 3982352176106322147}
   - component: {fileID: 3982352176106322146}
   - component: {fileID: 3982352176106322145}
+  - component: {fileID: 6310296783104239586}
   m_Layer: 0
   m_Name: Planet3
   m_TagString: Untagged
@@ -645,7 +674,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 3982352175823701101}
-  speed: 20
+  speed: 10
+--- !u!114 &6310296783104239586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3982352176106321951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d29a2d0ec2c024dab3a6814b20bf23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 30
 --- !u!1 &6194938267519024217
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,36 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DisplaySolarSystem : MonoBehaviour
+public class UniverseNavigation : ExplorationController
 {
-
-    private float radius = 40.0f;
-    public GameObject solarSystem;
     // Start is called before the first frame update
+    protected float radius;
+    public GameObject spaceObject;
     void Start()
     {
+        this.radius = 65.0f;
+        names = Multiverse.getUniverses();
 
-        List<string> solarSystems = NavigationController.getSolarSystem();
-        int numSolarSystem = solarSystems.Count();
+        this.RenderObjects();
+    }
 
-        float increment = (float)(360.0 / numSolarSystem);
-        int solarSystemID = 0;
-        for (float angle = 0.0f; angle < 360.0; angle += increment)
+    public override void RenderObjects()
+    {
+        int numObjects = this.names.Count;
+
+        float increment = 360.0f / numObjects;
+        float angle = 0.0f;
+
+        for (int objectID=0; objectID<numObjects; ++objectID)
         {
             float x = radius * Mathf.Sin(0.01745f * angle);
             float z = radius * Mathf.Cos(0.01745f * angle);
-            GameObject galaxy = Instantiate(solarSystem, new Vector3(x, -4, z), Quaternion.identity);
+
+            GameObject galaxy = Instantiate(spaceObject, new Vector3(x, -5f, z), Quaternion.identity);
             Transform canvas = galaxy.transform.Find("Canvas");
             Transform button = canvas.transform.Find("Button");
-            int currentsolarSystem = solarSystemID;
-            
-            button.GetComponent<Button>().onClick.AddListener(() => { NavigationController.selectSolarSystem(currentsolarSystem); });
-
+            int currentUniverse = objectID;
+            button.GetComponent<Button>().onClick.AddListener(() => { this.ExploreWorld(currentUniverse); });
             ColorBlock colorVar = button.GetComponent<Button>().colors;
-            if (NavigationController.IsSolarSystemLocked(currentsolarSystem))
+
+            if (this.IsUnlocked(currentUniverse))
             {
                 colorVar.highlightedColor = new Color(0f, 255f / 255f, 10f / 255f, 50f / 255f);
                 colorVar.selectedColor = new Color(0f, 255f / 255f, 10f / 255f, 0f / 255f);
@@ -45,14 +50,29 @@ public class DisplaySolarSystem : MonoBehaviour
             }
             button.GetComponent<Button>().colors = colorVar;
             Transform text = button.transform.Find("Text");
-            text.GetComponent<Text>().text = solarSystems[solarSystemID];
-            solarSystemID++;
+            text.GetComponent<Text>().text = names[objectID];
+
+            angle += increment;
+
         }
+
     }
 
-    public void Back()
+    public override bool IsUnlocked(int spaceObjectID)
     {
-        NavigationController.LoadScene("UniverseScene");
+        if (spaceObjectID <= this.playerData.universePogress)
+            return true;
+        return false;
     }
 
+    public override void ExploreWorld(int spaceObjectID)
+    {
+        if (this.IsUnlocked(spaceObjectID))
+        {
+            this.navigation.universeSelected = spaceObjectID;
+            this.ChangeScene("SolarSystemScene");
+        }
+        else
+            Debug.Log("Locked");
+    }
 }
