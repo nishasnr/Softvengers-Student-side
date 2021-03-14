@@ -15,3 +15,4 @@ MonoBehaviour:
   universePogress: 2
   solarSystemProgress: 1
   planetProgress: 1
+  colorChoice: 0

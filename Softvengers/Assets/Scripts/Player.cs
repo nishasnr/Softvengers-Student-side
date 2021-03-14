@@ -10,4 +10,6 @@ public class Player : ScriptableObject
     public int solarSystemProgress;
     public int planetProgress;
 
+    public int colorChoice;
+
 }
