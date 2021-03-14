@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SettingsScene.unity
+  - enabled: 1
+    path: Assets/Scenes/SettingScene.unity
     guid: fdf7071835ee1304b9ace3a8fb134893
-  - enabled: 0
-    path: Assets/Scenes/ResetPasswordScene.unity
+  - enabled: 1
+    path: Assets/Scenes/ResetPassScene.unity
     guid: f0acac2655a9ac340bd93f0ad5e054f4
   m_configObjects: {}
