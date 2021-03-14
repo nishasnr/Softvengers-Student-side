@@ -8,14 +8,14 @@ using UnityEngine.UI;
 public class DatabaseAPI : MonoBehaviour
 {
 
-    public GameObject username;
-    public GameObject password;
+    public InputField username;
+    public InputField password;
 
 
     public void checkUser(){
 
-        string Name = username.GetComponent<Text>().text;
-        string pass = password.GetComponent<Text>().text;
+        string Name = username.text;
+        string pass = password.text;
         Debug.Log(Name);
         Debug.Log(pass);
         Login player = new Login(Name, pass);

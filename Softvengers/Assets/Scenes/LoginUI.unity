@@ -920,8 +920,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a1e7bd92406ae44f8b7c3a4b49ef3fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  username: {fileID: 683022787}
-  password: {fileID: 562022741}
+  username: {fileID: 1152040768}
+  password: {fileID: 1119884946}
 --- !u!4 &1041193362
 Transform:
   m_ObjectHideFlags: 0
@@ -1096,8 +1096,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1119884947}
   m_TextComponent: {fileID: 562022743}
   m_Placeholder: {fileID: 1008861940}
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
