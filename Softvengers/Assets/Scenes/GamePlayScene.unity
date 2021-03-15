@@ -976,6 +976,7 @@ MonoBehaviour:
   option3: {fileID: 1914643251}
   option4: {fileID: 372732115}
   healthBar: {fileID: 1656279123}
+  timeBar: {fileID: 2095737172}
 --- !u!1 &1225525797
 GameObject:
   m_ObjectHideFlags: 0
