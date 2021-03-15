@@ -91,6 +91,7 @@ public class GamePlayController : MonoBehaviour
         timeBar.fillAmount = ratio;
         if (ratio <= 0.0f)
         {
+            DecreaseHealth();
             if (questionNumber < questions.Count - 1)
             {
                 questionNumber++;
