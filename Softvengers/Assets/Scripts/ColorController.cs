@@ -10,7 +10,7 @@ public class ColorController : MonoBehaviour
     {
         int colorChoice = playerData.colorChoice;
         Material color = colors[colorChoice];
-        Debug.Log(color);
+        //Debug.Log(color);
 
         Transform spaceShip = this.transform.Find("jet");
         Renderer renderer = spaceShip.GetComponent<Renderer>();
