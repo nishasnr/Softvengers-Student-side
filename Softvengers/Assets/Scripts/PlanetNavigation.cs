@@ -26,9 +26,9 @@ public class PlanetNavigation : ExplorationController
 
         for (int i = 0; i < this.names.Count; ++i)
         {
-            GameObject planeto = Instantiate(spaceObjects[i], new Vector3(x, y, z), Quaternion.identity);
+            GameObject planet = Instantiate(spaceObjects[i], new Vector3(x, y, z), Quaternion.identity);
             x += 4;
-            Transform canvas = planeto.transform.Find("Canvas");
+            Transform canvas = planet.transform.Find("Canvas");
 
             Transform button = canvas.transform.Find("Button");
             int planetID = i;

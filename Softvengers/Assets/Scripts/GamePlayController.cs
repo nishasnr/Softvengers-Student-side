@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GamePlayController : MonoBehaviour
@@ -21,6 +22,8 @@ public class GamePlayController : MonoBehaviour
 
     private float startTime = 0.0f;
     private float questionTime = 15f;
+    private float ratio;
+    private float baseScore = 10;
 
 
     public GamePlayController()
@@ -85,7 +88,7 @@ public class GamePlayController : MonoBehaviour
     void Update()
     {
         float timeElapsed = Time.time - startTime;
-        float ratio = (questionTime - timeElapsed) / questionTime;
+        ratio = (questionTime - timeElapsed) / questionTime;
         ratio = ratio >= 0.0f ? ratio : 0.0f;
         timeBar.color = new Color((1 - ratio), (ratio), 0.0f, 0.8f);
         timeBar.fillAmount = ratio;
@@ -97,7 +100,11 @@ public class GamePlayController : MonoBehaviour
                 questionNumber++;
                 DisplayQuestion(questionNumber);
             }
+        }
 
+        if (GameOver())
+        {
+            SceneManager.LoadScene("ResultScene");
         }
     }
 
@@ -117,20 +124,32 @@ public class GamePlayController : MonoBehaviour
 
         if (options[optionNumber].isCorrect == true)
         {
+            float score = baseScore + ratio * baseScore;
+            ResultManager.AddRecord(true, score);
             Debug.Log("Correct");
             if (questionNumber < questions.Count-1)
             {
                 questionNumber++;
+            }
+            else
+            {
+                SceneManager.LoadScene("ResultScene");
             }
             
         }
         else
         {
             Debug.Log("Wrong");
+            float score = 0.0f;
+            ResultManager.AddRecord(false, score);
             DecreaseHealth();
-            if (questionNumber < questions.Count - 1)
+            if (questionNumber < questions.Count-1)
             {
                 questionNumber++;
+            }
+            else
+            {
+                SceneManager.LoadScene("ResultScene");
             }
         }
 
@@ -143,5 +162,12 @@ public class GamePlayController : MonoBehaviour
         float ratio = health / maxHealth;
         healthBar.fillAmount = ratio;
         healthBar.color = new Color((1 - ratio), (ratio), 0.0f, 0.8f);
+    }
+
+    bool GameOver()
+    {
+        if (health <= 0.0f)
+            return true;
+        return false;
     }
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.059701324, g: 0.08294109, b: 0.12299474, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: fb357885c22faca4dace874ff165ac9e, type: 2}
-  navigation: {fileID: 11400000, guid: dba0317b5b9dd2b41805ecfaa2b982dc, type: 2}
+  navigation: {fileID: 11400000, guid: 9017bbbd809fb5740850809ede01fa0e, type: 2}
   spaceObject: {fileID: 7682334653522913195, guid: ae72a874621be8940b654135a26e183b,
     type: 3}
 --- !u!4 &237934044
@@ -366,6 +366,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6586706250789475771, guid: 4621a4ea9b267354e97a480b983ad0bf,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586706250789475771, guid: 4621a4ea9b267354e97a480b983ad0bf,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -381,6 +386,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6586706250789475771, guid: 4621a4ea9b267354e97a480b983ad0bf,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586706250789475771, guid: 4621a4ea9b267354e97a480b983ad0bf,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -392,16 +402,6 @@ PrefabInstance:
     - target: {fileID: 6586706250789475771, guid: 4621a4ea9b267354e97a480b983ad0bf,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6586706250789475771, guid: 4621a4ea9b267354e97a480b983ad0bf,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6586706250789475771, guid: 4621a4ea9b267354e97a480b983ad0bf,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6586706250789475771, guid: 4621a4ea9b267354e97a480b983ad0bf,

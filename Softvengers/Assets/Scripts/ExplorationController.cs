@@ -8,7 +8,7 @@ public abstract class ExplorationController : MonoBehaviour
     // Start is called before the first frame update
     protected List<string> names;
     public Player playerData;
-    public Navigator navigation;
+    public Navigation navigation;
     
 
     public void ChangeScene(string sceneName)

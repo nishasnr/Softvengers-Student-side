@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Navigation", menuName = "Navigation Data")]
-public class Navigator : ScriptableObject
+[CreateAssetMenu(fileName = "New Navigation", menuName = "Navigation Data")]
+public class Navigation : ScriptableObject
 {
     public int universeSelected;
+
     public int solarSystemSelected;
     public int planetSelected;
 }
-
