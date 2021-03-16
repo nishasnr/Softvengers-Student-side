@@ -87,7 +87,7 @@ public class GamePlayController : MonoBehaviour
         float timeElapsed = Time.time - startTime;
         float ratio = (questionTime - timeElapsed) / questionTime;
         ratio = ratio >= 0.0f ? ratio : 0.0f;
-        timeBar.color = new Color((1 - ratio), (ratio), 0);
+        timeBar.color = new Color((1 - ratio), (ratio), 0.0f, 0.8f);
         timeBar.fillAmount = ratio;
         if (ratio <= 0.0f)
         {
@@ -142,6 +142,6 @@ public class GamePlayController : MonoBehaviour
         health -= 20.0f;
         float ratio = health / maxHealth;
         healthBar.fillAmount = ratio;
-        healthBar.color = new Color((1 - ratio), (ratio), 0);
+        healthBar.color = new Color((1 - ratio), (ratio), 0.0f, 0.8f);
     }
 }
