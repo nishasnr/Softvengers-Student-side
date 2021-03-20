@@ -97,13 +97,13 @@ public class GamePlayController : MonoBehaviour
         timeBar.fillAmount = ratio;
 
         Vector3 position = Vector3.zero;
-        //position.y = 2;
-        position.z = ratio * 10 + 0.35f;
+        position.z = ratio * 10 + 1f;
         currAsteroid.transform.position = position;
 
         if (ratio <= 0.0f)
         {
             DecreaseHealth();
+            ResultManager.AddRecord(false, 0);
             BreakAsteroid();
             if (questionNumber < questions.Count - 1)
             {
@@ -126,7 +126,7 @@ public class GamePlayController : MonoBehaviour
         option3.GetComponent<Text>().text = this.questions[questionID].options[2].option;
         option4.GetComponent<Text>().text = this.questions[questionID].options[3].option;
         startTime = Time.time;
-        currAsteroid = Instantiate(asteroid, new Vector3(0,0,15), Quaternion.identity);
+        currAsteroid = Instantiate(asteroid, new Vector3(0, 0, 15), Quaternion.identity);
     }
 
     public void CheckAnswer(int optionNumber)
@@ -135,11 +135,13 @@ public class GamePlayController : MonoBehaviour
 
         if (options[optionNumber].isCorrect == true)
         {
+            
             float score = baseScore + ratio * baseScore;
             ResultManager.AddRecord(true, score);
             Debug.Log("Correct");
             if (questionNumber < questions.Count-1)
             {
+                BreakAsteroid();
                 questionNumber++;
             }
             else
@@ -172,6 +174,7 @@ public class GamePlayController : MonoBehaviour
         GameObject fractured = asteroid.GetComponent<Fracture>().returnFractured();
         Instantiate(fractured, currAsteroid.transform.position, currAsteroid.transform.rotation);
         Destroy(currAsteroid);
+        currAsteroid = Instantiate(asteroid, new Vector3(0, 0, 15), Quaternion.identity);
         //asteroid.gameObject.SetActive(false);
     }
 
