@@ -17,9 +17,11 @@ public class GamePlayController : MonoBehaviour
     public Image healthBar;
     public Image timeBar;
 
-    public GameObject currAsteroid;
+    private GameObject fragment;
+    private GameObject currAsteroid;
     public GameObject asteroid;
 
+    private float timeDelay = 1.25f;
     private float health = 100.0f;
     private float maxHealth = 100.0f;
 
@@ -28,6 +30,7 @@ public class GamePlayController : MonoBehaviour
     private float ratio;
     private float baseScore = 10;
 
+    private bool paused = false;
 
     //Create List of Questions
     public GamePlayController()
@@ -83,7 +86,8 @@ public class GamePlayController : MonoBehaviour
     
     void Start()
     {
-        DisplayQuestion(questionNumber);
+        paused = true;
+        DisplayQuestion();
     }
 
     // Update is called once per frame
@@ -96,37 +100,44 @@ public class GamePlayController : MonoBehaviour
         timeBar.color = new Color((1 - ratio), (ratio), 0.0f, 0.8f);
         timeBar.fillAmount = ratio;
 
-        Vector3 position = Vector3.zero;
-        position.z = ratio * 10 + 1f;
-        currAsteroid.transform.position = position;
-
-        if (ratio <= 0.0f)
-        {
-            DecreaseHealth();
-            ResultManager.AddRecord(false, 0);
-            BreakAsteroid();
-            if (questionNumber < questions.Count - 1)
+        if (!paused) {
+            Vector3 position = Vector3.zero;
+            position.z = ratio * 10 + 1f;
+            currAsteroid.transform.position = position;
+            if (ratio <= 0.0f)
             {
-                questionNumber++;
-                DisplayQuestion(questionNumber);
+                DecreaseHealth();
+                ResultManager.AddRecord(false, 0);
+                BreakAsteroid();
+                if (questionNumber < questions.Count - 1)
+                {
+                    questionNumber++;
+                    paused = true;
+                    Invoke("DisplayQuestion", timeDelay);
+                }
+                else
+                {
+                    SceneManager.LoadScene("ResultScene");
+                }
             }
-        }
 
-        if (GameOver())
-        {
-            SceneManager.LoadScene("ResultScene");
+            if (GameOver())
+            {
+                SceneManager.LoadScene("ResultScene");
+            }
         }
     }
 
-    void DisplayQuestion(int questionID)
+    void DisplayQuestion()
     {
-        questionName.GetComponent<Text>().text = this.questions[questionID].questionName;
-        option1.GetComponent<Text>().text = this.questions[questionID].options[0].option;
-        option2.GetComponent<Text>().text = this.questions[questionID].options[1].option;
-        option3.GetComponent<Text>().text = this.questions[questionID].options[2].option;
-        option4.GetComponent<Text>().text = this.questions[questionID].options[3].option;
+        questionName.GetComponent<Text>().text = this.questions[questionNumber].questionName;
+        option1.GetComponent<Text>().text = this.questions[questionNumber].options[0].option;
+        option2.GetComponent<Text>().text = this.questions[questionNumber].options[1].option;
+        option3.GetComponent<Text>().text = this.questions[questionNumber].options[2].option;
+        option4.GetComponent<Text>().text = this.questions[questionNumber].options[3].option;
         startTime = Time.time;
         currAsteroid = Instantiate(asteroid, new Vector3(0, 0, 15), Random.rotation);
+        paused = false;
     }
 
     public void CheckAnswer(int optionNumber)
@@ -165,17 +176,23 @@ public class GamePlayController : MonoBehaviour
                 SceneManager.LoadScene("ResultScene");
             }
         }
-
-        DisplayQuestion(questionNumber);
+        paused = true;
+        Invoke("DisplayQuestion", timeDelay);
+        
     }
 
     void BreakAsteroid()
     {
-        GameObject fractured = asteroid.GetComponent<Fracture>().returnFractured();
-        Instantiate(fractured, currAsteroid.transform.position, currAsteroid.transform.rotation);
+        GameObject fractured = currAsteroid.GetComponent<Fracture>().returnFractured();
+        fragment = Instantiate(fractured, currAsteroid.transform.position, currAsteroid.transform.rotation);
         Destroy(currAsteroid);
-        currAsteroid = Instantiate(asteroid, new Vector3(0, 0, 15), Quaternion.identity);
         //asteroid.gameObject.SetActive(false);
+        Invoke("DestroyFragment", 1);
+    }
+
+    void DestroyFragment()
+    {
+        Destroy(fragment);
     }
 
     void DecreaseHealth()

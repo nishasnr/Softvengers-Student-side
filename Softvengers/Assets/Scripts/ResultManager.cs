@@ -69,6 +69,7 @@ public class ResultManager : MonoBehaviour
 
     public static void AddRecord(bool result, float score)
     {
+        Debug.Log(results.Count + 1);
         results.Add(result);
         scores.Add(score);
     }
