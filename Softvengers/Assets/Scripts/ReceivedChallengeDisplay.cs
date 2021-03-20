@@ -272,7 +272,11 @@ new Dictionary<string, List<string>>()
             else if(child.name=="ScoreMessage")
             {
                 Text cText = child.GetComponentInChildren<Text>();
-                if(int.Parse(RC_info[selectedChallengeid]["c_score"])<=int.Parse(RC_info[selectedChallengeid]["your_score"]))
+                if(RC_info[selectedChallengeid]["attempted"]=="0")
+                {
+                    cText.text = "Can you beat this score?";
+                }
+                else if(int.Parse(RC_info[selectedChallengeid]["c_score"])<=int.Parse(RC_info[selectedChallengeid]["your_score"]) )
                 {
                     cText.text = "Good Job!";
                 }
