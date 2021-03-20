@@ -36,12 +36,16 @@ public class GamePlayController : MonoBehaviour
     private bool failedQuestion = false;
     private bool isLocked = false;
 
+<<<<<<< HEAD
+    //Create List of Questions
+=======
     List<Question> questionsE = new List<Question>();
     List<Question> questionsM = new List<Question>();
     List<Question> questionsH = new List<Question>();
     private int questionNumberE = 0;
     private int questionNumberM = 0;
     private int questionNumberH = 0;
+>>>>>>> ef8f625b94990482b2dbdfd339d602aca0dc6a42
     public GamePlayController()
     {
         questionNumber = 0;
