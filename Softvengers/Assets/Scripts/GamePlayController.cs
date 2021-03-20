@@ -17,15 +17,19 @@ public class GamePlayController : MonoBehaviour
     public Image healthBar;
     public Image timeBar;
 
+    public GameObject currAsteroid;
+    public GameObject asteroid;
+
     private float health = 100.0f;
     private float maxHealth = 100.0f;
 
     private float startTime = 0.0f;
-    private float questionTime = 15f;
+    private float questionTime = 7f;
     private float ratio;
     private float baseScore = 10;
 
 
+    //Create List of Questions
     public GamePlayController()
     {
         questionNumber = 0;
@@ -75,10 +79,8 @@ public class GamePlayController : MonoBehaviour
         this.questions.Add(q4);
         this.questions.Add(q5);
     }
-    //Create List of Questions
     
     
-
     void Start()
     {
         DisplayQuestion(questionNumber);
@@ -90,11 +92,19 @@ public class GamePlayController : MonoBehaviour
         float timeElapsed = Time.time - startTime;
         ratio = (questionTime - timeElapsed) / questionTime;
         ratio = ratio >= 0.0f ? ratio : 0.0f;
+
         timeBar.color = new Color((1 - ratio), (ratio), 0.0f, 0.8f);
         timeBar.fillAmount = ratio;
+
+        Vector3 position = Vector3.zero;
+        //position.y = 2;
+        position.z = ratio * 10 + 0.35f;
+        currAsteroid.transform.position = position;
+
         if (ratio <= 0.0f)
         {
             DecreaseHealth();
+            BreakAsteroid();
             if (questionNumber < questions.Count - 1)
             {
                 questionNumber++;
@@ -116,6 +126,7 @@ public class GamePlayController : MonoBehaviour
         option3.GetComponent<Text>().text = this.questions[questionID].options[2].option;
         option4.GetComponent<Text>().text = this.questions[questionID].options[3].option;
         startTime = Time.time;
+        currAsteroid = Instantiate(asteroid, new Vector3(0,0,15), Quaternion.identity);
     }
 
     public void CheckAnswer(int optionNumber)
@@ -154,6 +165,14 @@ public class GamePlayController : MonoBehaviour
         }
 
         DisplayQuestion(questionNumber);
+    }
+
+    void BreakAsteroid()
+    {
+        GameObject fractured = asteroid.GetComponent<Fracture>().returnFractured();
+        Instantiate(fractured, currAsteroid.transform.position, currAsteroid.transform.rotation);
+        Destroy(currAsteroid);
+        //asteroid.gameObject.SetActive(false);
     }
 
     void DecreaseHealth()

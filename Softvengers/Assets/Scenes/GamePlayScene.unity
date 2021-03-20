@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.060908027, g: 0.105003916, b: 0.106619425, a: 1}
+  m_IndirectSpecularColor: {r: 0.060575992, g: 0.10498119, b: 0.10647247, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -977,6 +977,9 @@ MonoBehaviour:
   option4: {fileID: 372732115}
   healthBar: {fileID: 1656279123}
   timeBar: {fileID: 2095737172}
+  currAsteroid: {fileID: 0}
+  asteroid: {fileID: 3124901293411361072, guid: edc4298d8618646838a4520f13b7550e,
+    type: 3}
 --- !u!1 &1225525797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1348,6 +1351,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7229226666628615734, guid: 4621a4ea9b267354e97a480b983ad0bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.35
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6586706250789475770, guid: 4621a4ea9b267354e97a480b983ad0bf, type: 3}
