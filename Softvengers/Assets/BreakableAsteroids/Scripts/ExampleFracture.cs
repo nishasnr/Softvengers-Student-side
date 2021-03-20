@@ -16,6 +16,7 @@ public class ExampleFracture : MonoBehaviour
             asteroids[counter].GetComponent<Fracture>().FractureObject();
             counter++;
         }
+
         if (Input.GetKey(KeyCode.I))
         {
             chonker.gameObject.SetActive(true);
