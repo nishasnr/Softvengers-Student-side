@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class GamePlayController : MonoBehaviour
 {
+    public Navigation navigationData;
     List<Question> questions = new List<Question>();
     private int questionNumber = 0;
     public Transform questionName;
@@ -31,6 +32,9 @@ public class GamePlayController : MonoBehaviour
     private float baseScore = 10;
 
     private bool paused = false;
+
+    private bool failedQuestion = false;
+    private bool isLocked = false;
 
     //Create List of Questions
     public GamePlayController()
@@ -96,40 +100,50 @@ public class GamePlayController : MonoBehaviour
         float timeElapsed = Time.time - startTime;
         ratio = (questionTime - timeElapsed) / questionTime;
         ratio = ratio >= 0.0f ? ratio : 0.0f;
-
-        timeBar.color = new Color((1 - ratio), (ratio), 0.0f, 0.8f);
-        timeBar.fillAmount = ratio;
-
+        Vector3 position = Vector3.zero;
+        position.z = ratio * 10 + 0.35f;
         if (!paused) {
-            Vector3 position = Vector3.zero;
-            position.z = ratio * 10 + 1f;
+
+            timeBar.color = new Color((1 - ratio), (ratio), 0.0f, 0.8f);
+            timeBar.fillAmount = ratio;
+            
             currAsteroid.transform.position = position;
             if (ratio <= 0.0f)
             {
                 DecreaseHealth();
                 ResultManager.AddRecord(false, 0);
                 BreakAsteroid();
-                if (questionNumber < questions.Count - 1)
-                {
-                    questionNumber++;
-                    paused = true;
-                    Invoke("DisplayQuestion", timeDelay);
-                }
-                else
-                {
-                    SceneManager.LoadScene("ResultScene");
-                }
+                questionNumber++;
+                paused = true;
+                Invoke("DisplayQuestion", timeDelay); 
             }
+        }
 
-            if (GameOver())
+        if (failedQuestion)
+        {
+            currAsteroid.transform.position = position;
+            if (ratio <= 0.0f)
             {
-                SceneManager.LoadScene("ResultScene");
+                DecreaseHealth();
+                BreakAsteroid();
+                paused = true;
+                failedQuestion = false;
+                Invoke("DisplayQuestion", timeDelay);
             }
         }
     }
 
     void DisplayQuestion()
     {
+    
+        isLocked = false;
+        if (questionNumber == questions.Count || GameOver())
+        {
+            SceneManager.LoadScene("ResultScene");
+            return;
+        }
+
+        failedQuestion = false;
         questionName.GetComponent<Text>().text = this.questions[questionNumber].questionName;
         option1.GetComponent<Text>().text = this.questions[questionNumber].options[0].option;
         option2.GetComponent<Text>().text = this.questions[questionNumber].options[1].option;
@@ -142,6 +156,10 @@ public class GamePlayController : MonoBehaviour
 
     public void CheckAnswer(int optionNumber)
     {
+        if (isLocked)
+            return;
+        isLocked = true;
+        Shoot shooter = GameObject.FindGameObjectWithTag("Player").GetComponent<Shoot>();
         List<Option> options = this.questions[questionNumber].options;
 
         if (options[optionNumber].isCorrect == true)
@@ -150,48 +168,42 @@ public class GamePlayController : MonoBehaviour
             float score = baseScore + ratio * baseScore;
             ResultManager.AddRecord(true, score);
             Debug.Log("Correct");
-            if (questionNumber < questions.Count-1)
-            {
-                BreakAsteroid();
-                questionNumber++;
-            }
-            else
-            {
-                SceneManager.LoadScene("ResultScene");
-            }
             
+            shooter.releaseMissile();
+            BreakAsteroid();
+            questionNumber++;
+            Invoke("DisplayQuestion", timeDelay);
+
         }
         else
         {
+           
+            failedQuestion = true;
             Debug.Log("Wrong");
             float score = 0.0f;
             ResultManager.AddRecord(false, score);
-            DecreaseHealth();
-            if (questionNumber < questions.Count-1)
-            {
-                questionNumber++;
-            }
-            else
-            {
-                SceneManager.LoadScene("ResultScene");
-            }
+            //DecreaseHealth();
+
+            questionNumber++;
+            
         }
         paused = true;
-        Invoke("DisplayQuestion", timeDelay);
-        
     }
+
+
 
     void BreakAsteroid()
     {
         GameObject fractured = currAsteroid.GetComponent<Fracture>().returnFractured();
         fragment = Instantiate(fractured, currAsteroid.transform.position, currAsteroid.transform.rotation);
         Destroy(currAsteroid);
-        //asteroid.gameObject.SetActive(false);
         Invoke("DestroyFragment", 1);
     }
 
     void DestroyFragment()
     {
+        Shoot shooter = GameObject.FindGameObjectWithTag("Player").GetComponent<Shoot>();
+        shooter.stopMissile();
         Destroy(fragment);
     }
 
