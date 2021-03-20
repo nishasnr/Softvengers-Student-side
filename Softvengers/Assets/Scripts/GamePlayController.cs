@@ -126,7 +126,7 @@ public class GamePlayController : MonoBehaviour
         option3.GetComponent<Text>().text = this.questions[questionID].options[2].option;
         option4.GetComponent<Text>().text = this.questions[questionID].options[3].option;
         startTime = Time.time;
-        currAsteroid = Instantiate(asteroid, new Vector3(0, 0, 15), Quaternion.identity);
+        currAsteroid = Instantiate(asteroid, new Vector3(0, 0, 15), Random.rotation);
     }
 
     public void CheckAnswer(int optionNumber)
