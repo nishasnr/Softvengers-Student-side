@@ -7,10 +7,9 @@ using UnityEngine.UI;
 public class GamePlayController : MonoBehaviour
 {
     public Navigation navigationData;
-    private int questDifficulty;
 
     List<List<Question>> questions = new List<List<Question>>();
-    private int questionNumber = 0;
+    
     public Transform questionName;
     public Transform option1;
     public Transform option2;
@@ -19,10 +18,10 @@ public class GamePlayController : MonoBehaviour
 
     public Image healthBar;
     public Image timeBar;
+    public GameObject asteroid;
 
     private GameObject fragment;
     private GameObject currAsteroid;
-    public GameObject asteroid;
 
     private float timeDelay = 1.25f;
     private float health = 100.0f;
@@ -40,6 +39,11 @@ public class GamePlayController : MonoBehaviour
 
     private int incorrectStreak = 0;
     private int correctStreak = 0;
+    private int correctThreshold = 6;
+    private int incorrectThreshold = 3;
+    private int questionNumber = 0;
+    private int questDifficulty;
+    private int planetDifficulty;
 
     List<Question> questionsE = new List<Question>();
     List<Question> questionsM = new List<Question>();
@@ -57,7 +61,10 @@ public class GamePlayController : MonoBehaviour
         this.questions.Add(questionsM);
         this.questions.Add(questionsH);
 
-        questDifficulty = navigationData.planetSelected;
+        planetDifficulty = navigationData.planetSelected;
+        questDifficulty = planetDifficulty;
+
+        Debug.Log(planetDifficulty);
     }
 
 
@@ -399,7 +406,7 @@ public class GamePlayController : MonoBehaviour
     {
     
         isLocked = false;
-        if (questionNumber == questions.Count || GameOver())
+        if (questionNumber == questions[questDifficulty].Count || GameOver())
         {
             SceneManager.LoadScene("ResultScene");
             return;
@@ -426,7 +433,20 @@ public class GamePlayController : MonoBehaviour
 
         if (options[optionNumber].isCorrect == true)
         {
-            
+            if (questDifficulty == planetDifficulty)
+            {
+                correctStreak++;
+                incorrectStreak = 0;
+                if (correctStreak == correctThreshold && questDifficulty < 2)
+                {
+                    questDifficulty++;
+                }
+            }
+            else if (questDifficulty < planetDifficulty)
+            {
+                incorrectStreak--;
+                questDifficulty++;
+            }
             float score = baseScore + ratio * baseScore;
             ResultManager.AddRecord(true, score);
             Debug.Log("Correct");
@@ -435,11 +455,23 @@ public class GamePlayController : MonoBehaviour
             BreakAsteroid();
             questionNumber++;
             Invoke("DisplayQuestion", timeDelay);
-
         }
         else
         {
-           
+            if (questDifficulty == planetDifficulty)
+            {
+                incorrectStreak++;
+                correctStreak = 0;
+                if (incorrectStreak == incorrectThreshold && questDifficulty > 0)
+                {
+                    questDifficulty--;
+                }
+            }
+            else if (questDifficulty > planetDifficulty)
+            {
+                correctStreak--;
+                questDifficulty--;
+            }
             failedQuestion = true;
             Debug.Log("Wrong");
             float score = 0.0f;
