@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 public class SceneChangeHandler : MonoBehaviour
 {
     // Start is called before the first frame update
+    public AudioSource buttonAudio;
     public void updateScene(string sceneName)
     {
+        buttonAudio.Play();
         SceneManager.LoadScene(sceneName); 
     }
 
