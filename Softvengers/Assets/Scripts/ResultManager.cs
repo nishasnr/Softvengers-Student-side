@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,19 +13,12 @@ public class ResultManager : MonoBehaviour
     public static List<float> scores = new List<float>();
     public GameObject resultRecord;
     public Transform title;
+    public Player playerData;
+    public Navigation navigation;
 
     void Start()
     {
-        /*
-        for (int i =0; i<5; i++)
-        {
-            scores.Add(1.0f);
-            if (i % 2 == 0)
-                results.Add(true);
-            else
-                results.Add(false);
-        }
-        */
+        
         float startY = 200.0f;
         float x = 0;
         float z = 0;
@@ -58,6 +52,7 @@ public class ResultManager : MonoBehaviour
             outcome.GetComponent<Text>().color = new Color(0.4f, 0.4f, 0.4f);
             startY -= 60.0f;
         }
+        upDatePlayerProgress();
     }
 
     public void BackButton()
@@ -72,6 +67,40 @@ public class ResultManager : MonoBehaviour
         Debug.Log(results.Count + 1);
         results.Add(result);
         scores.Add(score);
+    }
+
+    void upDatePlayerProgress()
+    {
+        var numQuery = results.Where(result => result == true);
+
+        if (numQuery.Count() > 5) // Pass
+        {
+            if (isLatestLevel())
+            {
+                if (playerData.planetProgress < 2) // Not last planet
+                {
+                    playerData.planetProgress += 1;
+                }
+                else if (playerData.solarSystemProgress < Multiverse.getSolarSystems(playerData.universePogress).Count) // Check if player didnt exceed max solar systems of the universe 
+                {
+                    playerData.solarSystemProgress += 1;
+                    playerData.planetProgress = 0;
+                }
+                else if (playerData.universePogress < Multiverse.getUniverses().Count)// Check if player has not exceeded total num universes
+                {
+                    playerData.universePogress += 1;
+                    playerData.solarSystemProgress = 0;
+                    playerData.planetProgress = 0;
+                } 
+            }
+        }
+    }
+
+    bool isLatestLevel()
+    {
+        if (navigation.universeSelected == playerData.universePogress && navigation.solarSystemSelected == playerData.solarSystemProgress && playerData.planetProgress == navigation.planetSelected)
+            return true;
+        return false;
     }
 
 }

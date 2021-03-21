@@ -61,8 +61,7 @@ public class GamePlayController : MonoBehaviour
         this.questions.Add(questionsM);
         this.questions.Add(questionsH);
 
-        planetDifficulty = navigationData.planetSelected;
-        questDifficulty = planetDifficulty;
+        
 
         Debug.Log(planetDifficulty);
     }
@@ -359,6 +358,8 @@ public class GamePlayController : MonoBehaviour
 
     void Start()
     {
+        planetDifficulty = navigationData.planetSelected;
+        questDifficulty = planetDifficulty;
         paused = true;
         DisplayQuestion();
     }
@@ -476,7 +477,7 @@ public class GamePlayController : MonoBehaviour
             Debug.Log("Wrong");
             float score = 0.0f;
             ResultManager.AddRecord(false, score);
-            DecreaseHealth();
+           
 
             questionNumber++;
             

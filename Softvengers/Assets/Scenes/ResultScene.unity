@@ -250,6 +250,8 @@ MonoBehaviour:
   resultRecord: {fileID: 5877019436900088237, guid: ea17ea195160705429faad85d547340d,
     type: 3}
   title: {fileID: 1291071701}
+  playerData: {fileID: 11400000, guid: fb357885c22faca4dace874ff165ac9e, type: 2}
+  navigation: {fileID: 11400000, guid: 9017bbbd809fb5740850809ede01fa0e, type: 2}
 --- !u!1 &672042213
 GameObject:
   m_ObjectHideFlags: 0
