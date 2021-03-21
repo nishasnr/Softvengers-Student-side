@@ -146,8 +146,8 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: fb357885c22faca4dace874ff165ac9e, type: 2}
   colors:
   - {fileID: 2100000, guid: aa4f99675c47095458479c73f7eb4724, type: 2}
-  - {fileID: 2100000, guid: 8c98ce55d3517404b92cbbd3e50853d5, type: 2}
   - {fileID: 2100000, guid: f09422a185e4ef049a1aed469927026a, type: 2}
+  - {fileID: 2100000, guid: 8c98ce55d3517404b92cbbd3e50853d5, type: 2}
 --- !u!1001 &7229226666628224182
 PrefabInstance:
   m_ObjectHideFlags: 0
