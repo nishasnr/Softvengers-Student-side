@@ -385,6 +385,22 @@ public class GamePlayController : MonoBehaviour
                 BreakAsteroid();
                 questionNumber++;
                 paused = true;
+
+                if (questDifficulty == planetDifficulty)
+                {
+                    incorrectStreak++;
+                    correctStreak = 0;
+                    if (incorrectStreak == incorrectThreshold && questDifficulty > 0)
+                    {
+                        questDifficulty--;
+                    }
+                }
+                else if (questDifficulty > planetDifficulty)
+                {
+                    correctStreak--;
+                    questDifficulty--;
+                }
+
                 Invoke("DisplayQuestion", timeDelay); 
             }
         }
