@@ -6,11 +6,11 @@ using UnityEngine;
 //[Serializable]
 public class Login
 {
-    public string username;
+    public string emailID;
     public string password;
     
     public Login(string name, string pass){
-        this.username = name;
+        this.emailID = name;
         this.password = pass;
     }
 
