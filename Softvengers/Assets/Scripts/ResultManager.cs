@@ -10,7 +10,7 @@ public class ResultManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public static List<bool> results = new List<bool>();
-    public static List<float> scores = new List<float>();
+    public static List<double> scores = new List<double>();
     public GameObject resultRecord;
     public Transform title;
     public Player playerData;
@@ -23,10 +23,10 @@ public class ResultManager : MonoBehaviour
         float x = 0;
         float z = 0;
 
-        float sum = 0;
+        double sum = 0;
         for (int i = 0; i < scores.Count; ++i)
             sum += scores[i];
-        title.GetComponent<Text>().text = string.Format("Final Score : {0}", Math.Round((Double)sum, 2));
+        title.GetComponent<Text>().text = string.Format("Final Score : {0}", Math.Round(sum, 2));
         for (int i=0; i<results.Count; ++i)
         {
             GameObject result = Instantiate(resultRecord, new Vector3(x, startY, z), Quaternion.identity);
@@ -37,7 +37,8 @@ public class ResultManager : MonoBehaviour
             questionNumber.GetComponent<Text>().text = string.Format("Question {0}", i+1);
             outcome.GetComponent<Text>().text = results[i] ? "Correct" : "Wrong";
             outcome.GetComponent<Text>().color = results[i] ? new Color(0, 1, 0) : new Color(1, 0, 0);
-            score.GetComponent<Text>().text = scores[i].ToString();
+
+            score.GetComponent<Text>().text = Math.Round(scores[i], 2).ToString();
             startY -= 60.0f;
         }
 
@@ -58,11 +59,11 @@ public class ResultManager : MonoBehaviour
     public void BackButton()
     {
         results = new List<bool>();
-        scores = new List<float>();
+        scores = new List<double>();
         SceneManager.LoadScene("PlanetScene");
     }
 
-    public static void AddRecord(bool result, float score)
+    public static void AddRecord(bool result, double score)
     {
         Debug.Log(results.Count + 1);
         results.Add(result);

@@ -75,7 +75,7 @@ public class PlanetNavigation : ExplorationController
         if (this.IsUnlocked(spaceObjectID))
         {
             this.navigation.planetSelected = spaceObjectID;
-            this.ChangeScene("GamePlayScene");
+            this.ChangeScene("SoloGamePlayScene");
         }
         else
             Debug.Log("Locked");

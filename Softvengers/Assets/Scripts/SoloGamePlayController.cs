@@ -1,59 +1,113 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GamePlayController : MonoBehaviour
+public class SoloGamePlayController : ChallengeGameController
 {
+
     public Navigation navigationData;
 
-    List<List<Question>> questions = new List<List<Question>>();
-    
-    public Transform questionName;
-    public Transform option1;
-    public Transform option2;
-    public Transform option3;
-    public Transform option4;
-
     public Image healthBar;
-    public Image timeBar;
-    public GameObject asteroid;
-
-    private GameObject fragment;
-    private GameObject currAsteroid;
-
-    private float timeDelay = 1.25f;
-    private float health = 100.0f;
     private float maxHealth = 100.0f;
+    private float health = 100.0f;
 
-    private float startTime = 0.0f;
-    private float questionTime = 7f;
-    private float ratio;
-    private float baseScore = 10;
-
-    private bool paused = false;
-
-    private bool failedQuestion = false;
-    private bool isLocked = false;
+    // For Adaptive Questioning 
+    private int questDifficulty;
+    private int planetDifficulty;
 
     private int incorrectStreak = 0;
     private int correctStreak = 0;
     private int correctThreshold = 6;
     private int incorrectThreshold = 3;
-    private int questionNumber = 0;
-    private int questDifficulty;
-    private int planetDifficulty;
 
     List<Question> questionsE = new List<Question>();
     List<Question> questionsM = new List<Question>();
     List<Question> questionsH = new List<Question>();
-    private int questionNumberE = 0;
-    private int questionNumberM = 0;
-    private int questionNumberH = 0;
 
-    public GamePlayController()
-    { 
+    private List<List<Question>> questions = new List<List<Question>>();
+
+
+    public override void Start()
+    {
+        planetDifficulty = navigationData.planetSelected;
+        questDifficulty = planetDifficulty;
+        questionBank = questions[questDifficulty];
+        paused = true;
+        DisplayQuestion();
+    }
+
+    public new void StoreScore(bool result, double score)
+    {
+        ResultManager.AddRecord(result, score);
+    }
+
+    public override void RewardPlayer()
+    {
+        base.RewardPlayer();
+
+        if (questDifficulty == planetDifficulty)
+        {
+            correctStreak++;
+            incorrectStreak = 0;
+            if (correctStreak == correctThreshold && questDifficulty < 2)
+            {
+                questDifficulty++;
+            }
+        }
+        else if (questDifficulty < planetDifficulty)
+        {
+            incorrectStreak--;
+            questDifficulty++;
+        }
+
+        // Change Question Bank
+        questionBank = questions[questDifficulty];
+    }
+
+    public override void PenalizePlayer()
+    {
+        base.PenalizePlayer();
+        DecreaseHealth();
+        if (questDifficulty == planetDifficulty)
+        {
+            incorrectStreak++;
+            correctStreak = 0;
+            if (incorrectStreak == incorrectThreshold && questDifficulty > 0)
+            {
+                questDifficulty--;
+            }
+        }
+        else if (questDifficulty > planetDifficulty)
+        {
+            correctStreak--;
+            questDifficulty--;
+        }
+
+        // Change Question Bank
+        questionBank = questions[questDifficulty];
+    }
+
+    public void DecreaseHealth()
+    {
+        health -= 20.0f;
+        float ratio = health / maxHealth;
+        healthBar.fillAmount = ratio;
+        healthBar.color = new Color((1 - ratio), (ratio), 0.0f, 0.8f);
+    }
+
+
+    public override bool IsGameOver()
+    {
+        if (questionNumber < numQuestions && health > 0.0)
+            return false;
+        return true;
+    }
+
+
+    public SoloGamePlayController()
+    {
+        numQuestions = 10;
         initEasyQsts();
         initMedQsts();
         initHardQsts();
@@ -67,9 +121,11 @@ public class GamePlayController : MonoBehaviour
     }
 
 
+
+    // Initialization
+
     public void initEasyQsts()
     {
-        questionNumberE = 0;
 
         Option o1 = new Option("A", true);
         Option o2 = new Option("B", false);
@@ -165,7 +221,6 @@ public class GamePlayController : MonoBehaviour
 
     void initMedQsts()
     {
-        questionNumberM = 0;
 
         Option o1 = new Option("A", true);
         Option o2 = new Option("B", false);
@@ -261,7 +316,6 @@ public class GamePlayController : MonoBehaviour
 
     void initHardQsts()
     {
-        questionNumberH = 0;
 
         Option o1 = new Option("A", true);
         Option o2 = new Option("B", false);
@@ -354,183 +408,4 @@ public class GamePlayController : MonoBehaviour
         this.questionsH.Add(q9);
         this.questionsH.Add(q10);
     }
-
-
-    void Start()
-    {
-        planetDifficulty = navigationData.planetSelected;
-        questDifficulty = planetDifficulty;
-        paused = true;
-        DisplayQuestion();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        float timeElapsed = Time.time - startTime;
-        ratio = (questionTime - timeElapsed) / questionTime;
-        ratio = ratio >= 0.0f ? ratio : 0.0f;
-        Vector3 position = Vector3.zero;
-        position.z = ratio * 10 + 0.35f;
-        if (!paused) {
-
-            timeBar.color = new Color((1 - ratio), (ratio), 0.0f, 0.8f);
-            timeBar.fillAmount = ratio;
-            
-            currAsteroid.transform.position = position;
-            if (ratio <= 0.0f)
-            {
-                DecreaseHealth();
-                ResultManager.AddRecord(false, 0);
-                BreakAsteroid();
-                questionNumber++;
-                paused = true;
-
-                if (questDifficulty == planetDifficulty)
-                {
-                    incorrectStreak++;
-                    correctStreak = 0;
-                    if (incorrectStreak == incorrectThreshold && questDifficulty > 0)
-                    {
-                        questDifficulty--;
-                    }
-                }
-                else if (questDifficulty > planetDifficulty)
-                {
-                    correctStreak--;
-                    questDifficulty--;
-                }
-
-                Invoke("DisplayQuestion", timeDelay); 
-            }
-        }
-
-        if (failedQuestion)
-        {
-            currAsteroid.transform.position = position;
-            if (ratio <= 0.0f)
-            {
-                DecreaseHealth();
-                BreakAsteroid();
-                paused = true;
-                failedQuestion = false;
-                Invoke("DisplayQuestion", timeDelay);
-            }
-        }
-    }
-
-    void DisplayQuestion()
-    {
-    
-        isLocked = false;
-        if (questionNumber == questions[questDifficulty].Count || GameOver())
-        {
-            SceneManager.LoadScene("ResultScene");
-            return;
-        }
-
-        failedQuestion = false;
-        questionName.GetComponent<Text>().text = this.questions[questDifficulty][questionNumber].questionName;
-        option1.GetComponent<Text>().text = this.questions[questDifficulty][questionNumber].options[0].option;
-        option2.GetComponent<Text>().text = this.questions[questDifficulty][questionNumber].options[1].option;
-        option3.GetComponent<Text>().text = this.questions[questDifficulty][questionNumber].options[2].option;
-        option4.GetComponent<Text>().text = this.questions[questDifficulty][questionNumber].options[3].option;
-        startTime = Time.time;
-        currAsteroid = Instantiate(asteroid, new Vector3(0, 0, 15), Random.rotation);
-        paused = false;
-    }
-
-    public void CheckAnswer(int optionNumber)
-    {
-        if (isLocked)
-            return;
-        isLocked = true;
-        Shoot shooter = GameObject.FindGameObjectWithTag("Player").GetComponent<Shoot>();
-        List<Option> options = this.questions[questDifficulty][questionNumber].options;
-
-        if (options[optionNumber].isCorrect == true)
-        {
-            if (questDifficulty == planetDifficulty)
-            {
-                correctStreak++;
-                incorrectStreak = 0;
-                if (correctStreak == correctThreshold && questDifficulty < 2)
-                {
-                    questDifficulty++;
-                }
-            }
-            else if (questDifficulty < planetDifficulty)
-            {
-                incorrectStreak--;
-                questDifficulty++;
-            }
-            float score = baseScore + ratio * baseScore;
-            ResultManager.AddRecord(true, score);
-            Debug.Log("Correct");
-            
-            shooter.releaseMissile();
-            BreakAsteroid();
-            questionNumber++;
-            Invoke("DisplayQuestion", timeDelay);
-        }
-        else
-        {
-            if (questDifficulty == planetDifficulty)
-            {
-                incorrectStreak++;
-                correctStreak = 0;
-                if (incorrectStreak == incorrectThreshold && questDifficulty > 0)
-                {
-                    questDifficulty--;
-                }
-            }
-            else if (questDifficulty > planetDifficulty)
-            {
-                correctStreak--;
-                questDifficulty--;
-            }
-            failedQuestion = true;
-            Debug.Log("Wrong");
-            float score = 0.0f;
-            ResultManager.AddRecord(false, score);
-           
-
-            questionNumber++;
-            
-        }
-        paused = true;
-    }
-
-
-
-    void BreakAsteroid()
-    {
-        GameObject fractured = currAsteroid.GetComponent<Fracture>().returnFractured();
-        fragment = Instantiate(fractured, currAsteroid.transform.position, currAsteroid.transform.rotation);
-        Destroy(currAsteroid);
-        Invoke("DestroyFragment", 1);
-    }
-
-    void DestroyFragment()
-    {
-        Shoot shooter = GameObject.FindGameObjectWithTag("Player").GetComponent<Shoot>();
-        shooter.stopMissile();
-        Destroy(fragment);
-    }
-
-    void DecreaseHealth()
-    {
-        health -= 20.0f;
-        float ratio = health / maxHealth;
-        healthBar.fillAmount = ratio;
-        healthBar.color = new Color((1 - ratio), (ratio), 0.0f, 0.8f);
-    }
-
-    public virtual bool GameOver()
-    {
-        if (health <= 0.0f)
-            return true;
-        return false;
-    }
 }
-
