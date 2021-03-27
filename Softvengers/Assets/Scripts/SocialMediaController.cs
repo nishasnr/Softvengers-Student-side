@@ -4,14 +4,26 @@ using UnityEngine;
 
 public class SocialMediaController : MonoBehaviour
 {
-      
+    float score;
+    string challengeName;
+    string textToDisplay;
+
+    private void Start()
+    {
+        score = ChallengeResultManager.getScore();
+        challengeName = ChallengeResultManager.getChallengeName();
+        textToDisplay = "I scored " + score.ToString() + " in challenge " + challengeName + ". Try and beat my score. ";
+    }
+
     public void openTwitter()
     {
-        float sum = 0;
-        for (int i = 0; i < ResultManager.scores.Count; ++i)
-            sum += ResultManager.scores[i];
-
-        string textToDisplay = "I scored " + sum.ToString() + ". Try and beat my score. ";
         Application.OpenURL("http://twitter.com/intent/tweet?text=" + WWW.EscapeURL(textToDisplay) + "&amp;lang=en");
     }
+
+    public void openReddit()
+    {
+        string title = "Softvengers challenge!";
+        Application.OpenURL("http://reddit.com/submit?text=" + WWW.EscapeURL(textToDisplay)+"&title="+WWW.EscapeURL(title));
+    }
+
 }
