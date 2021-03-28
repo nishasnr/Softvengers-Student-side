@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class DatabaseAPI : MonoBehaviour
 {
 
+    /*
     public InputField username;
     public InputField password;
     public Player playerData;
@@ -123,8 +124,10 @@ public class DatabaseAPI : MonoBehaviour
     {
         SceneManager.LoadScene("HomePageScene");
     }
+    */
 }
 
+/*
 public struct LoginResult
 {
     public bool message;
@@ -138,4 +141,4 @@ public struct Progress
     public int conqueredPlanet;
     public int avatar;
 }
-
+*/

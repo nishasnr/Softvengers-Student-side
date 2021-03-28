@@ -56,7 +56,6 @@ public class LoginController : MonoBehaviour
 }
 
 
-
 public struct LoginResult
 {
     public bool message;
