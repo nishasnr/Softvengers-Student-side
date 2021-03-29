@@ -46,8 +46,6 @@ public class ServerController : MonoBehaviour
         using (UnityWebRequest www = UnityWebRequest.Get(url))
         {
             www.SetRequestHeader("content-type", "application/json");
-            www.uploadHandler.contentType = "application/json";
-            //www.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(jsonData));
             yield return www.SendWebRequest();
 
             if (www.isNetworkError)

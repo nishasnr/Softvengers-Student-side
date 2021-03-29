@@ -102,7 +102,6 @@ public class AssignmentGameController : MonoBehaviour
             if (ratio <= 0.0f)
             {
                 // Add has refinement
-                //DecreaseHealth();
                 PenalizePlayer();
                 failedQuestion = false;
                 BreakAsteroid();
@@ -226,7 +225,7 @@ public class AssignmentGameController : MonoBehaviour
 
 
 
-
+    
 
     // Initialize
     public AssignmentGameController()

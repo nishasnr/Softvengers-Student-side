@@ -28,6 +28,39 @@ public class SoloGamePlayController : ChallengeGameController
     private List<List<Question>> questions = new List<List<Question>>();
 
 
+    public void Awake()
+    {
+
+        StartCoroutine(ServerController.Get("http://localhost:5000/student/questions/?universe=0&solarSystem=0",
+            result =>
+            {
+                if (result != null)
+                {
+                    QuestionResult questionResult = JsonUtility.FromJson<QuestionResult>(result);
+
+                    Debug.Log(questionResult.questions);
+                    for (int i=0; i<questionResult.questions.Length; i++)
+                    {
+                        Debug.Log(questionResult.questions[i].body);
+                    }
+                }
+                else
+                {
+                    Debug.Log("No questions!");
+                }
+            }
+            ));
+    }
+
+
+    public struct QuestionResult
+    {
+        public qsts[] questions;
+
+
+    }
+
+    
     public override void Start()
     {
         planetDifficulty = navigationData.planetSelected;
