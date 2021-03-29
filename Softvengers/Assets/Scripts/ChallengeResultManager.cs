@@ -57,4 +57,6 @@ public class ChallengeResultManager : MonoBehaviour
     {
         //TODO Set the current challenge as completed in database
     }
+
+
 }
