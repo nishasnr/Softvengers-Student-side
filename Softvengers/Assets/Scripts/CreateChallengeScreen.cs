@@ -23,7 +23,7 @@ public class CreateChallengeScreen : MonoBehaviour
     void Start()
     {
         nextOptionsid = 1;
-        print(Universe_SS_mapping[0][0]);
+        //print(Universe_SS_mapping[0][0]);
 
     }
 
@@ -67,7 +67,11 @@ public class CreateChallengeScreen : MonoBehaviour
             {
                 child.localPosition += new Vector3(0,195,0);
             }
-            else if(int.Parse(child.name)>ind)
+            else if (child.name == "ChallengeNameHeading" || child.name== "ChallengeNameIF")
+            {
+                continue;
+            }
+            else if (int.Parse(child.name)>ind)
             {
                 child.localPosition += new Vector3(0, 175, 0);
             }
@@ -104,9 +108,17 @@ public class CreateChallengeScreen : MonoBehaviour
                                            
         foreach (Transform child in transform)
         {
-            if (child.name=="AddButton")
+            if (child.name=="AddButton" || child.name== "ChallengeNameHeading")
             {
                 continue;
+            }
+            else if(child.name=="ChallengeNameIF")
+            {
+                GameObject cname = child.transform.Find("Text").gameObject;
+                Text cNameText = cname.GetComponentInChildren<Text>();
+                print(cNameText.text);
+                continue;
+                
             }
             List<string> tempList = new List<string>();
             for (int i = 0;i< 4;i++)
