@@ -7,14 +7,17 @@ public class SettingsController : MonoBehaviour
 {
 
     public Player playerData;
+    public Slider slider;
+    private float soundLevel;
 
-    public void changeAvatar(int avatarID)
+    public void ChangeAvatar(int avatarID)
     {
         playerData.colorChoice = avatarID;
     }
 
-    public void changeSound()
+    public void ChangeSound()
     {
-
+        this.soundLevel = slider.GetComponent<Slider>().value;
+        Debug.Log(this.soundLevel);
     }
 }
