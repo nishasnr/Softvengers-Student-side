@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.05355479, g: 0.14566919, b: 0.23650819, a: 1}
+  m_IndirectSpecularColor: {r: 0.05373539, g: 0.14575297, b: 0.2365312, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -266,13 +266,13 @@ RectTransform:
   m_Children:
   - {fileID: 694437356}
   - {fileID: 1510568509}
-  m_Father: {fileID: 553160772}
-  m_RootOrder: 0
+  m_Father: {fileID: 391123455}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.5, y: 123.5}
-  m_SizeDelta: {x: 920, y: 45}
+  m_AnchoredPosition: {x: -1, y: 94.5}
+  m_SizeDelta: {x: 900, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &258530488
 MonoBehaviour:
@@ -348,7 +348,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -23581.912, y: -613.4367}
+  m_AnchoredPosition: {x: -58576.965, y: -1779.783}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &391123451
@@ -448,6 +448,7 @@ RectTransform:
   - {fileID: 1089647136}
   - {fileID: 756314709}
   - {fileID: 1226595069}
+  - {fileID: 258530487}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -492,8 +493,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 5, y: 0}
-  m_SizeDelta: {x: 20, y: 0}
+  m_AnchoredPosition: {x: 0, y: 280}
+  m_SizeDelta: {x: 20, y: 280}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &403541359
 MonoBehaviour:
@@ -537,8 +538,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 698531625}
   m_HandleRect: {fileID: 698531624}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.325
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -972,15 +973,14 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 258530487}
+  m_Children: []
   m_Father: {fileID: 1086963856}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000036562324}
-  m_SizeDelta: {x: 0, y: 300}
+  m_AnchoredPosition: {x: 0, y: 0.000018932724}
+  m_SizeDelta: {x: 0, y: 1000}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &553160774
 MonoBehaviour:
