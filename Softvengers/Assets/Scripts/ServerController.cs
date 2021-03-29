@@ -61,6 +61,7 @@ public class ServerController : MonoBehaviour
             {
                 if (www.isDone)
                 {
+                    Debug.Log(www.downloadHandler.data);
                     var result = System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
                     Debug.Log(result);
                     if (callback != null) { callback.Invoke(result); }

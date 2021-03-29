@@ -18,6 +18,7 @@ public class ResultManager : MonoBehaviour
 
     void Awake()
     {
+        SendData();
         UpDatePlayerProgress();
 
     }
@@ -76,6 +77,58 @@ public class ResultManager : MonoBehaviour
         scores.Add(score);
     }
 
+    void SendData()
+    {
+
+        StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/details/getMaxScore/?emailID={0}&universe={1}&SolarSystem={2}&planet={3}", SecurityToken.Email, navigation.universeSelected, navigation.solarSystemSelected, navigation.planetSelected), 
+       result => {
+       double maxScore;
+       double score = 0.0;
+       if (result != null){
+               maxScore = Double.Parse(result);
+               var numQuery = results.Where(outcome => outcome == true);
+               if (numQuery.Count() > 5)
+               {
+                   for (int i = 0; i < scores.Count; ++i)
+                       score += scores[i];
+               }
+               if (score > maxScore)
+               {
+                   playerData.totalScore += (score - maxScore);
+               }
+            }
+
+           FinalScores finalScores = new FinalScores();
+           finalScores.emailID = SecurityToken.Email;
+           finalScores.universe = navigation.universeSelected;
+           finalScores.SolarSystem = navigation.solarSystemSelected;
+           finalScores.planet = navigation.planetSelected;
+           finalScores.score = score;
+           finalScores.correctAnswers = results.Where(outcome => outcome == true).Count();
+           finalScores.totalScore = playerData.totalScore;
+
+
+           StartCoroutine(ServerController.Put("http://localhost:5000/student/game/endGame", finalScores.stringify(),
+               message =>
+               {
+                   if (message != null)
+                   {
+                       Debug.Log(message);
+                   }
+                   else
+                   {
+                       Debug.Log("Failed to update");
+                   }
+               }));
+       }
+       ));
+        // Get max score
+        //if current score is greater than max score then
+        // change max score of student
+        // Send score details
+
+    }
+
     void UpDatePlayerProgress()
     {
         var numQuery = results.Where(result => result == true);
@@ -98,7 +151,28 @@ public class ResultManager : MonoBehaviour
                     playerData.universePogress += 1;
                     playerData.solarSystemProgress = 0;
                     playerData.planetProgress = 0;
-                } 
+                }
+
+
+                Results newProgress = new Results();
+                newProgress.emailID = SecurityToken.Email;
+                newProgress.conqueredPlanet = playerData.planetProgress;
+                newProgress.conqueredSolarSystem = playerData.solarSystemProgress;
+                newProgress.conqueredUniverse = playerData.universePogress;
+               
+
+                StartCoroutine(ServerController.Put("http://localhost:5000/student/game/unlock", newProgress.stringify(), result =>
+                {
+                    if (result != null)
+                    {
+                        Debug.Log("Updated Successfully");
+                    }
+                    else
+                    {
+                        Debug.Log("Error");
+                    }
+                }
+                ));
             }
         }
     }
@@ -109,5 +183,39 @@ public class ResultManager : MonoBehaviour
             return true;
         return false;
     }
+}
 
+public class Results
+{
+    public string emailID;
+    public int conqueredUniverse;
+    public int conqueredSolarSystem;
+    public int conqueredPlanet;
+
+    public string stringify()
+    {
+
+        //return JsonUtility.ToJson(this);
+        //var dic = "{'username': this.username, 'password': this.password}";
+        return JsonUtility.ToJson(this);
+    }
+}
+
+public class FinalScores
+{
+    public string emailID;
+    public int universe;
+    public int SolarSystem;
+    public int planet;
+    public double score;
+    public int correctAnswers;
+    public double totalScore;
+
+    public string stringify()
+    {
+
+        //return JsonUtility.ToJson(this);
+        //var dic = "{'username': this.username, 'password': this.password}";
+        return JsonUtility.ToJson(this);
+    }
 }
