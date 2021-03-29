@@ -53,4 +53,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CreateChallenge.unity
     guid: 539523cea6af04b498a380e66bfe4c1b
+  - enabled: 1
+    path: Assets/Scenes/Leaderboard.unity
+    guid: 30d64aeaf2dfc4f729ba30383754dd65
   m_configObjects: {}
