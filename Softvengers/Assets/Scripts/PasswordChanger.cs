@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ResetPasswordHandler : MonoBehaviour
+public class PasswordChanger : MonoBehaviour
 {
+    /*
     public InputField currentPasswordField;
     public InputField newPasswordField;
     public InputField confirmationPasswordField;
-    // Start is called before the first frame update
+
+
     public void ChangePassword()
     {
         string oldPassword = currentPasswordField.text;
@@ -28,13 +30,13 @@ public class ResetPasswordHandler : MonoBehaviour
             passwordDetails.newPassword = password;
             passwordDetails.emailID = SecurityToken.Email;
 
-            StartCoroutine(ServerController.Put("http://localhost:5000/student/details/changePassword", passwordDetails.stringify(),
+            StartCoroutine(ServerController.Post("http://localhost:5000/student/login", passwordDetails.stringify(),
                 result =>
                 {
                     Debug.Log("Done");
                 }
                 ));
-
+            
         }
 
     }
@@ -61,5 +63,8 @@ public struct PasswordDetails
     {
         return JsonUtility.FromJson<Login>(json);
     }
+    */
 }
+
+
 

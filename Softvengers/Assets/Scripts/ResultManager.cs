@@ -16,6 +16,12 @@ public class ResultManager : MonoBehaviour
     public Player playerData;
     public Navigation navigation;
 
+    void Awake()
+    {
+        UpDatePlayerProgress();
+
+    }
+
     void Start()
     {
         
@@ -53,7 +59,7 @@ public class ResultManager : MonoBehaviour
             outcome.GetComponent<Text>().color = new Color(0.4f, 0.4f, 0.4f);
             startY -= 60.0f;
         }
-        upDatePlayerProgress();
+        //UpDatePlayerProgress();
     }
 
     public void BackButton()
@@ -70,13 +76,13 @@ public class ResultManager : MonoBehaviour
         scores.Add(score);
     }
 
-    void upDatePlayerProgress()
+    void UpDatePlayerProgress()
     {
         var numQuery = results.Where(result => result == true);
 
         if (numQuery.Count() > 5) // Pass
         {
-            if (isLatestLevel())
+            if (IsLatestLevel())
             {
                 if (playerData.planetProgress < 2) // Not last planet
                 {
@@ -97,7 +103,7 @@ public class ResultManager : MonoBehaviour
         }
     }
 
-    bool isLatestLevel()
+    bool IsLatestLevel()
     {
         if (navigation.universeSelected == playerData.universePogress && navigation.solarSystemSelected == playerData.solarSystemProgress && playerData.planetProgress == navigation.planetSelected)
             return true;

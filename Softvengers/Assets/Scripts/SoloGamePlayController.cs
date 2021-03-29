@@ -3,6 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+[System.Serializable]
+public class qsts
+{
+    public int questionID;
+    public string body;
+    public string correctOption;
+    public string[] wrongOptions;
+    public int difficulty;
+}
+
+[System.Serializable]
+public class QuestionResult
+{
+    public qsts[] questions;
+
+
+}
+
 public class SoloGamePlayController : ChallengeGameController
 {
 
@@ -27,9 +46,8 @@ public class SoloGamePlayController : ChallengeGameController
 
     private List<List<Question>> questions = new List<List<Question>>();
 
-
     public override void Start()
-    {
+    {   
         planetDifficulty = navigationData.planetSelected;
         questDifficulty = planetDifficulty;
         questionBank = questions[questDifficulty];
@@ -118,6 +136,32 @@ public class SoloGamePlayController : ChallengeGameController
         
 
         Debug.Log(planetDifficulty);
+    }
+
+    void Awake()
+    {
+        StartCoroutine(ServerController.Get("http://localhost:5000/student/questions/?universe=0&solarSystem=0",
+        result =>
+        {
+            if (result != null)
+            {
+                Debug.Log(result);
+                QuestionResult questionResult = JsonUtility.FromJson<QuestionResult>(result);
+
+
+                
+                for (int i = 0; i < questionResult.questions.Length; i++)
+                {
+                    Debug.Log(questionResult.questions[i].body);
+                }
+            }
+            else
+            {
+                Debug.Log("No questions!");
+
+            }
+        }
+        ));
     }
 
 

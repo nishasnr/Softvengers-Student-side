@@ -9,4 +9,10 @@ public class SecurityToken
         get; 
         set;
     }
+
+    public static string Email
+    {
+        get;
+        set;
+    }
 }
