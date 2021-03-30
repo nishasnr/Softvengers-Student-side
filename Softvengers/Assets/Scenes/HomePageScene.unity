@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.05355479, g: 0.14566919, b: 0.23650819, a: 1}
+  m_IndirectSpecularColor: {r: 0.053758703, g: 0.14571762, b: 0.23653933, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 230593119}
   - component: {fileID: 230593118}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ProgressButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 275305179}
   - component: {fileID: 275305178}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SettingsButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -394,7 +394,7 @@ GameObject:
   - component: {fileID: 356964194}
   - component: {fileID: 356964193}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SoloButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -821,7 +821,7 @@ GameObject:
   - component: {fileID: 556618112}
   - component: {fileID: 556618111}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ChallengeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1344,7 +1344,7 @@ GameObject:
   - component: {fileID: 1055194939}
   - component: {fileID: 1055194938}
   m_Layer: 5
-  m_Name: Button
+  m_Name: LeaderboardButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1412,7 +1412,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1055194939}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 444341115}
+        m_MethodName: updateScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Leaderboard
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1055194939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1541,7 +1552,7 @@ GameObject:
   - component: {fileID: 1412960631}
   - component: {fileID: 1412960630}
   m_Layer: 5
-  m_Name: Button
+  m_Name: HelpButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1904,7 +1915,7 @@ GameObject:
   - component: {fileID: 1724494923}
   - component: {fileID: 1724494922}
   m_Layer: 5
-  m_Name: Button
+  m_Name: AssignmentButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

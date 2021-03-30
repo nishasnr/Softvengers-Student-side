@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - ResultPage
   - ChallengeResultPage
+  - RankPage
   layers:
   - Default
   - TransparentFX

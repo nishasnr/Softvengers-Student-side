@@ -43,9 +43,9 @@ public class LoginController : MonoBehaviour
                                 playerData.planetProgress = progress.conqueredPlanet;
                                 playerData.colorChoice = progress.avatar;
                                 playerData.totalScore = progress.totalScore;
-                                Debug.Log(playerData.universePogress);
-                                Debug.Log(playerData.solarSystemProgress);
-                                Debug.Log(playerData.planetProgress);
+                                //Debug.Log(playerData.universePogress);
+                                //Debug.Log(playerData.solarSystemProgress);
+                                //Debug.Log(playerData.planetProgress);
                                 SceneManager.LoadScene("HomePageScene");
                             }                          
                             ));

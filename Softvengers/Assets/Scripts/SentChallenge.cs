@@ -153,7 +153,7 @@ new Dictionary<string, List<string>>()
     void Start()
     { 
 
-        Vector3 curPos = new Vector3(-12, -86, 0);
+        Vector3 curPos = new Vector3(430, -86, 0);
         foreach (var item in SC_info)
         {
 

@@ -51,7 +51,7 @@ public class GamePlayController : MonoBehaviour
     private int questionNumberE = 0;
     private int questionNumberM = 0;
     private int questionNumberH = 0;
-
+    
     public GamePlayController()
     { 
         initEasyQsts();
@@ -66,7 +66,7 @@ public class GamePlayController : MonoBehaviour
         Debug.Log(planetDifficulty);
     }
 
-
+    
     public void initEasyQsts()
     {
         questionNumberE = 0;
