@@ -12,7 +12,7 @@ public class LoginController : MonoBehaviour
     public void authenticateDetails()
     {
         string name = usernameField.text;
-        string password = passwordField.text;;
+        string password = passwordField.text;
         Login player = new Login(name, password);
 
         Debug.Log(player.password);
@@ -21,16 +21,22 @@ public class LoginController : MonoBehaviour
             {
                 if (result != null)
                 {
+                    Debug.Log("Login success");
                     LoginResult loginResult = JsonUtility.FromJson<LoginResult>(result);
 
                     if (loginResult.message)
                     {
                         SecurityToken.Token = loginResult.token;
+                        SecurityToken.Email = player.emailID;
 
-                        StartCoroutine(ServerController.Post("http://localhost:5000/student/details/getStudent", player.stringify(),
+                        StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/details/getStudent?emailID={0}", player.emailID),
                            
                             playerDataResult =>
                             {
+                                if (playerData == null)
+                                {
+                                    Debug.Log("Could not retrieve details");
+                                }
                                 Progress progress = JsonUtility.FromJson<Progress>(playerDataResult);
                                 playerData.universePogress = progress.conqueredUniverse;
                                 playerData.solarSystemProgress = progress.conqueredSolarSystem;
