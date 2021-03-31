@@ -2,6 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+//senderScore
+//senderTime
+//challenegID
+//[] receivers
+
+[System.Serializable]
+public class sendChallengers
+{
+    public string challengeID;
+    public float senderTime;
+    public float senderScore;
+    public string[] receivers;
+}
+
+
 public class ChooseChallengersScript : MonoBehaviour
 {
 
@@ -150,8 +166,36 @@ public class ChooseChallengersScript : MonoBehaviour
         foreach(string item in selectedStud)
         {
             print(item);
-            selectedStud.Add(item);
+           // selectedStud.Add(item);
         }
+        sendChallengers sendObj = new sendChallengers();
+        sendObj.receivers = selectedStud.ToArray();
+        sendObj.senderScore = ChallengeResultManager.getScore();
+        sendObj.senderTime = ChallengeGameController.endTime - ChallengeGameController.startTime;
+        //sendObj.senderTime = 10.1f;
+        sendObj.challengeID = CreateChallengeScreen.challengeID;
+        string json = JsonUtility.ToJson(sendObj);
+        print(json);
+        StartCoroutine(ServerController.Put("http://localhost:5000/student/challenge/sendChallenge", json,
+             result =>
+             {
+                 if (result != null)
+                 {
+                     //need to convert into complete object to store challenge id
+                     Debug.Log(result);
+                     //CreateChallengeResult createchallengeResult = JsonUtility.FromJson<CreateChallengeResult>(result);
+                     //challengeID = createchallengeResult.challengeID;
+                     //print(challengeID);
+                 }
+                 else
+                 {
+                     Debug.Log("Error in sending!");
+
+                 }
+             }
+        ));
+       
+
     }
 
 

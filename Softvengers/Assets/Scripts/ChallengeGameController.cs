@@ -2,9 +2,59 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChallengeGameController : AssignmentGameController { 
+/*
+ * _id
+:
+605723d04178e834a4d4b2a3
+wrongOptions:Array
+points:15
+universeID:0
+solarID:0
+planetID:2
+questionID:1
+body:"What does MERN mean?"
+correctOption:"Mongo, Express, React, Node"
+__v:0
+ */
+//needs to be tested, was working with empty db
+[System.Serializable]
+public class ChaQuestion
+{
+    //question structure for challenge
+    public string _id;
+    public string[] wrongOptions;
+    public int points;
+    public int universeID;
+    public int solarID;
+    public int planetID;
+    public int questionID;
+    public string body;
+    public string correctOption;
+    public int _v;
+
+}
+[System.Serializable]
+public class ChaQuestions
+{
+    public ChaQuestion[] questions;
+}
 
 
+public class ChallengeGameController : AssignmentGameController {
+    public static float startTime;
+    public static float endTime;
+    
+    public override bool IsGameOver()
+    {
+        if(base.IsGameOver())
+        {
+            endTime = Time.time;
+
+        }
+        return (base.IsGameOver());
+    }
+
+    
     public override double CalculateScore(bool result, double baseScore)
     {
         if (result)
@@ -23,8 +73,32 @@ public class ChallengeGameController : AssignmentGameController {
 
     public override void Start()
     {
+        
+        StartCoroutine(ServerController.Get("http://localhost:5000/student/challenge/getQuestions?challengeID=60583372dadc7c4b705fb5a9",
+        result =>
+        {
+            if (result != null)
+            {
+                Debug.Log(result);
+
+                ChaQuestions qSet = JsonUtility.FromJson<ChaQuestions>("{ \"questions\": " + result + "}");
+                print(qSet.questions.Length);
+                foreach (ChaQuestion q in qSet.questions)
+                {
+                    print(q.body);
+                }
+
+            }
+            else
+            {
+                Debug.Log("No sent challenges");
+
+            }
+        }
+        ));
         numQuestions = questionBank.Count;
         paused = true;
+        startTime = Time.time;
         DisplayQuestion();
     }
 

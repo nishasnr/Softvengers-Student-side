@@ -29,7 +29,7 @@ public class Assignment
 
 public class AssignmentScene : MonoBehaviour
 {
-    public string selectedAssignmentid;
+    public static string selectedAssignmentid;
     public GameObject PendingAssignment;
     public GameObject CompletedAssignment;
     public GameObject OverdueAssignment;
@@ -366,6 +366,7 @@ public class AssignmentScene : MonoBehaviour
     {
         selectedAssignmentid = btn.transform.parent.gameObject.name;
     }
+    //get selectedID
 
     /*public void setInfopopup()
     {

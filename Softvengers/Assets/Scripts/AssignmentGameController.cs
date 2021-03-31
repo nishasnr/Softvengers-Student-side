@@ -3,6 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+/*
+   {
+   wrongOptions: [ 'Dance', 'With', 'You' ],
+   points: 1,
+   _id: 6062ab4fb5e20c11b8b8878c,
+   assignmentID: 123,
+   questionID: 3,
+   body: 'My',
+   correctOption: 'Again',
+   __v: 0
+ }
+   */
+
+[System.Serializable]
+public class AssQuestion
+{
+    public string[] wrongOptions;
+    public int points;
+    public string _id;
+    public int assignmentID;
+    public int questionID;
+    public string body;
+    public string correctOption;
+    public int _v;
+}
+[System.Serializable]
+public class AssQuestions
+{
+    public AssQuestion[] questions;
+}
 
 public class AssignmentGameController : MonoBehaviour
 {
@@ -52,9 +82,32 @@ public class AssignmentGameController : MonoBehaviour
     // 5. Break Asteroid
     // 6. Destroy Fragment
     // 7. Calculate questionScore
+   
 
-    public virtual void Start()
+public virtual void Start()
     {
+        StartCoroutine(ServerController.Get("http://localhost:5000/student/assignments/getAssignmentQuestions?assignmentID=123",
+        result =>
+        {
+            if (result != null)
+            {
+                Debug.Log(result);
+
+                AssQuestions qSet = JsonUtility.FromJson<AssQuestions>("{ \"questions\": " + result + "}");
+                print(qSet.questions.Length);
+                foreach(AssQuestion q in qSet.questions)
+                {
+                    print(q.body);
+                }
+
+            }
+            else
+            {
+                Debug.Log("No sent challenges");
+
+            }
+        }
+        ));
         numQuestions = questionBank.Count;
         paused = true;
         DisplayQuestion();
@@ -219,6 +272,7 @@ public class AssignmentGameController : MonoBehaviour
     {
         if (questionNumber < numQuestions)
             return false;
+
         return true;
     }
 
