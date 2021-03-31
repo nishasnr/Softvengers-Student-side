@@ -46,6 +46,9 @@ public class LoginController : MonoBehaviour
                                 //Debug.Log(playerData.universePogress);
                                 //Debug.Log(playerData.solarSystemProgress);
                                 //Debug.Log(playerData.planetProgress);
+                                SecurityToken.TutGrp = progress.tutGrp;
+                                Debug.Log(SecurityToken.TutGrp);
+                                SecurityToken.MatricNo = progress.matricNo;
                                 SceneManager.LoadScene("HomePageScene");
                             }                          
                             ));
@@ -75,4 +78,6 @@ public struct Progress
     public int conqueredPlanet;
     public int avatar;
     public double totalScore;
+    public string tutGrp;
+    public string matricNo;
 }

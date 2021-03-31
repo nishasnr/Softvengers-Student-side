@@ -15,4 +15,16 @@ public class SecurityToken
         get;
         set;
     }
+
+    public static string TutGrp
+    {
+        get;
+        set;
+    }
+
+    public static string MatricNo
+    {
+        get;
+        set;
+    }
 }

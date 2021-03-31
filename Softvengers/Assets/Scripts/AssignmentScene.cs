@@ -5,6 +5,28 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+[System.Serializable]
+public class AssignmentList
+{
+    public List<Assignment> assignments;
+}
+
+[System.Serializable]
+public class Assignment
+{
+    public int _id;
+    public int assignmentID;
+    public string assignmentName;
+    public int timeLimit;
+    public string deadline;
+    public string tutGrp;
+    public float myScore;
+    public bool myStatus;
+
+}
+
+
 public class AssignmentScene : MonoBehaviour
 {
     public string selectedAssignmentid;
@@ -70,6 +92,24 @@ public class AssignmentScene : MonoBehaviour
 
     void Start()
     {
+
+        StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/assignments/getassignmentList?matricNo={0}", SecurityToken.MatricNo),
+            result =>
+            {
+                if (result != null)
+                {
+                    Debug.Log("Received");
+                    Debug.Log(result);
+                    AssignmentList assignmentList = JsonUtility.FromJson<AssignmentList>("{\"assignments\":" + result + "}");
+                    foreach (Assignment assignment in assignmentList.assignments)
+                    {
+                        
+                    }
+                }
+            }
+            ));
+
+        /*
 
         foreach (var entry in Assign_info)
         {
@@ -240,7 +280,7 @@ public class AssignmentScene : MonoBehaviour
 
         }
 
-
+        */
 
 
 
