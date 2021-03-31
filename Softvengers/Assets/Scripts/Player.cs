@@ -6,10 +6,8 @@ using UnityEngine;
 public class Player : ScriptableObject
 {
     public int universePogress;
-
     public int solarSystemProgress;
     public int planetProgress;
-
     public int colorChoice;
-
+    public double totalScore;
 }
