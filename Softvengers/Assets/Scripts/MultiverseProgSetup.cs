@@ -153,7 +153,8 @@ public class MultiverseProgSetup : MonoBehaviour
         Dictionary<int, Dictionary<int, Dictionary<string, string>>> Universe_prog_info = new Dictionary<int, Dictionary<int, Dictionary<string, string>>>();
         Dictionary<int, Dictionary<string, string>> uni_stuff = new Dictionary<int, Dictionary<string, string>>();
         Dictionary <int,float> solar_stuff = new Dictionary<int,float>();
-        StartCoroutine(ServerController.Get("http://localhost:5000/student/details/getProgress?emailID=SRISH@e.ntu.edu.sg",
+        // "emailID=SRISH@e.ntu.edu.sg" use this for immediate testing
+        StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/details/getProgress?emailID={0}", SecurityToken.Email),
         result =>
         {
         if (result != null)

@@ -23,6 +23,12 @@ public class ReceivedChallenges
     public ReceivedChallenge_single[] received;
 }
 
+public class DeclinedChallengeInfo
+{
+    public string challengeID;
+    public string emailID;
+}
+
 
 public class ReceivedChallengeDisplay : MonoBehaviour
 {
@@ -111,8 +117,9 @@ new Dictionary<string, List<string>>()
 
     void Awake()
     {
+        // "emailID=aratrika001@e.ntu.edu.sg" use this for immediate testing
 
-        StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/challenge/getReceivedChallenges?emailID={0}", SecurityToken.Email),
+        StartCoroutine(ServerController.Get("http://localhost:5000/student/challenge/getReceivedChallenges?emailID=aratrika001@e.ntu.edu.sg",
         result =>
         {
             if (result != null)
@@ -379,6 +386,45 @@ new Dictionary<string, List<string>>()
                 sText.text = (s - 1).ToString();
             }
         }
+
+
+        DeclinedChallengeInfo declinedChallengeInfo = new DeclinedChallengeInfo();
+        declinedChallengeInfo.challengeID = selectedChallengeid;
+        ReceivedChallenge_single selected = findSelectedChallenge(selectedChallengeid);
+        //for testing
+        declinedChallengeInfo.emailID= "aratrika001@e.ntu.edu.sg";
+        string json = JsonUtility.ToJson(declinedChallengeInfo);
+
+        print(json);
+        StartCoroutine(ServerController.Put("http://localhost:5000/student/challenge/declineChallenge", json,
+             result =>
+             {
+                 if (result != null)
+                 {
+                     //need to convert into complete object to store challenge id
+                     Debug.Log(result);
+
+
+
+                     /*for (int i = 0; i < questionResult.questions.Length; i++)
+                     {
+                         Debug.Log(questionResult.questions[i].body);
+                     }*/
+                 }
+                 else
+                 {
+                     Debug.Log("No challengeID!");
+
+                 }
+             }
+        ));
+
+        //actual code
+        // string emailID = SecurityToken.Email;
+
+
+
+
     }
 
     public void OnAcceptYes()

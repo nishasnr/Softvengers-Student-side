@@ -194,8 +194,8 @@ new Dictionary<string, List<string>>()
 
     void Awake()
     {
-
-        StartCoroutine(ServerController.Get("http://localhost:5000/student/challenge/getSentChallenges?emailID=SRISH@e.ntu.edu.sg",
+        //  emailID=SRISH@e.ntu.edu.sg use this for immediate testing
+        StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/challenge/getSentChallenges?emailID={0}",SecurityToken.Email),
         result =>
         {
             if (result != null)
