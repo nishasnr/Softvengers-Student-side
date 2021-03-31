@@ -3,6 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+[System.Serializable]
+public class ReceivedChallenge_single
+{
+    public int[] questionIds;
+    public string _id;
+    public string challengeName;
+    public Receiver sender;
+    public questionTopic[] questionTopics;
+    public int myTime;
+    public int myScore;
+    public int myStatus;
+}
+
+[System.Serializable]
+public class ReceivedChallenges
+{
+    public ReceivedChallenge_single[] received;
+}
+
+
 public class ReceivedChallengeDisplay : MonoBehaviour
 {
     public string selectedChallengeid;
@@ -16,11 +37,12 @@ public class ReceivedChallengeDisplay : MonoBehaviour
     public bool accept_a = false;
     public bool decline_a = false;
     public bool info_a = false;
-    public List<string> pending = new List<string>();
-    public List<string> completed = new List<string>();
+    public List<ReceivedChallenge_single> pending = new List<ReceivedChallenge_single>();
+    public List<ReceivedChallenge_single> completed = new List<ReceivedChallenge_single>();
+    public ReceivedChallenges ReceivedSets = new ReceivedChallenges();
     // Start is called before the first frame update
 
-    public static Dictionary<string, Dictionary<string, string>> RC_info =
+    /*public static Dictionary<string, Dictionary<string, string>> RC_info =
  new Dictionary<string, Dictionary<string, string>>()
  {
         {
@@ -85,30 +107,58 @@ new Dictionary<string, List<string>>()
     { "02", new List<string>{"SS1","SS2","SS3","SS4"} },
     { "03", new List<string>{"Solar System 1","Solar System 2","Solar System 3","Solar System 4"} },
     { "04", new List<string>{"Solar System 1","Solar System 2","Solar System 3","Solar System 4"} },
-};
+};*/
 
-
-    void Start()
+    void Awake()
     {
-       
-        foreach (var entry in RC_info)
+
+        StartCoroutine(ServerController.Get("http://localhost:5000/student/challenge/getReceivedChallenges?emailID=aratrika001@e.ntu.edu.sg",
+        result =>
         {
-            if (entry.Value["attempted"] == "0")
+            if (result != null)
             {
-                pending.Add(entry.Key);
+                Debug.Log(result);
+
+                ReceivedChallenges ReceivedSet = JsonUtility.FromJson<ReceivedChallenges>("{ \"received\": " + result + "}");
+                ReceivedSets = ReceivedSet;
+                print(ReceivedSets.received.Length);
+                Setup();
+
             }
             else
             {
-                completed.Add(entry.Key);
+                Debug.Log("No received challenges");
+
+            }
+        }
+        ));
+
+
+
+    }
+
+    void Setup()
+    {
+       
+        foreach (var entry in ReceivedSets.received)
+        {
+            if (entry.myStatus == 0)
+            {
+                pending.Add(entry);
+            }
+            else
+            {
+                completed.Add(entry);
             }
         }
 
-        Vector3 curPos = new Vector3(-12, -86, 0);
+        Vector3 curPos = new Vector3(430, -86, 0);
+        int counter = 1;
         foreach (var item in pending)
         {
             
             var newPC = Instantiate(PendingChallenge, gameObject.transform, false);
-            newPC.name = item;
+            newPC.name = item._id;
             newPC.transform.localPosition = curPos;
             foreach (Transform child in newPC.transform)
             {
@@ -140,12 +190,13 @@ new Dictionary<string, List<string>>()
                 else if(child.name=="SnoText")
                 {
                     Text sText= child.GetComponentInChildren<Text>();
-                    sText.text = item;
+                    sText.text = counter.ToString();
+                    counter += 1;
                 }
                 else if(child.name=="Cname")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = RC_info[item]["name"];
+                    cText.text = item.challengeName;
                 }
 
             }
@@ -158,19 +209,19 @@ new Dictionary<string, List<string>>()
         {
 
             var newPC = Instantiate(CompletedChallenge, gameObject.transform, false);
-            newPC.name = item;
+            newPC.name = item._id;
             newPC.transform.localPosition = curPos;
             foreach (Transform child in newPC.transform)
             {
                 if (child.name == "Score")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = "Score: " + RC_info[item]["your_score"];
+                    cText.text = "Score: " + item.myScore;
                 }
                 else if (child.name == "Time")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = "Time: "+RC_info[item]["your_time"];
+                    cText.text = "Time: "+item.myTime;
                 }
                 else if (child.name == "InfoButton")
                 {
@@ -185,12 +236,13 @@ new Dictionary<string, List<string>>()
                 else if (child.name == "SnoText")
                 {
                     Text sText = child.GetComponentInChildren<Text>();
-                    sText.text = item;
+                    sText.text = counter.ToString();
+                    counter += 1;
                 }
                 else if (child.name == "Cname")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = RC_info[item]["name"];
+                    cText.text = item.challengeName;
                 }
 
             }
@@ -252,31 +304,33 @@ new Dictionary<string, List<string>>()
     {
         Scrollbar s = scroll.GetComponent<Scrollbar>();
         s.value = 1;
+        ReceivedChallenge_single selected = findSelectedChallenge(selectedChallengeid);
         foreach (Transform child in infoContent.transform)
         {
              if (child.name == "Cname")
             {
                 Text sText = child.GetComponentInChildren<Text>();
-                sText.text = RC_info[selectedChallengeid]["sender"];
+                string[] names = selected.sender.emailID.Split('@');
+                sText.text = names[0];
             }
             else if (child.name == "CTime")
             {
                 Text cText = child.GetComponentInChildren<Text>();
-                cText.text = RC_info[selectedChallengeid]["c_time"];
+                cText.text = selected.sender.score.ToString();
             }
             else if (child.name == "Cscore")
             {
                 Text cText = child.GetComponentInChildren<Text>();
-                cText.text = RC_info[selectedChallengeid]["c_score"];
+                cText.text = selected.sender.timeTaken.ToString();
             }
             else if(child.name=="ScoreMessage")
             {
                 Text cText = child.GetComponentInChildren<Text>();
-                if(RC_info[selectedChallengeid]["attempted"]=="0")
+                if(selected.myStatus==0)
                 {
                     cText.text = "Can you beat this score?";
                 }
-                else if(int.Parse(RC_info[selectedChallengeid]["c_score"])<=int.Parse(RC_info[selectedChallengeid]["your_score"]) )
+                else if(selected.sender.score<= selected.myScore )
                 {
                     cText.text = "Good Job!";
                 }
@@ -289,9 +343,10 @@ new Dictionary<string, List<string>>()
             {
                 Text cText = child.GetComponentInChildren<Text>();
                 string topics = "";
-                foreach(var item in topic_info[selectedChallengeid])
+                foreach(var i in selected.questionTopics)
                 {
-                    topics += item + "\n";
+                    string topic = "Universe " + i.universe.ToString() + " SolarSystem " + i.solarSystem.ToString();
+                    topics += topic + "\n";
                 }
                 cText.text = topics;
 
@@ -318,6 +373,10 @@ new Dictionary<string, List<string>>()
             else if(start_shift)
             {
                 child.localPosition += new Vector3(0, 65, 0);
+                GameObject sno = child.transform.Find("SnoText").gameObject;
+                Text sText = child.GetComponentInChildren<Text>();
+                int s= int.Parse(sText.text);
+                sText.text = (s - 1).ToString();
             }
         }
     }
@@ -325,5 +384,18 @@ new Dictionary<string, List<string>>()
     public void OnAcceptYes()
     {
         //add code to load new game scene and send challenge id to db
+    }
+
+    public ReceivedChallenge_single findSelectedChallenge(string selectID)
+    {
+        ReceivedChallenge_single selected = null;
+        foreach (var item in ReceivedSets.received)
+        {
+            if (item._id == selectID)
+            {
+                selected = item;
+            }
+        }
+        return selected;
     }
 }

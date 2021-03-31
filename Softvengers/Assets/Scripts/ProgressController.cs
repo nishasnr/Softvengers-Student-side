@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ProgressController
+public class ProgressController:MonoBehaviour
 {
     public static int selectedUniverse=0;
     public static int selectedSs=0;
     public static int numUniverse = 6;
     public static int numSS = 4;
-
+    public static Dictionary<int, Dictionary<string, string>> Multiverse_prog_info;
+    public static Dictionary<int, Dictionary<int, Dictionary<string, string>>> Universe_prog_info;
     // after connecting to backend and processing, these are formats of dictionaries required
     //this is for each universe
-    public static Dictionary<int, Dictionary<string, string>> Multiverse_prog_info =
+    /*public static Dictionary<int, Dictionary<string, string>> Multiverse_prog_info =
  new Dictionary<int, Dictionary<string, string>>()
  {
         {
@@ -175,5 +176,43 @@ public static class ProgressController
 
 
 
-        };
+        };*/
+
+    /*[System.Serializable]
+    public class PlanetProgress
+    {
+        public string identifier;
+        public int maxCorrect;
+       
+    }
+
+    [System.Serializable]
+    public class Progress
+    {
+        public PlanetProgress[] progress;
+
+    }
+
+
+
+    public void Awake()
+    {
+        StartCoroutine(ServerController.Get("http://localhost:5000/student/details/getProgress?emailID=SRISH@e.ntu.edu.sg",
+        result =>
+        {
+            if (result != null)
+            {
+                Progress FullProgress = JsonUtility.FromJson<Progress>(result);
+                print(FullProgress.progress[0].identifier);
+                print(FullProgress.progress.Length);
+
+            }
+            else
+            {
+                Debug.Log("No questions!");
+
+            }
+        }
+        ));
+    }*/
 }

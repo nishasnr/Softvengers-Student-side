@@ -14,7 +14,7 @@ public class MultiverseProgSetup : MonoBehaviour
     public int headingWidth = 30;
 
     // Start is called before the first frame update
-    void Start()
+    public void Setup()
     {
        
         int decrementFactor = ((screenWidth - 4* headingWidth) / numBar);
@@ -30,6 +30,7 @@ public class MultiverseProgSetup : MonoBehaviour
             {5,"time_stone"}
         };
 
+       
         Dictionary<int, Dictionary<string, string>> Multiverse_prog_info = ProgressController.Multiverse_prog_info;
 
         for (int x = 0; x < numBar; x++)
@@ -129,6 +130,189 @@ public class MultiverseProgSetup : MonoBehaviour
         return gradient.Evaluate(val);
 
 
+    }
+
+    [System.Serializable]
+    public class PlanetProgress
+    {
+        public string identifier;
+        public int maxCorrect;
+
+    }
+
+    [System.Serializable]
+    public class Progress
+    {
+        public PlanetProgress[] progress;
+
+    }
+
+
+    public void Awake()
+    {
+        Dictionary<int, Dictionary<int, Dictionary<string, string>>> Universe_prog_info = new Dictionary<int, Dictionary<int, Dictionary<string, string>>>();
+        Dictionary<int, Dictionary<string, string>> uni_stuff = new Dictionary<int, Dictionary<string, string>>();
+        Dictionary <int,float> solar_stuff = new Dictionary<int,float>();
+        StartCoroutine(ServerController.Get("http://localhost:5000/student/details/getProgress?emailID=SRISH@e.ntu.edu.sg",
+        result =>
+        {
+        if (result != null)
+        {
+            Progress FullProgress = JsonUtility.FromJson<Progress>(result);
+            print(FullProgress.progress[0].identifier);
+            print(FullProgress.progress.Length);
+            
+            foreach (var obj in FullProgress.progress)
+            {
+                string id = obj.identifier.Substring(1, obj.identifier.Length - 2);
+                string[] ids = id.Split(',');
+                float badgeVal = 0.0f;
+                if (obj.maxCorrect == 10)
+                {
+                    badgeVal = 0.33f;
+                }
+                else if(obj.maxCorrect >=7 )
+                {
+                        badgeVal = 0.22f;
+                }
+                    else if(obj.maxCorrect>=5)
+                    {
+                        badgeVal = 0.11f;
+                    }
+                    string badge = badgeVal.ToString();
+                
+                    if (Universe_prog_info.ContainsKey(int.Parse(ids[0])) == false)
+                {
+                        
+                        Dictionary<int, Dictionary<string, string>> Solar_prog_info = new Dictionary<int, Dictionary<string, string>>();
+                        Solar_prog_info.Add(int.Parse(ids[1]),new Dictionary<string, string>() );
+                        int ssno = int.Parse(ids[1]) + 1;
+                        Solar_prog_info[int.Parse(ids[1])].Add("name","Solar System"+ssno.ToString());
+                        
+                        
+                        Solar_prog_info[int.Parse(ids[1])].Add("value", badge);
+                        if (int.Parse(ids[2]) == 0)
+                        {
+                            Solar_prog_info[int.Parse(ids[1])].Add("basic", badge);
+                        }
+                        else if(int.Parse(ids[2]) == 1)
+                        {
+                            Solar_prog_info[int.Parse(ids[1])].Add("intermediate", badge);
+                        }
+                        else 
+                        {
+                            Solar_prog_info[int.Parse(ids[1])].Add("advanced", badge);
+                        }
+
+                        Universe_prog_info.Add(int.Parse(ids[0]),Solar_prog_info);
+                        
+                    
+                }
+                else
+                 {
+                    if(Universe_prog_info[int.Parse(ids[0])].ContainsKey(int.Parse(ids[1])) == true)
+                        {
+                            if(int.Parse(ids[2])==0)
+                            {
+                                Universe_prog_info[int.Parse(ids[0])][int.Parse(ids[1])].Add("basic", badge);
+                                float val = float.Parse(Universe_prog_info[int.Parse(ids[0])][int.Parse(ids[1])]["value"]);
+                                val = val + badgeVal;
+                                Universe_prog_info[int.Parse(ids[0])][int.Parse(ids[1])]["value"] = val.ToString();
+                            }
+                            else if(int.Parse(ids[2]) == 1)
+                            {
+                                Universe_prog_info[int.Parse(ids[0])][int.Parse(ids[1])].Add("intermediate", badge);
+                               
+                                float val = float.Parse(Universe_prog_info[int.Parse(ids[0])][int.Parse(ids[1])]["value"]);
+                                val = val + badgeVal;
+                                Universe_prog_info[int.Parse(ids[0])][int.Parse(ids[1])]["value"] = val.ToString();
+                            }
+                            else
+                            {
+                                Universe_prog_info[int.Parse(ids[0])][int.Parse(ids[1])].Add("advanced", badge);
+                                
+                                float val = float.Parse(Universe_prog_info[int.Parse(ids[0])][int.Parse(ids[1])]["value"]);
+                                val = val + badgeVal;
+                                Universe_prog_info[int.Parse(ids[0])][int.Parse(ids[1])]["value"] = val.ToString();
+                            }
+                        }
+                        else
+                        {
+                            Dictionary<int, Dictionary<string, string>> Solar_prog_info = new Dictionary<int, Dictionary<string, string>>();
+                            Solar_prog_info.Add(int.Parse(ids[1]), new Dictionary<string, string>());
+                            int ssno = int.Parse(ids[1]) + 1;
+                            Solar_prog_info[int.Parse(ids[1])].Add("name", "Solar System" + ssno.ToString());
+                            Solar_prog_info[int.Parse(ids[1])].Add("value", badge);
+                            if (int.Parse(ids[2]) == 0)
+                            {
+                                Solar_prog_info[int.Parse(ids[1])].Add("basic",badge);
+                            }
+                            else if (int.Parse(ids[2]) == 1)
+                            {
+                                Solar_prog_info[int.Parse(ids[1])].Add("intermediate",badge);
+                            }
+                            else
+                            {
+                                Solar_prog_info[int.Parse(ids[1])].Add("advanced",badge);
+                            }
+                            Universe_prog_info[int.Parse(ids[0])].Add(int.Parse(ids[1]), Solar_prog_info[int.Parse(ids[1])]);
+
+                        }
+                 }
+             }
+           
+                
+            foreach (var j in Universe_prog_info)
+                {
+                    int counter = 0;
+                    float sum = 0.0f;
+                    foreach(var i in j.Value)
+                    {
+                        sum = float.Parse((i.Value)["value"]) + sum;
+                        counter++;
+                    }
+                    Dictionary<string, string> uni_val = new Dictionary<string, string>();
+                    uni_val.Add("name", "Universe" + (j.Key + 1).ToString());
+                    float valAdd = sum / counter;
+                    uni_val.Add("value", valAdd.ToString());
+                    uni_stuff.Add(j.Key, uni_val);
+                }
+
+        foreach(var item in uni_stuff)
+                {
+                    print(item.Key);
+                    foreach(var val in item.Value)
+                    {
+                        print(val.Key);
+                        print(val.Value);
+                    }
+                }
+
+         }
+          else
+            {
+                Debug.Log("No questions!");
+
+            }
+
+            /*foreach(var item in Universe_prog_info)
+            {
+                print(item.Key);
+                foreach(var val in item.Value)
+                {
+                    print(val.Key);
+                    foreach(var v in val.Value)
+                    {
+                        print(v.Key);
+                        print(v.Value);                    }
+                }
+            }*/
+
+            ProgressController.Universe_prog_info = Universe_prog_info;
+            ProgressController.Multiverse_prog_info = uni_stuff;
+            Setup();
+        }
+        ));
     }
 
 }

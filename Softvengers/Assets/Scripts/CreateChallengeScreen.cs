@@ -4,10 +4,39 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
+[System.Serializable]
+public class TopicInfo
+{
+    
+    public int universe;
+    public int solarSystem;
+    public int planet;
+    public int noOfQuestions;
+}
+
+[System.Serializable]
+public class ChallengeInfo
+{
+    public string senderEmailID;
+    public string challengeName;
+    public List<TopicInfo> topics;
+}
+
+[System.Serializable]
+public class CreateChallengeResult
+{
+    public string challengeID;
+    public qsts[] questions;
+
+
+}
+
 public class CreateChallengeScreen : MonoBehaviour
 {
     public int nextOptionsid;
     public GameObject OptionsCard;
+    public static string challengeID;
     // Start is called before the first frame update
 
     public Dictionary<int, List<string>> Universe_SS_mapping = new Dictionary<int, List<string>>()
@@ -105,7 +134,11 @@ public class CreateChallengeScreen : MonoBehaviour
     {
         List <List<string>> submitInfo= new List<List<string>>();
         string[] attri = new string[4] { "Universe Dropdown", "Solar System Dropdown", "Qnum", "Dl" };
-                                           
+        //TopicInfo topicInfo = new TopicInfo();
+        ChallengeInfo challengeInfo = new ChallengeInfo();
+        challengeInfo.topics = new List<TopicInfo>();
+
+
         foreach (Transform child in transform)
         {
             if (child.name=="AddButton" || child.name== "ChallengeNameHeading")
@@ -116,29 +149,88 @@ public class CreateChallengeScreen : MonoBehaviour
             {
                 GameObject cname = child.transform.Find("Text").gameObject;
                 Text cNameText = cname.GetComponentInChildren<Text>();
-                print(cNameText.text);
+                //print(cNameText.text);
+                challengeInfo.challengeName = cNameText.text;
                 continue;
                 
             }
-            List<string> tempList = new List<string>();
+            // List<string> tempList = new List<string>();
+            TopicInfo topicInfo = new TopicInfo();
             for (int i = 0;i< 4;i++)
             {
 
                 GameObject DropDownObj = child.Find(attri[i]).gameObject;
                 Dropdown DropdownComp = DropDownObj.GetComponent<Dropdown>();
-                tempList.Add(DropdownComp.captionText.text);
-            }
+                switch(attri[i])
+                {
+                    case "Universe Dropdown": topicInfo.universe = DropdownComp.value;
+                        break;
+                    case "Solar System Dropdown":
+                        topicInfo.solarSystem = DropdownComp.value;
+                        break;
+                    case "Qnum":
+                        //topicInfo.noOfQuestions = int.Parse(DropdownComp.captionText.text);
+                        topicInfo.noOfQuestions = 1;
+                        break;
+                    case "Dl":
+                        topicInfo.planet= DropdownComp.value;
+                        break;
 
-            submitInfo.Add(tempList);
+
+
+                }
+
+                
+                //tempList.Add(DropdownComp.captionText.text);
+            }
+            challengeInfo.topics.Add(topicInfo);
+            //submitInfo.Add(tempList);
 
         }
 
-        foreach (List<string> subList in submitInfo)
+        
+        //challengeInfo.senderEmailID = SecurityToken.Email;
+        challengeInfo.senderEmailID="SRISH@e.ntu.edu.sg";
+        string json = JsonUtility.ToJson(challengeInfo);
+        print(json);
+        StartCoroutine(ServerController.Post("http://localhost:5000/student/challenge/createChallenge",json,
+             result =>
+             {
+                 if (result != null)
+                 {
+                     //need to convert into complete object to store challenge id
+                     Debug.Log(result);
+                     CreateChallengeResult createchallengeResult = JsonUtility.FromJson<CreateChallengeResult>(result);
+                     challengeID = createchallengeResult.challengeID;
+                     print(challengeID);
+
+
+
+                     /*for (int i = 0; i < questionResult.questions.Length; i++)
+                     {
+                         Debug.Log(questionResult.questions[i].body);
+                     }*/
+                 }
+                 else
+                 {
+                     Debug.Log("No challengeID!");
+
+                 }
+             }
+        ));
+        /*foreach (var item in challengeInfo.topics )
         {
-            foreach(string val in subList)
-            {
-               print(val);
-            }
+            print(item.universe);
+            print(item.solarSystem);
+            print(item.planet);
+            print(item.noOfQuestions);
         }
+
+        print(challengeInfo.senderEmailID);
+        print(challengeInfo.challengeName);*/
+
+
+
+
     }
 }
