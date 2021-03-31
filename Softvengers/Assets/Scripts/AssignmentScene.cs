@@ -15,7 +15,7 @@ public class AssignmentList
 [System.Serializable]
 public class Assignment
 {
-    public int _id;
+    public string _id;
     public int assignmentID;
     public string assignmentName;
     public int timeLimit;
@@ -41,9 +41,10 @@ public class AssignmentScene : MonoBehaviour
     public bool start_a = false;
     public bool completed_a = false;
     public bool overdue_a = false;
-    public List<string> pending_assignment = new List<string>();
-    public List<string> completed_assignment = new List<string>();
-    public List<string> overdue_assignment = new List<string>();
+    public List<Assignment> pending_assignment = new List<Assignment>();
+    public List<Assignment> completed_assignment = new List<Assignment>();
+    public List<Assignment> overdue_assignment = new List<Assignment>();
+    public AssignmentList AssignmentSets=new AssignmentList();
 
     // Start is called before the first frame update
 
@@ -87,12 +88,9 @@ public class AssignmentScene : MonoBehaviour
 
  };
 
-
-
-
-    void Start()
+    void Awake()
     {
-
+        //SecurityToken.MatricNo
         StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/assignments/getassignmentList?matricNo={0}", SecurityToken.MatricNo),
             result =>
             {
@@ -101,45 +99,66 @@ public class AssignmentScene : MonoBehaviour
                     Debug.Log("Received");
                     Debug.Log(result);
                     AssignmentList assignmentList = JsonUtility.FromJson<AssignmentList>("{\"assignments\":" + result + "}");
-                    foreach (Assignment assignment in assignmentList.assignments)
-                    {
-                        
-                    }
+                    AssignmentSets = assignmentList;
+                    Setup();
+                }
+                else
+                {
+                    Debug.Log("Empty");
                 }
             }
             ));
 
-        /*
+        
 
-        foreach (var entry in Assign_info)
+    }
+
+
+
+
+    void Setup()
+    {
+
+        
+        
+
+        foreach (var entry in AssignmentSets.assignments)
         {
-            if (entry.Value["attempted"] == "0")
+            if (entry.myStatus == false)
             {
                 DateTime localdate = DateTime.Now;
                 CultureInfo provider = CultureInfo.InvariantCulture;
-                DateTime assign_deadline = DateTime.ParseExact(entry.Value["deadline"], "dd/MM/yyyy", provider);
-
+                print("Testing");
+                print(entry.deadline);
+                string[] timings = entry.deadline.Split('T');
+                print(timings[0]);
+                DateTime assign_deadline = DateTime.ParseExact(timings[0], "yyyy-MM-dd", provider);
+                print(entry.deadline);
+                entry.deadline = timings[0];
                 Debug.Log(localdate);
                 Debug.Log(assign_deadline);
                 Debug.Log(DateTime.Compare(localdate, assign_deadline));
                 if (DateTime.Compare(localdate, assign_deadline) > 0)
-                    overdue_assignment.Add(entry.Key);
+                    overdue_assignment.Add(entry);
                 else
-                    pending_assignment.Add(entry.Key);
+                    pending_assignment.Add(entry);
 
             }
             else
             {
-                completed_assignment.Add(entry.Key);
+                string[] timings = entry.deadline.Split('T');
+                entry.deadline = timings[0];
+                completed_assignment.Add(entry);
             }
         }
 
-        Vector3 curPos = new Vector3(-12, -86, 0);
+        int counter = 1;
+        Vector3 curPos = new Vector3(480, -86, 0);
         foreach (var item in pending_assignment)
         {
 
             var newPA = Instantiate(PendingAssignment, gameObject.transform, false);
-            newPA.name = item;
+            newPA.name = item._id;   // what is assignment id and _id??
             newPA.transform.localPosition = curPos;
             foreach (Transform child in newPA.transform)
             {
@@ -155,27 +174,28 @@ public class AssignmentScene : MonoBehaviour
                 else if (child.name == "SnoText")
                 {
                     Text sText = child.GetComponentInChildren<Text>();
-                    sText.text = item;
+                    sText.text = counter.ToString();
+                    counter += 1;
                 }
                 else if (child.name == "Aname")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = Assign_info[item]["name"];
+                    cText.text = item.assignmentName;
                 }
                 else if (child.name == "Time")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = Assign_info[item]["c_time"];
+                    cText.text = item.timeLimit.ToString();
                 }
                 else if (child.name == "Score")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = Assign_info[item]["c_score"];
+                    cText.text = item.myScore.ToString();
                 }
                 else if (child.name == "Deadline")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = Assign_info[item]["deadline"];
+                    cText.text = item.deadline;
                 }
 
             }
@@ -187,7 +207,7 @@ public class AssignmentScene : MonoBehaviour
         {
 
             var newPA = Instantiate(OverdueAssignment, gameObject.transform, false);
-            newPA.name = item;
+            newPA.name = item._id;
             newPA.transform.localPosition = curPos;
             foreach (Transform child in newPA.transform)
             {
@@ -204,27 +224,28 @@ public class AssignmentScene : MonoBehaviour
                 else if (child.name == "SnoText")
                 {
                     Text sText = child.GetComponentInChildren<Text>();
-                    sText.text = item;
+                    sText.text = counter.ToString();
+                    counter += 1;
                 }
                 else if (child.name == "Aname")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = Assign_info[item]["name"];
+                    cText.text = item.assignmentName;
                 }
                 else if (child.name == "Time")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = Assign_info[item]["c_time"];
+                    cText.text = item.timeLimit.ToString();
                 }
                 else if (child.name == "Score")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = Assign_info[item]["c_score"];
+                    cText.text = item.myScore.ToString();
                 }
                 else if (child.name == "Deadline")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = Assign_info[item]["deadline"];
+                    cText.text = item.deadline;
                 }
 
             }
@@ -236,7 +257,7 @@ public class AssignmentScene : MonoBehaviour
         {
 
             var newPA = Instantiate(CompletedAssignment, gameObject.transform, false);
-            newPA.name = item;
+            newPA.name = item._id;
             newPA.transform.localPosition = curPos;
             foreach (Transform child in newPA.transform)
             {
@@ -252,27 +273,28 @@ public class AssignmentScene : MonoBehaviour
                 else if (child.name == "SnoText")
                 {
                     Text sText = child.GetComponentInChildren<Text>();
-                    sText.text = item;
+                    sText.text = counter.ToString();
+                    counter += 1;
                 }
                 else if (child.name == "AnameText")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = Assign_info[item]["name"];
+                    cText.text = item.assignmentName;
                 }
                 else if (child.name == "Time")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = Assign_info[item]["c_time"];
+                    cText.text = item.timeLimit.ToString();
                 }
                 else if (child.name == "Score")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = Assign_info[item]["c_score"];
+                    cText.text = item.myScore.ToString();
                 }
                 else if (child.name == "Deadline")
                 {
                     Text cText = child.GetComponentInChildren<Text>();
-                    cText.text = Assign_info[item]["deadline"];
+                    cText.text = item.deadline;
                 }
 
             }
@@ -280,7 +302,7 @@ public class AssignmentScene : MonoBehaviour
 
         }
 
-        */
+        
 
 
 
@@ -417,11 +439,11 @@ public class AssignmentScene : MonoBehaviour
                 child.localPosition += new Vector3(0, 65, 0);
             }
         }
-    }*/
+    }
 
     public void OnAcceptYes()
     {
         //add code to load new game scene and send challenge id to db
-    }
+    }*/
 }
 
