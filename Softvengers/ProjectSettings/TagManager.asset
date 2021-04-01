@@ -9,6 +9,7 @@ TagManager:
   - ChallengeResultPage
   - RankPage
   - AssignmentResultPage
+  - Posts
   layers:
   - Default
   - TransparentFX
