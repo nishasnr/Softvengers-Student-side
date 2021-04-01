@@ -72,7 +72,7 @@ public class AssignmentGameController : MonoBehaviour
     protected int numQuestions;
     protected int questionNumber = 0;
 
-    protected string nextScene = "ResultScene";
+    protected string nextScene = "AssignmentResultScene";
 
 
     // 1. Display Question
