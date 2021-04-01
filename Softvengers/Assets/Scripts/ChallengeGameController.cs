@@ -71,7 +71,7 @@ public class ChallengeGameController : AssignmentGameController {
         //ChallengeResultManager.AddRecord(result, score);
     }
 
-    public override void Start()
+    protected override void Start()
     {
         
         StartCoroutine(ServerController.Get("http://localhost:5000/student/challenge/getQuestions?challengeID=60583372dadc7c4b705fb5a9",

@@ -39,7 +39,7 @@ public class AssignmentResultManager : MonoBehaviour
     void Start()
     {
 
-        float startY = 200.0f;
+        float startY = 150.0f;
         float x = 0;
         float z = 0;
 

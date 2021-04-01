@@ -111,7 +111,7 @@ public class ChooseChallengersScript : MonoBehaviour
         foreach (Transform child in infoContent.transform)
          {
          print(child.name+child.localPosition);
-          }
+         }
         //Scrollbar s = scroll.GetComponent<Scrollbar>();
         //s.value = 1;
 

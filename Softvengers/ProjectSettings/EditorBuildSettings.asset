@@ -36,6 +36,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SolarSystemProgress.unity
     guid: 59bd80294485fd74185ccc24d9e0590e
   - enabled: 1
+    path: Assets/Scenes/AssignmentResultScene.unity
+    guid: 0153b851cee0c401ead1dd239f8a34d8
+  - enabled: 1
     path: Assets/Scenes/HomePageScene.unity
     guid: 3f444b94ad2ccf141b38b4d55cb91e07
   - enabled: 1

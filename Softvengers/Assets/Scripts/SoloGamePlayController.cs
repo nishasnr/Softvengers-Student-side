@@ -47,7 +47,7 @@ public class SoloGamePlayController : ChallengeGameController
 
     private List<List<Question>> questions = new List<List<Question>>();
 
-    public override void Start()
+    protected override void Start()
     {   
         planetDifficulty = navigationData.planetSelected;
         questDifficulty = planetDifficulty;

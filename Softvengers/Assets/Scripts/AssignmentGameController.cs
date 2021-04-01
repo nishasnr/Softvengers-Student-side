@@ -37,6 +37,10 @@ public class AssQuestions
 public class AssignmentGameController : MonoBehaviour
 {
 
+
+    // Used to retrieve the questions
+    public static string assignmentID;
+
     // Question Details on Screen
     public Transform questionName;
     public Transform option1;
@@ -58,15 +62,29 @@ public class AssignmentGameController : MonoBehaviour
     protected float timeDelay = 1.25f;
 
     // Question Time Limits
+
     private float startTime = 0.0f;
+
+
+    // *************************************************************************************
+    // Change to Data from server
+    // *************************************************************************************
     private float questionTime = 7f;
 
+
+    // Synchronization
     protected bool failedQuestion = false;
     protected bool isLocked = false;
     protected bool paused = false;
 
     // Time ratio
     protected float ratio;
+
+    // Game Questions
+
+    // *************************************************************************************
+    // Once you receive data from server get the questions from that and place in List<Questions>
+    // *************************************************************************************
 
     protected List<Question> questionBank = new List<Question>();
     protected int numQuestions;
@@ -75,34 +93,34 @@ public class AssignmentGameController : MonoBehaviour
     protected string nextScene = "AssignmentResultScene";
 
 
-public virtual void Start()
-    {
-        StartCoroutine(ServerController.Get("http://localhost:5000/student/assignments/getAssignmentQuestions?assignmentID=123",
-        result =>
+    protected virtual void Start()
         {
-            if (result != null)
+            StartCoroutine(ServerController.Get("http://localhost:5000/student/assignments/getAssignmentQuestions?assignmentID=123",
+            result =>
             {
-                Debug.Log(result);
-
-                AssQuestions qSet = JsonUtility.FromJson<AssQuestions>("{ \"questions\": " + result + "}");
-                print(qSet.questions.Length);
-                foreach(AssQuestion q in qSet.questions)
+                if (result != null)
                 {
-                    print(q.body);
+                    Debug.Log(result);
+
+                    AssQuestions qSet = JsonUtility.FromJson<AssQuestions>("{ \"questions\": " + result + "}");
+                    Debug.Log("Number of questions: " + qSet.questions.Length);
+                    foreach(AssQuestion q in qSet.questions)
+                    {
+                        print(q.body);
+                    }
+
                 }
+                else
+                {
+                    Debug.Log("No sent challenges");
 
+                }
             }
-            else
-            {
-                Debug.Log("No sent challenges");
-
-            }
+            ));
+            numQuestions = questionBank.Count;
+            paused = true;
+            DisplayQuestion();
         }
-        ));
-        numQuestions = questionBank.Count;
-        paused = true;
-        DisplayQuestion();
-    }
 
     void Update()
     {
@@ -135,7 +153,7 @@ public virtual void Start()
                 BreakAsteroid();
                 questionNumber++;
                 paused = true;
-                Invoke("DisplayQuestion", timeDelay);
+                Invoke(nameof(DisplayQuestion), timeDelay);
             }
         }
 
@@ -150,7 +168,7 @@ public virtual void Start()
                 failedQuestion = false;
                 BreakAsteroid();
                 paused = true;
-                Invoke("DisplayQuestion", timeDelay);
+                Invoke(nameof(DisplayQuestion), timeDelay);
             }
         }
     }
@@ -219,7 +237,7 @@ public virtual void Start()
         GameObject fractured = currAsteroid.GetComponent<Fracture>().returnFractured();
         fragment = Instantiate(fractured, currAsteroid.transform.position, currAsteroid.transform.rotation);
         Destroy(currAsteroid);
-        Invoke("DestroyFragment", 1);
+        Invoke(nameof(DestroyFragment), 1);
     }
 
     void DestroyFragment()
@@ -231,8 +249,8 @@ public virtual void Start()
 
     public void StoreScore(bool result, double score)
     {
-        ResultManager.AddRecord(result, score);
-        //AssignmentResultManager.AddRecord(result, score);
+        //ResultManager.AddRecord(result, score);
+        AssignmentResultManager.AddRecord(result, score);
     }
 
     // Make Abstract
@@ -256,7 +274,7 @@ public virtual void Start()
         Shoot shooter = GameObject.FindGameObjectWithTag("Player").GetComponent<Shoot>();
         shooter.releaseMissile();
         BreakAsteroid();
-        Invoke("DisplayQuestion", timeDelay);
+        Invoke(nameof(DisplayQuestion), timeDelay);
     }
 
     public virtual bool IsGameOver()
