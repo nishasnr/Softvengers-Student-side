@@ -75,15 +75,6 @@ public class AssignmentGameController : MonoBehaviour
     protected string nextScene = "AssignmentResultScene";
 
 
-    // 1. Display Question
-    // 2. Check if game is over by number of questions
-    // 3. Change asteroid position
-    // 4. Check answer
-    // 5. Break Asteroid
-    // 6. Destroy Fragment
-    // 7. Calculate questionScore
-   
-
 public virtual void Start()
     {
         StartCoroutine(ServerController.Get("http://localhost:5000/student/assignments/getAssignmentQuestions?assignmentID=123",

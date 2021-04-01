@@ -25,6 +25,7 @@ public class QuestionResult
 public class SoloGamePlayController : ChallengeGameController
 {
 
+
     public Navigation navigationData;
 
     public Image healthBar;
@@ -125,6 +126,7 @@ public class SoloGamePlayController : ChallengeGameController
 
     public SoloGamePlayController()
     {
+        this.nextScene = "ResultScene";
         numQuestions = 10;
         initEasyQsts();
         initMedQsts();
@@ -138,6 +140,8 @@ public class SoloGamePlayController : ChallengeGameController
         Debug.Log(planetDifficulty);
     }
 
+
+    // Change to current solar system and universe
     void Awake()
     {
         StartCoroutine(ServerController.Get("http://localhost:5000/student/questions/?universe=0&solarSystem=0",
