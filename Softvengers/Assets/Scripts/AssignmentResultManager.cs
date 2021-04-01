@@ -11,7 +11,7 @@ class AssignmentResults
 {
     public int assignmentID;
     public string matricNo;
-    public List<double> scores = new List<double>();
+    public double scores;
 
     public string stringify()
     {
@@ -22,7 +22,7 @@ class AssignmentResults
 public class AssignmentResultManager : MonoBehaviour
 {
     public static string assignment = "Assignment 1";
-    public static int assignmentID = 123;
+    public static int assignmentID = AssignmentScene.selectedAssignmentid;
     public GameObject resultRecord;
     public Transform title;
 
@@ -97,9 +97,9 @@ public class AssignmentResultManager : MonoBehaviour
         AssignmentResults newProgress = new AssignmentResults();
         newProgress.matricNo = SecurityToken.MatricNo;
         newProgress.assignmentID = assignmentID;
-        newProgress.scores = scores;
+        newProgress.scores = scores.Sum();
 
-
+        Debug.Log("Sending" + newProgress.assignmentID);
         StartCoroutine(ServerController.Put("http://localhost:5000/student/assignments/assignmentComplete", newProgress.stringify(), result =>
         {
             if (result != null)

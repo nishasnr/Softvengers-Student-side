@@ -37,10 +37,6 @@ public class AssQuestions
 public class AssignmentGameController : MonoBehaviour
 {
 
-
-    // Used to retrieve the questions
-    public static string assignmentID;
-
     // Question Details on Screen
     public Transform questionName;
     public Transform option1;
@@ -95,7 +91,7 @@ public class AssignmentGameController : MonoBehaviour
 
     protected virtual void Start()
         {
-            StartCoroutine(ServerController.Get("http://localhost:5000/student/assignments/getAssignmentQuestions?assignmentID=123",
+            StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/assignments/getAssignmentQuestions?assignmentID={0}", AssignmentScene.selectedAssignmentid),
             result =>
             {
                 if (result != null)

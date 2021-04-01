@@ -29,7 +29,7 @@ public class Assignment
 
 public class AssignmentScene : MonoBehaviour
 {
-    public static string selectedAssignmentid;
+    public static int selectedAssignmentid;
     public GameObject PendingAssignment;
     public GameObject CompletedAssignment;
     public GameObject OverdueAssignment;
@@ -114,14 +114,8 @@ public class AssignmentScene : MonoBehaviour
     }
 
 
-
-
     void Setup()
-    {
-
-        
-        
-
+    {         
         foreach (var entry in AssignmentSets.assignments)
         {
             if (entry.myStatus == false)
@@ -138,7 +132,7 @@ public class AssignmentScene : MonoBehaviour
                 Debug.Log(localdate);
                 Debug.Log(assign_deadline);
                 Debug.Log(DateTime.Compare(localdate, assign_deadline));
-                if (DateTime.Compare(localdate, assign_deadline) > 0)
+                if (DateTime.Compare(localdate, assign_deadline) < 0)
                     overdue_assignment.Add(entry);
                 else
                     pending_assignment.Add(entry);
@@ -158,7 +152,7 @@ public class AssignmentScene : MonoBehaviour
         {
 
             var newPA = Instantiate(PendingAssignment, gameObject.transform, false);
-            newPA.name = item._id;   // what is assignment id and _id??
+            newPA.name = item.assignmentID.ToString();   // what is assignment id and _id??
             newPA.transform.localPosition = curPos;
             foreach (Transform child in newPA.transform)
             {
@@ -364,7 +358,7 @@ public class AssignmentScene : MonoBehaviour
 
     public void setSelectedID(Button btn)
     {
-        selectedAssignmentid = btn.transform.parent.gameObject.name;
+        selectedAssignmentid = int.Parse(btn.transform.parent.gameObject.name);
     }
     //get selectedID
 
