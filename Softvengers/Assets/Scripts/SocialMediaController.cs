@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SocialMediaController : MonoBehaviour
 {
-    float score;
+    double score;
     string challengeName;
     string textToDisplay;
 

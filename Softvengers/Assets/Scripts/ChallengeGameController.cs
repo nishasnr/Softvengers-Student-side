@@ -67,14 +67,14 @@ public class ChallengeGameController : AssignmentGameController {
 
     public new void StoreScore(bool result, double score)
     {
-        ResultManager.AddRecord(result, score);
-        //ChallengeResultManager.AddRecord(result, score);
+        //ResultManager.AddRecord(result, score);
+        ChallengeResultManager.UpdateScore(score);
     }
 
     protected override void Start()
     {
         
-        StartCoroutine(ServerController.Get("http://localhost:5000/student/challenge/getQuestions?challengeID=60583372dadc7c4b705fb5a9",
+        StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/challenge/getQuestions?challengeID={0}", Challenge.challengeID),
         result =>
         {
             if (result != null)
@@ -107,6 +107,8 @@ public class ChallengeGameController : AssignmentGameController {
 
     public ChallengeGameController()
     {
+        this.nextScene = "ChallengeResultScene";
+
         Option o1 = new Option("A", true);
         Option o2 = new Option("B", false);
         Option o3 = new Option("C", false);

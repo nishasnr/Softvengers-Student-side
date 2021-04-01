@@ -359,6 +359,7 @@ public class AssignmentScene : MonoBehaviour
     public void setSelectedID(Button btn)
     {
         selectedAssignmentid = int.Parse(btn.transform.parent.gameObject.name);
+        Debug.Log(selectedAssignmentid);
     }
     //get selectedID
 

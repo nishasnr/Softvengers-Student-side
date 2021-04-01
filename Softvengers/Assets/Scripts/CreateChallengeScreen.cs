@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -36,7 +37,7 @@ public class CreateChallengeScreen : MonoBehaviour
 {
     public int nextOptionsid;
     public GameObject OptionsCard;
-    public static string challengeID;
+    //public static string challengeID;
     // Start is called before the first frame update
 
     public Dictionary<int, List<string>> Universe_SS_mapping = new Dictionary<int, List<string>>()
@@ -190,7 +191,7 @@ public class CreateChallengeScreen : MonoBehaviour
 
         
         //challengeInfo.senderEmailID = SecurityToken.Email;
-        challengeInfo.senderEmailID="SRISH@e.ntu.edu.sg";
+        challengeInfo.senderEmailID = SecurityToken.Email;
         string json = JsonUtility.ToJson(challengeInfo);
         print(json);
         StartCoroutine(ServerController.Post("http://localhost:5000/student/challenge/createChallenge",json,
@@ -201,11 +202,12 @@ public class CreateChallengeScreen : MonoBehaviour
                      //need to convert into complete object to store challenge id
                      Debug.Log(result);
                      CreateChallengeResult createchallengeResult = JsonUtility.FromJson<CreateChallengeResult>(result);
-                     challengeID = createchallengeResult.challengeID;
-                     print(challengeID);
+                     Challenge.challengeID = createchallengeResult.challengeID;
+                     print(Challenge.challengeID);
+                     Challenge.playerType = PlayerType.Challenger;
 
 
-
+                     SceneManager.LoadScene("ChallengeGamePlayScene");
                      /*for (int i = 0; i < questionResult.questions.Length; i++)
                      {
                          Debug.Log(questionResult.questions[i].body);

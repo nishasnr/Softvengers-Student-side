@@ -119,7 +119,7 @@ new Dictionary<string, List<string>>()
     {
         // "emailID=aratrika001@e.ntu.edu.sg" use this for immediate testing
 
-        StartCoroutine(ServerController.Get("http://localhost:5000/student/challenge/getReceivedChallenges?emailID=aratrika001@e.ntu.edu.sg",
+        StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/challenge/getReceivedChallenges?emailID={0}", SecurityToken.Email),
         result =>
         {
             if (result != null)
@@ -304,7 +304,9 @@ new Dictionary<string, List<string>>()
 
     public void setSelectedID(Button btn)
     {
-        selectedChallengeid = btn.transform.parent.gameObject.name;
+        Challenge.challengeID = btn.transform.parent.gameObject.name;
+        Challenge.playerType = PlayerType.Challengee;
+        //selectedChallengeid = btn.transform.parent.gameObject.name;
     }
 
     public void setInfopopup()

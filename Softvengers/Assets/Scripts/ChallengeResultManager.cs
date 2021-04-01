@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ChallengeResultManager : MonoBehaviour
 {
-    private static float score = 0;
+    private static double score = 0;
     private static string challenge = "Challenge 1";
     public GameObject resultRecord;
 
@@ -33,12 +33,12 @@ public class ChallengeResultManager : MonoBehaviour
 
     }
 
-    public static void UpdateScore(float val)
+    public static void UpdateScore(double val)
     {
         score += val;
     }
 
-    public static float getScore()
+    public static double getScore()
     {
         return score;
     }
@@ -56,7 +56,32 @@ public class ChallengeResultManager : MonoBehaviour
     void updateProgress()
     {
         //TODO Set the current challenge as completed in database
+        ChallengeResult challengeResult = new ChallengeResult();
+        challengeResult.challengeID = Challenge.challengeID;
+        challengeResult.emailID = SecurityToken.Email;
+        challengeResult.score = score;
+        challengeResult.timeTaken = ChallengeGameController.endTime - ChallengeGameController.startTime;
+
+        StartCoroutine(ServerController.Put("http://localhost:5000/student/challenge/attemptChallenge", challengeResult.stringify(),
+        result =>
+        {
+            Debug.Log("Done");
+        }
+        ));
     }
 
 
+}
+
+public class ChallengeResult
+{
+    public string challengeID;
+    public string emailID;
+    public double score;
+    public float timeTaken;
+
+    public string stringify()
+    {
+        return JsonUtility.ToJson(this);
+    }
 }

@@ -13,13 +13,15 @@ public class sendChallengers
 {
     public string challengeID;
     public float senderTime;
-    public float senderScore;
+    public double senderScore;
     public string[] receivers;
 }
 
 
 public class ChooseChallengersScript : MonoBehaviour
 {
+
+    public GameObject scroll;
 
     /*public Canvas info;
     public bool info_a = false;
@@ -105,8 +107,14 @@ public class ChooseChallengersScript : MonoBehaviour
     public List<string> existStud = new List<string> { "A", "B", "C", "D" };
     public GameObject toggleTemplate;
 
-    public void Start()
+    void Start()
     {
+
+        if (Challenge.playerType == PlayerType.Challengee)
+        {
+            scroll.SetActive(false);
+        }
+
         //302,-79,0
         foreach (Transform child in infoContent.transform)
          {
@@ -173,7 +181,7 @@ public class ChooseChallengersScript : MonoBehaviour
         sendObj.senderScore = ChallengeResultManager.getScore();
         sendObj.senderTime = ChallengeGameController.endTime - ChallengeGameController.startTime;
         //sendObj.senderTime = 10.1f;
-        sendObj.challengeID = CreateChallengeScreen.challengeID;
+        sendObj.challengeID = Challenge.challengeID;
         string json = JsonUtility.ToJson(sendObj);
         print(json);
         StartCoroutine(ServerController.Put("http://localhost:5000/student/challenge/sendChallenge", json,
