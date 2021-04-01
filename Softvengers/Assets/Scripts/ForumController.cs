@@ -18,11 +18,36 @@ public class ForumController : MonoBehaviour
     {
         Posts = new List<GameObject>();
         lastY = startY;
+        GetPosts();
     }
 
     void GetPosts()
     {
-        // Get Posts from DB
+        StartCoroutine(ServerController.Get("http://localhost:5000/student/posts/getPosts",
+            result =>
+            {
+                Debug.Log(result);
+                if (result != null)
+                {
+                    PostList posts = JsonUtility.FromJson<PostList>("{ \"posts\": " + result + "}");
+                    //List<PostData> posts = JsonUtility.FromJson <List<PostData>> (result);
+                    Debug.Log(posts.posts.Count);
+                    Debug.Log("Hello");
+                    float x = -44;
+                    float z = 0;
+                    foreach (PostData post in posts.posts)
+                    {
+                        GameObject postUI = Instantiate(Post, new Vector3(x, lastY, z), Quaternion.identity);
+                        postUI.transform.SetParent(GameObject.FindGameObjectWithTag("Posts").transform, false);
+                        Posts.Add(postUI);
+                        lastY -= incrementY;
+                        postUI.transform.Find("Email").GetComponent<Text>().text = post.emailID;
+                        postUI.transform.Find("Text").GetComponent<Text>().text = post.text;
+                        lastY -= incrementY;
+                    }
+                }
+            }
+            ));
     }
 
     public void PostMessage()
@@ -30,6 +55,15 @@ public class ForumController : MonoBehaviour
 
         // Update DataBase
         // If successful then done
+        PostData postData = new PostData();
+        postData.emailID = SecurityToken.Email;
+        postData.text = forumPost.text;
+
+        StartCoroutine(ServerController.Post("http://localhost:5000/student/posts/createPost", postData.stringify(),
+            result =>
+            {
+                Debug.Log(result);
+            }));
 
         float x = -44;
         float z = 0;
@@ -54,7 +88,19 @@ public class ForumController : MonoBehaviour
 [System.Serializable]
 class PostData
 {
-    public string email;
+    public string emailID;
     public string text;
+
+    public string stringify()
+    {
+
+        //return JsonUtility.ToJson(this);
+        //var dic = "{'username': this.username, 'password': this.password}";
+        return JsonUtility.ToJson(this);
+    }
 }
 
+class PostList
+{
+    public List<PostData> posts;
+}

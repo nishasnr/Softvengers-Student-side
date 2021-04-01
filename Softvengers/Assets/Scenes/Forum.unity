@@ -281,7 +281,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2144862992}
   m_Direction: 2
   m_Value: 0.9853718
-  m_Size: 0.16917266
+  m_Size: 0.16917264
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -770,7 +770,7 @@ MonoBehaviour:
   forumPost: {fileID: 1442864905}
   Post: {fileID: 4699660108027747918, guid: a00a5b1354dfec24db6d725481aca206, type: 3}
   startY: 1872
-  incrementY: 240
+  incrementY: 120
 --- !u!114 &1180649140
 MonoBehaviour:
   m_ObjectHideFlags: 0
