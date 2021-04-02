@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GamePlayController : MonoBehaviour
-{
+{/*
     public Navigation navigationData;
 
     List<List<Question>> questions = new List<List<Question>>();
@@ -532,5 +532,6 @@ public class GamePlayController : MonoBehaviour
             return true;
         return false;
     }
+    */
 }
 

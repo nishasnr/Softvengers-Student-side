@@ -5,7 +5,7 @@ using UnityEngine;
 public class Challenge : MonoBehaviour
 {
     public static string challengeID;
-    public static PlayerType playerType = PlayerType.Challengee;
+    public static PlayerType playerType = PlayerType.Challenger;
 }
 
 public enum PlayerType
