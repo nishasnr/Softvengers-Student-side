@@ -62,18 +62,6 @@ public class AssignmentResultManager : MonoBehaviour
             score.GetComponent<Text>().text = Math.Round(scores[i], 2).ToString();
             startY -= 60.0f;
         }
-
-        for (int i = results.Count; i < 10; i++)
-        {
-            GameObject result = Instantiate(resultRecord, new Vector3(x, startY, z), Quaternion.identity);
-            result.transform.SetParent(GameObject.FindGameObjectWithTag("ResultPage").transform, false);
-            Transform questionNumber = result.transform.Find("QuestionNumber");
-            Transform outcome = result.transform.Find("Outcome");
-            questionNumber.GetComponent<Text>().text = string.Format("Question {0}", i + 1);
-            outcome.GetComponent<Text>().text = "Not Attempted";
-            outcome.GetComponent<Text>().color = new Color(0.4f, 0.4f, 0.4f);
-            startY -= 60.0f;
-        }
     }
 
     public void BackButton()
