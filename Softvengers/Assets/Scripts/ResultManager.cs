@@ -150,7 +150,7 @@ public class ResultManager : MonoBehaviour
                     playerData.solarSystemProgress += 1;
                     playerData.planetProgress = 0;
                 }
-                else if (playerData.universePogress < Multiverse.getUniverses().Count - 1)// Check if player has not exceeded total num universes
+                else if (playerData.universePogress < Multiverse.getUniverses().Count)// Check if player has not exceeded total num universes
                 {
                     playerData.universePogress += 1;
                     playerData.solarSystemProgress = 0;
