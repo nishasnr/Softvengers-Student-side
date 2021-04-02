@@ -42,6 +42,9 @@ public class MultiverseProgSetup : MonoBehaviour
             btn.onClick.AddListener(MultiverseBarClick);
 
             Text text = newBar.GetComponentInChildren<Text>();
+            if (float.Parse(Multiverse_prog_info[x]["value"])>=0.99){
+                Multiverse_prog_info[x]["value"] = "1";
+            }
             text.text = uniNames[x]+":    " + ((float.Parse(Multiverse_prog_info[x]["value"])) * 100).ToString() + " %"; ;
 
             Slider slider = btn.GetComponentInChildren<Slider>();
@@ -112,9 +115,9 @@ public class MultiverseProgSetup : MonoBehaviour
 
         // Populate the alpha  keys at relative time 0 and 1  (0 and 100%)
         alphaKey = new GradientAlphaKey[2];
-        alphaKey[0].alpha = 1.0f;
+        alphaKey[0].alpha = 0.5f;
         alphaKey[0].time = 0.0f;
-        alphaKey[1].alpha = 0.0f;
+        alphaKey[1].alpha = 1.0f;
         alphaKey[1].time = 1.0f;
 
         gradient.SetKeys(colorKey, alphaKey);
