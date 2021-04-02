@@ -100,7 +100,7 @@ public class AssignmentResultManager : MonoBehaviour
         newProgress.scores = scores.Sum();
 
         Debug.Log("Sending" + newProgress.assignmentID);
-        /*StartCoroutine(ServerController.Put("http://localhost:5000/student/assignments/assignmentComplete", newProgress.stringify(), result =>
+        StartCoroutine(ServerController.Put("http://localhost:5000/student/assignments/assignmentComplete", newProgress.stringify(), result =>
         {
             if (result != null)
             {
@@ -111,7 +111,7 @@ public class AssignmentResultManager : MonoBehaviour
                 Debug.Log("Error");
             }
         }
-        ));*/
+        ));
     }
         
 
