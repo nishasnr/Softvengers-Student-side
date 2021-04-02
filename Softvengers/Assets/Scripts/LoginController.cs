@@ -11,9 +11,9 @@ public class LoginController : MonoBehaviour
     public Player playerData;
     public void authenticateDetails()
     {
-        string name = usernameField.text;
+        string emailID = usernameField.text;
         string password = passwordField.text;
-        Login player = new Login(name, password);
+        Login player = new Login(emailID, password);
 
         Debug.Log(player.password);
         StartCoroutine(ServerController.Post("http://localhost:5000/student/login", player.stringify(),
@@ -43,9 +43,9 @@ public class LoginController : MonoBehaviour
                                 playerData.planetProgress = progress.conqueredPlanet;
                                 playerData.colorChoice = progress.avatar;
                                 playerData.totalScore = progress.totalScore;
-                                //Debug.Log(playerData.universePogress);
-                                //Debug.Log(playerData.solarSystemProgress);
-                                //Debug.Log(playerData.planetProgress);
+                                Debug.Log(playerData.universePogress);
+                                Debug.Log(playerData.solarSystemProgress);
+                                Debug.Log(playerData.planetProgress);
                                 SecurityToken.TutGrp = progress.tutGrp;
                                 Debug.Log(SecurityToken.TutGrp);
                                 SecurityToken.MatricNo = progress.matricNo;
@@ -56,6 +56,7 @@ public class LoginController : MonoBehaviour
 
                     else
                     {
+                        SecurityToken.Email = "";
                         Debug.Log("Invalid Credentials");
                     }
                 }
