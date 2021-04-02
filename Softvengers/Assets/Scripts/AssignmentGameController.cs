@@ -243,7 +243,7 @@ public class AssignmentGameController : MonoBehaviour
         Destroy(fragment);
     }
 
-    public void StoreScore(bool result, double score)
+    public virtual void StoreScore(bool result, double score)
     {
         //ResultManager.AddRecord(result, score);
         AssignmentResultManager.AddRecord(result, score);

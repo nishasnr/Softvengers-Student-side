@@ -56,7 +56,7 @@ public class SoloGamePlayController : ChallengeGameController
         DisplayQuestion();
     }
 
-    public new void StoreScore(bool result, double score)
+    public override void StoreScore(bool result, double score)
     {
         ResultManager.AddRecord(result, score);
     }

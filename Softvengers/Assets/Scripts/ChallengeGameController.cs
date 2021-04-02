@@ -65,7 +65,7 @@ public class ChallengeGameController : AssignmentGameController {
         return 0.0;
     }
 
-    public new void StoreScore(bool result, double score)
+    public override void StoreScore(bool result, double score)
     {
         //ResultManager.AddRecord(result, score);
         ChallengeResultManager.UpdateScore(score);

@@ -29,7 +29,8 @@ public class ResultManager : MonoBehaviour
         float startY = 200.0f;
         float x = 0;
         float z = 0;
-
+        //Debug.Log(scores.Count);
+        //Debug.Log(results.Count);
         double sum = 0;
         for (int i = 0; i < scores.Count; ++i)
             sum += scores[i];
@@ -74,6 +75,7 @@ public class ResultManager : MonoBehaviour
     {
         Debug.Log(results.Count + 1);
         results.Add(result);
+        Debug.Log(results.Count + 1);
         scores.Add(score);
     }
 
@@ -131,7 +133,9 @@ public class ResultManager : MonoBehaviour
 
     void UpDatePlayerProgress()
     {
+        Debug.Log(results.Count);
         var numQuery = results.Where(result => result == true);
+        Debug.Log(results.Count);
 
         if (numQuery.Count() > 5) // Pass
         {
