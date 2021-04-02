@@ -12,7 +12,7 @@ public class SolarSystemSetup : MonoBehaviour
         string[] levels = new string[3] { "basic", "intermediate", "advanced" };
 
         Text heading = GameObject.Find("ProgressSubHeading").GetComponent<Text>();
-        heading.text = ProgressController.Universe_prog_info[ProgressController.selectedUniverse][ProgressController.selectedSs]["name"];
+        heading.text = Multiverse.getSolarSystems(ProgressController.selectedUniverse)[ProgressController.selectedSs];
         foreach (string level in levels)
         {
             if (float.Parse(SS_prog_info[level])!= 0)

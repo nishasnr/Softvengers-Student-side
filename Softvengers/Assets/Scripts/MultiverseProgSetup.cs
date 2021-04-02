@@ -32,7 +32,7 @@ public class MultiverseProgSetup : MonoBehaviour
 
        
         Dictionary<int, Dictionary<string, string>> Multiverse_prog_info = ProgressController.Multiverse_prog_info;
-
+        List<string> uniNames = Multiverse.getUniverses();
         for (int x = 0; x < numBar; x++)
         {
             var newBar = Instantiate(progressBar, curpos, Quaternion.identity);
@@ -42,7 +42,7 @@ public class MultiverseProgSetup : MonoBehaviour
             btn.onClick.AddListener(MultiverseBarClick);
 
             Text text = newBar.GetComponentInChildren<Text>();
-            text.text = Multiverse_prog_info[x]["name"]+":    " + ((float.Parse(Multiverse_prog_info[x]["value"])) * 100).ToString() + " %"; ;
+            text.text = uniNames[x]+":    " + ((float.Parse(Multiverse_prog_info[x]["value"])) * 100).ToString() + " %"; ;
 
             Slider slider = btn.GetComponentInChildren<Slider>();
             slider.value = float.Parse(Multiverse_prog_info[x]["value"]);

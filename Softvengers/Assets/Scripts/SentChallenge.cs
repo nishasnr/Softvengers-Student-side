@@ -372,9 +372,10 @@ new Dictionary<string, List<string>>()
                     Text cText = child.GetComponentInChildren<Text>();
                     string topics = "";
                     child.localPosition = curPos - new Vector3(0, 70, 0);
+                    List<string> uniNames = Multiverse.getUniverses();
                     foreach (var i in selected.questionTopics)
                     {
-                        string topic = "Universe "+i.universe.ToString() + " SolarSystem " + i.solarSystem.ToString();
+                        string topic = uniNames[i.universe] + "," + Multiverse.getSolarSystems(i.universe)[i.solarSystem];
                         topics += topic+ "\n";
                     }
                     cText.text = topics;

@@ -23,8 +23,10 @@ public class UniverseScript : MonoBehaviour
         Vector3 curpos = new Vector3(0, startPos, 0);
 
         Text heading = GameObject.Find("ProgressHeadingText").GetComponent<Text>();
-        heading.text = "Universe " + ProgressController.Multiverse_prog_info[ProgressController.selectedUniverse]["name"] + " Progress";
+        heading.text =  Multiverse.getUniverses()[ProgressController.selectedUniverse];
+        // ProgressController.Multiverse_prog_info[ProgressController.selectedUniverse]["name"]
 
+        List<string> SSNames = Multiverse.getSolarSystems(ProgressController.selectedUniverse);
         for (int x = 0; x < numBar; x++)
         {
             var newBar = Instantiate(progressBar, curpos, Quaternion.identity);
@@ -35,7 +37,7 @@ public class UniverseScript : MonoBehaviour
 
 
             Text text = newBar.GetComponentInChildren<Text>();
-            text.text = Universe_prog_info[x]["name"]+ ":    "+((float.Parse(Universe_prog_info[x]["value"]))*100).ToString()+" %";
+            text.text = SSNames[x]+ ":    "+((float.Parse(Universe_prog_info[x]["value"]))*100).ToString()+" %";
 
             Slider slider = btn.GetComponentInChildren<Slider>();
             slider.value = float.Parse(Universe_prog_info[x]["value"]);

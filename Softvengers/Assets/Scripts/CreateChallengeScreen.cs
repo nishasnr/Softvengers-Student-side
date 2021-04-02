@@ -54,6 +54,11 @@ public class CreateChallengeScreen : MonoBehaviour
     {
         nextOptionsid = 1;
         //print(Universe_SS_mapping[0][0]);
+        GameObject SSDD = GameObject.Find("Solar System Dropdown").gameObject;
+        Dropdown SSDropdown = SSDD.GetComponent<Dropdown>();
+        changeSSOptions(SSDropdown);
+
+        
 
     }
 
@@ -78,6 +83,7 @@ public class CreateChallengeScreen : MonoBehaviour
         Button btn = newOptionsCard.GetComponentInChildren<Button>();
         btn.onClick.AddListener(OnRemoveClick);
         Dropdown UniDD = newOptionsCard.transform.Find("Universe Dropdown").gameObject.GetComponent<Dropdown>();
+        changeSSOptions(UniDD);
         UniDD.onValueChanged.AddListener(delegate {
             changeSSOptions(UniDD);
         });
@@ -116,7 +122,7 @@ public class CreateChallengeScreen : MonoBehaviour
         Dropdown SSDropdown = SSObject.GetComponent<Dropdown>();
         SSDropdown.ClearOptions();
         
-        foreach (string SS in Universe_SS_mapping[change.value])
+        foreach (string SS in Multiverse.getSolarSystems(change.value))
         {
             Dropdown.OptionData NewData = new Dropdown.OptionData();
             NewData.text = SS;
@@ -124,7 +130,7 @@ public class CreateChallengeScreen : MonoBehaviour
         }
 
         SSDropdown.value = 0;
-        SSDropdown.captionText.text = Universe_SS_mapping[change.value][0];
+        SSDropdown.captionText.text = Multiverse.getSolarSystems(change.value)[0];
 
 
 

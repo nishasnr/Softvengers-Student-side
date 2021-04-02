@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.39906785, g: 0.32255197, b: 0.47959995, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -380,7 +380,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1864790500}
   m_Direction: 2
   m_Value: 1.0000001
-  m_Size: 0.383
+  m_Size: 0.38300002
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -677,6 +677,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1139448603}
     m_Modifications:
+    - target: {fileID: 8980939090500753675, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980939090500753675, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -27.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980939090911654786, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 164.99994
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980939090911654786, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 110
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980939091098198696, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980939091098198696, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -27.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980939091098198699, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac,
+        type: 3}
+      propertyPath: m_Options.m_Options.Array.data[0].m_Text
+      value: Requirement Engineering
+      objectReference: {fileID: 0}
     - target: {fileID: 8980939091098198699, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
@@ -711,6 +746,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.UI.Dropdown, UnityEngine.UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980939091162232872, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac,
+        type: 3}
+      propertyPath: m_Text
+      value: Universe 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980939091324635304, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980939091324635304, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -27.52
       objectReference: {fileID: 0}
     - target: {fileID: 8980939091845231378, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac,
         type: 3}
@@ -821,6 +871,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980939092013879681, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 416
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980939092013879681, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 105
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03ec4f504f3ad4c4c84e5d8d67da92ac, type: 3}
@@ -1505,6 +1565,7 @@ MonoBehaviour:
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
+  m_ShouldActivateOnSelect: 1
 --- !u!114 &1209028196
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1872,17 +1872,17 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Universe 1
+    - m_Text: Requirement Engineering
       m_Image: {fileID: 0}
-    - m_Text: Universe 2
+    - m_Text: Software Design
       m_Image: {fileID: 0}
-    - m_Text: Universe 3
+    - m_Text: Software Implementation
       m_Image: {fileID: 0}
-    - m_Text: Universe 4
+    - m_Text: Software Testing
       m_Image: {fileID: 0}
-    - m_Text: Universe 5
+    - m_Text: Software Deployment
       m_Image: {fileID: 0}
-    - m_Text: Universe 6
+    - m_Text: Software Maintanence
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2075,7 +2075,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Universe 1
+  m_Text: Requirement Engineering
 --- !u!1 &8980939091163752038
 GameObject:
   m_ObjectHideFlags: 0
