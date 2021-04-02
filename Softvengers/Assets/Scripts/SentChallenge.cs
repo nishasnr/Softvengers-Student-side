@@ -229,6 +229,7 @@ new Dictionary<string, List<string>>()
         {
             print("Hello");
             var newPC = Instantiate(SentChallengetemp, gameObject.transform, false);
+            newPC.transform.SetParent(GameObject.FindGameObjectWithTag("Choose").transform, false);
             newPC.name = item._id;
             newPC.transform.localPosition = curPos;
             foreach (Transform child in newPC.transform)

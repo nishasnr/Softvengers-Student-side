@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.10727183, g: 0.06737648, b: 0.10985651, a: 1}
+  m_IndirectSpecularColor: {r: 0.10710194, g: 0.06737337, b: 0.109626986, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -374,7 +374,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -131}
-  m_SizeDelta: {x: 200, y: 200}
+  m_SizeDelta: {x: 400, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &55249859
 MonoBehaviour:
@@ -500,17 +500,17 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
-    m_FontStyle: 0
+    m_Font: {fileID: 12800000, guid: 997601479a85b5b4f897b005fe8059b5, type: 3}
+    m_FontSize: 20
+    m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Choose Players
 --- !u!222 &138560055
@@ -1298,7 +1298,7 @@ GameObject:
   - component: {fileID: 1305754421}
   m_Layer: 5
   m_Name: Content
-  m_TagString: Untagged
+  m_TagString: Choose
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2207,15 +2207,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4260edeb371b63478bebdcfa56f43de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scroll: {fileID: 55249857}
   infoContent: {fileID: 1305754420}
-  existStud:
-  - A
-  - B
-  - C
-  - D
+  existStud: []
   toggleTemplate: {fileID: 6081748847125092268, guid: cd3680d2f450a794e98c386128d2118b,
     type: 3}
+  scroll: {fileID: 55249857}
 --- !u!1 &2071646834
 GameObject:
   m_ObjectHideFlags: 0

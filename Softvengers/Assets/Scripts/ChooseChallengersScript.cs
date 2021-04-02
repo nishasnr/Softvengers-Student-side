@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.UI;
 
 //senderScore
@@ -16,12 +17,28 @@ public class sendChallengers
     public double senderScore;
     public string[] receivers;
 }
+[System.Serializable]
+public class SingleStudent
+{
+    public string emailID;
+    public string name;
+}
+
+[System.Serializable]
+public class StudentList
+{
+    public SingleStudent[] studentsTut;
+}
 
 
 public class ChooseChallengersScript : MonoBehaviour
 {
-
+    public GameObject infoContent;
+    public List<SingleStudent> existStud = new List<SingleStudent>();
+    public GameObject toggleTemplate;
     public GameObject scroll;
+    
+    //public StudentList studs = new StudentList();
 
     /*public Canvas info;
     public bool info_a = false;
@@ -103,13 +120,36 @@ public class ChooseChallengersScript : MonoBehaviour
         }
     }*/
 
-    public GameObject infoContent;
-    public List<string> existStud = new List<string> { "A", "B", "C", "D" };
-    public GameObject toggleTemplate;
-
-    void Start()
+    
+    void Awake()
     {
 
+        StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/details/getAllStudents/{0}", SecurityToken.TutGrp),
+       result =>
+       {
+           if (result != null)
+           {
+               Debug.Log(result);
+
+               StudentList slist = JsonUtility.FromJson<StudentList>("{ \"studentsTut\": " + result + "}");
+
+               existStud = (slist.studentsTut).ToList<SingleStudent>();
+               Setup();
+               //print(existStudent.Count);
+
+           }
+           else
+           {
+               Debug.Log("No sent challenges");
+
+           }
+       }
+       ));
+        
+       
+    }
+    void Setup()
+    {
         if (Challenge.playerType == PlayerType.Challengee)
         {
             scroll.SetActive(false);
@@ -117,41 +157,42 @@ public class ChooseChallengersScript : MonoBehaviour
 
         //302,-79,0
         foreach (Transform child in infoContent.transform)
-         {
-         print(child.name+child.localPosition);
-         }
+        {
+            print(child.name + child.localPosition);
+        }
         //Scrollbar s = scroll.GetComponent<Scrollbar>();
         //s.value = 1;
 
-         Vector3 curPos = new Vector3(0, -50, 0);
-       
+        Vector3 curPos = new Vector3(100, -50, 0);
 
-         foreach (var item in existStud)
-         {
+        //print(existStudent.Count);
+        foreach (var item in existStud)
+        {
+            // print(existStudent.Count);
 
-          var newPC = Instantiate(toggleTemplate, infoContent.transform, false);
-          newPC.name = item;
-          newPC.transform.localPosition = curPos;
-         foreach (Transform child in newPC.transform)
-         {
+            var newPC = Instantiate(toggleTemplate, infoContent.transform, false);
 
-             if(child.name=="Label")
-           {
-            Text cText = child.GetComponentInChildren<Text>();
-            cText.text = item; 
+            newPC.name = item.emailID;
+            newPC.transform.localPosition = curPos;
+            foreach (Transform child in newPC.transform)
+            {
 
-             }
+                if (child.name == "Label")
+                {
+                    Text cText = child.GetComponentInChildren<Text>();
+                   
+                    cText.text = item.name;
+                    print(cText.text);
+                    //print(item.emailID);
+
+                }
+
+            }
+            curPos -= new Vector3(0, 40, 0);
+        }
 
 
-
-           }
-
-          curPos -= new Vector3(0, 40, 0);
-
-
-
-          }
-     }
+    }  
 
     public void onSend()
     {
