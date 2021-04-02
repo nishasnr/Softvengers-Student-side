@@ -47,7 +47,7 @@ public class MultiverseProgSetup : MonoBehaviour
             Slider slider = btn.GetComponentInChildren<Slider>();
             slider.value = float.Parse(Multiverse_prog_info[x]["value"]);
 
-            if (slider.value == 1)
+            if (slider.value >=0.99)
             {
                 var newBadge = Instantiate(Badge, curpos + new Vector3(550, 0, 0), new Quaternion(0, 0, 90, 1));
 
