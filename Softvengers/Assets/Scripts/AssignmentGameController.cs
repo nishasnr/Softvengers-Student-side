@@ -97,8 +97,9 @@ public class AssignmentGameController : MonoBehaviour
             {
                 if (result != null)
                 {
+                    Debug.Log("Hello1");
                     Debug.Log(result);
-
+                    Debug.Log("Hello2");
                     qSet = JsonUtility.FromJson<AssQuestions>("{ \"questions\": " + result + "}");
                     Debug.Log("Number of questions: " + qSet.questions.Length);
                     foreach(AssQuestion q in qSet.questions)
@@ -107,6 +108,8 @@ public class AssignmentGameController : MonoBehaviour
                     }
 
                     initQstBank();
+                    numQuestions = questionBank.Count;
+                    DisplayQuestion();
 
                 }
                 else
@@ -116,9 +119,6 @@ public class AssignmentGameController : MonoBehaviour
                 }
             }
             ));
-            numQuestions = questionBank.Count;
-            
-            DisplayQuestion();
         }
 
     void Update()

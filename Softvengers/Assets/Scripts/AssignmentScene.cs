@@ -99,6 +99,7 @@ public class AssignmentScene : MonoBehaviour
                     Debug.Log("Received");
                     Debug.Log(result);
                     AssignmentList assignmentList = JsonUtility.FromJson<AssignmentList>("{\"assignments\":" + result + "}");
+                    Debug.Log(assignmentList.assignments.Count);
                     AssignmentSets = assignmentList;
                     Setup();
                 }
@@ -132,7 +133,7 @@ public class AssignmentScene : MonoBehaviour
                 Debug.Log(localdate);
                 Debug.Log(assign_deadline);
                 Debug.Log(DateTime.Compare(localdate, assign_deadline));
-                if (DateTime.Compare(localdate, assign_deadline) < 0)
+                if (DateTime.Compare(localdate, assign_deadline) > 0)
                     overdue_assignment.Add(entry);
                 else
                     pending_assignment.Add(entry);
@@ -201,7 +202,7 @@ public class AssignmentScene : MonoBehaviour
         {
 
             var newPA = Instantiate(OverdueAssignment, gameObject.transform, false);
-            newPA.name = item._id;
+            newPA.name = item.assignmentID.ToString();
             newPA.transform.localPosition = curPos;
             foreach (Transform child in newPA.transform)
             {
