@@ -102,8 +102,10 @@ public class ChallengeGameController : AssignmentGameController {
         DisplayQuestion();
     }
 
-    // Initialize
     
+
+    // Initialize
+
 
     public ChallengeGameController()
     {

@@ -91,7 +91,8 @@ public class AssignmentGameController : MonoBehaviour
 
     protected virtual void Start()
         {
-            StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/assignments/getAssignmentQuestions?assignmentID={0}", AssignmentScene.selectedAssignmentid),
+        paused = true;
+        StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/assignments/getAssignmentQuestions?assignmentID={0}", AssignmentScene.selectedAssignmentid),
             result =>
             {
                 if (result != null)
@@ -114,13 +115,13 @@ public class AssignmentGameController : MonoBehaviour
             }
             ));
             numQuestions = questionBank.Count;
-            paused = true;
+            
             DisplayQuestion();
         }
 
     void Update()
     {
-
+        Debug.Log(paused);
         float timeElapsed = Time.time - startTime;
         ratio = (questionTime - timeElapsed) / questionTime;
         ratio = ratio >= 0.0f ? ratio : 0.0f;
@@ -295,7 +296,7 @@ public class AssignmentGameController : MonoBehaviour
         Option o4 = new Option("D", false);
         List<Option> ol1 = new List<Option>();
         ol1.Add(o1); ol1.Add(o2); ol1.Add(o3); ol1.Add(o4);
-        Question q1 = new Question("1E", ol1);
+        Question q1 = new Question("11E", ol1);
 
         Option o5 = new Option("E", false);
         Option o6 = new Option("F", true);
@@ -303,7 +304,7 @@ public class AssignmentGameController : MonoBehaviour
         Option o8 = new Option("H", false);
         List<Option> ol2 = new List<Option>();
         ol2.Add(o5); ol2.Add(o6); ol2.Add(o7); ol2.Add(o8);
-        Question q2 = new Question("2E", ol2);
+        Question q2 = new Question("21E", ol2);
 
         Option o9 = new Option("I", false);
         Option o10 = new Option("J", false);
@@ -311,7 +312,7 @@ public class AssignmentGameController : MonoBehaviour
         Option o12 = new Option("L", false);
         List<Option> ol3 = new List<Option>();
         ol3.Add(o9); ol3.Add(o10); ol3.Add(o11); ol3.Add(o12);
-        Question q3 = new Question("3E", ol3);
+        Question q3 = new Question("31E", ol3);
 
         Option o13 = new Option("M", false);
         Option o14 = new Option("N", false);
