@@ -7,14 +7,14 @@ using UnityEngine.UI;
 [System.Serializable]
 public class qsts
 {
+    public string[] wrongOptions;
     public int questionID;
     public int solarID;
     public int universeID;
     public int planetID;
     public string body;
     public string correctOption;
-    public string[] wrongOptions;
-    public int difficulty;
+    public int points;
     public int __v;
 }
 
@@ -185,6 +185,7 @@ public class SoloGamePlayController : ChallengeGameController
         for (int i=0; i<questionResult.easy.Length; i++)
         {
             string body = questionResult.easy[i].body;
+            int points = questionResult.easy[i].points;
             List<Option> ol = new List<Option>();
             Option corr = new Option(questionResult.easy[i].correctOption, true);
             ol.Add(corr);
@@ -193,7 +194,7 @@ public class SoloGamePlayController : ChallengeGameController
                 Option incorr = new Option(questionResult.easy[i].wrongOptions[j], false);
                 ol.Add(incorr);
             }
-            Question q = new Question(body, ol);
+            Question q = new Question(body, ol, points);
             this.questionsE.Add(q);
         }
 
@@ -213,6 +214,7 @@ public class SoloGamePlayController : ChallengeGameController
         for (int i = 0; i < questionResult.medium.Length; i++)
         {
             string body = questionResult.medium[i].body;
+            int points = questionResult.medium[i].points;
             List<Option> ol = new List<Option>();
             Option corr = new Option(questionResult.medium[i].correctOption, true);
             ol.Add(corr);
@@ -221,7 +223,7 @@ public class SoloGamePlayController : ChallengeGameController
                 Option incorr = new Option(questionResult.medium[i].wrongOptions[j], false);
                 ol.Add(incorr);
             }
-            Question q = new Question(body, ol);
+            Question q = new Question(body, ol, points);
             this.questionsM.Add(q);
         }
 
@@ -232,6 +234,7 @@ public class SoloGamePlayController : ChallengeGameController
         for (int i = 0; i < questionResult.hard.Length; i++)
         {
             string body = questionResult.hard[i].body;
+            int points = questionResult.easy[i].points;
             List<Option> ol = new List<Option>();
             Option corr = new Option(questionResult.hard[i].correctOption, true);
             ol.Add(corr);
@@ -240,7 +243,7 @@ public class SoloGamePlayController : ChallengeGameController
                 Option incorr = new Option(questionResult.hard[i].wrongOptions[j], false);
                 ol.Add(incorr);
             }
-            Question q = new Question(body, ol);
+            Question q = new Question(body, ol, points);
             this.questionsH.Add(q);
         }
     }
