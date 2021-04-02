@@ -145,7 +145,7 @@ public class ResultManager : MonoBehaviour
                 {
                     playerData.planetProgress += 1;
                 }
-                else if (playerData.solarSystemProgress < Multiverse.getSolarSystems(playerData.universePogress).Count) // Check if player didnt exceed max solar systems of the universe 
+                else if (playerData.solarSystemProgress < Multiverse.getSolarSystems(playerData.universePogress).Count - 1) // Check if player didnt exceed max solar systems of the universe 
                 {
                     playerData.solarSystemProgress += 1;
                     playerData.planetProgress = 0;
