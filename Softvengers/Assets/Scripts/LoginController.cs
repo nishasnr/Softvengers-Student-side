@@ -9,10 +9,19 @@ public class LoginController : MonoBehaviour
     public InputField usernameField;
     public InputField passwordField;
     public Player playerData;
-    public void authenticateDetails()
+
+
+    public void CheckValidLogin()
     {
         string emailID = usernameField.text;
         string password = passwordField.text;
+
+        AuthenticateDetails(emailID, password);
+    }
+
+    public void AuthenticateDetails(string emailID, string password)
+    {
+
         Login player = new Login(emailID, password);
 
         Debug.Log(player.password);
@@ -20,12 +29,12 @@ public class LoginController : MonoBehaviour
             result =>
             {
                 if (result != null)
-                {
-                    Debug.Log("Login success");
+                {   
                     LoginResult loginResult = JsonUtility.FromJson<LoginResult>(result);
 
                     if (loginResult.message)
                     {
+                        Debug.Log("Login success");
                         SecurityToken.Token = loginResult.token;
                         SecurityToken.Email = player.emailID;
 
@@ -33,23 +42,28 @@ public class LoginController : MonoBehaviour
                            
                             playerDataResult =>
                             {
-                                if (playerData == null)
+                                if (playerDataResult != null && playerData != null)
                                 {
-                                    Debug.Log("Could not retrieve details");
+                                    Progress progress = JsonUtility.FromJson<Progress>(playerDataResult);
+                                    playerData.universePogress = progress.conqueredUniverse;
+                                    playerData.solarSystemProgress = progress.conqueredSolarSystem;
+                                    playerData.planetProgress = progress.conqueredPlanet;
+                                    playerData.colorChoice = progress.avatar;
+                                    playerData.totalScore = progress.totalScore;
+                                    Debug.Log(playerData.universePogress);
+                                    Debug.Log(playerData.solarSystemProgress);
+                                    Debug.Log(playerData.planetProgress);
+                                    SecurityToken.TutGrp = progress.tutGrp;
+                                    Debug.Log(SecurityToken.TutGrp);
+                                    SecurityToken.MatricNo = progress.matricNo;
+                                    SceneManager.LoadScene("HomePageScene");
                                 }
-                                Progress progress = JsonUtility.FromJson<Progress>(playerDataResult);
-                                playerData.universePogress = progress.conqueredUniverse;
-                                playerData.solarSystemProgress = progress.conqueredSolarSystem;
-                                playerData.planetProgress = progress.conqueredPlanet;
-                                playerData.colorChoice = progress.avatar;
-                                playerData.totalScore = progress.totalScore;
-                                Debug.Log(playerData.universePogress);
-                                Debug.Log(playerData.solarSystemProgress);
-                                Debug.Log(playerData.planetProgress);
-                                SecurityToken.TutGrp = progress.tutGrp;
-                                Debug.Log(SecurityToken.TutGrp);
-                                SecurityToken.MatricNo = progress.matricNo;
-                                SceneManager.LoadScene("HomePageScene");
+
+                                else
+                                {
+                                    Debug.Log("Could not retrieve player data");
+                                }
+                                
                             }                          
                             ));
                     }
