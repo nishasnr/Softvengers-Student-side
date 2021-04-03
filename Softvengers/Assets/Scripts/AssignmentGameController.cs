@@ -186,6 +186,7 @@ public class AssignmentGameController : MonoBehaviour
         failedQuestion = false;
 
         questionName.GetComponent<Text>().text = this.questionBank[questionNumber].questionName;
+        this.questionBank[questionNumber].options = this.questionBank[questionNumber].options.OrderBy(x => Random.value).ToList();
         option1.GetComponent<Text>().text = this.questionBank[questionNumber].options[0].option;
         option2.GetComponent<Text>().text = this.questionBank[questionNumber].options[1].option;
         option3.GetComponent<Text>().text = this.questionBank[questionNumber].options[2].option;
