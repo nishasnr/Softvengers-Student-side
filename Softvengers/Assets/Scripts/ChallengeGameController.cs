@@ -90,6 +90,9 @@ public class ChallengeGameController : AssignmentGameController {
                 }
 
                 initQstBank();
+                numQuestions = questionBank.Count;
+                startTime = Time.time;
+                DisplayQuestion();
 
             }
             else
@@ -99,10 +102,6 @@ public class ChallengeGameController : AssignmentGameController {
             }
         }
         ));
-        numQuestions = questionBank.Count;
-        
-        startTime = Time.time;
-        DisplayQuestion();
     }
 
     

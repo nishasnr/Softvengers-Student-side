@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 //senderScore
 //senderTime
@@ -123,33 +124,47 @@ public class ChooseChallengersScript : MonoBehaviour
     
     void Awake()
     {
+        Debug.Log("CHoose challenge");
+        Debug.Log(PlayerType.Challengee);
+        Debug.Log(Challenge.playerType);
 
-        StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/details/getAllStudents/{0}", SecurityToken.TutGrp),
-       result =>
-       {
-           if (result != null)
+        if (Challenge.playerType == PlayerType.Challenger)
+        {
+           StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/details/getAllStudents/{0}", SecurityToken.TutGrp),
+           result =>
            {
-               Debug.Log(result);
+               if (result != null)
+               {
+                   Debug.Log(result);
 
-               StudentList slist = JsonUtility.FromJson<StudentList>("{ \"studentsTut\": " + result + "}");
+                   StudentList slist = JsonUtility.FromJson<StudentList>("{ \"studentsTut\": " + result + "}");
 
-               existStud = (slist.studentsTut).ToList<SingleStudent>();
+                   existStud = (slist.studentsTut).ToList<SingleStudent>();
+                   
+                   //print(existStudent.Count);
+
+               }
+               else
+               {
+                   Debug.Log("No sent challenges");
+
+               }
                Setup();
-               //print(existStudent.Count);
-
            }
-           else
-           {
-               Debug.Log("No sent challenges");
+           ));
 
-           }
-       }
-       ));
-        
-       
+        }
+
+        else
+        {
+            Setup();
+        }
+
+
     }
     void Setup()
     {
+        Debug.Log("ChooseL" + Challenge.playerType);
         if (Challenge.playerType == PlayerType.Challengee)
         {
             scroll.SetActive(false);
@@ -235,6 +250,7 @@ public class ChooseChallengersScript : MonoBehaviour
                      //CreateChallengeResult createchallengeResult = JsonUtility.FromJson<CreateChallengeResult>(result);
                      //challengeID = createchallengeResult.challengeID;
                      //print(challengeID);
+                     SceneManager.LoadScene("ChallengeReceived");
                  }
                  else
                  {

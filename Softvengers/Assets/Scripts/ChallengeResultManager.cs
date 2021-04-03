@@ -6,11 +6,13 @@ using UnityEngine.UI;
 public class ChallengeResultManager : MonoBehaviour
 {
     private static double score = 0;
-    private static string challenge = "Challenge 1";
+    private static string challenge;
     public GameObject resultRecord;
 
-    private void Start()
+    void Start()
     {
+        challenge = Challenge.challengeName;
+        UpdateProgress();
         float x = 0;
         float y = 200.0f;
         float z = 0;
@@ -29,7 +31,7 @@ public class ChallengeResultManager : MonoBehaviour
         challengeName = result.transform.Find("ChallengeName");
         res = result.transform.Find("Score");
         challengeName.GetComponent<Text>().text = challenge;
-        res.GetComponent<Text>().text = score.ToString();
+        res.GetComponent<Text>().text = System.Math.Round(score, 2).ToString();
 
     }
 
@@ -53,18 +55,19 @@ public class ChallengeResultManager : MonoBehaviour
         return challenge;
     }
 
-    void updateProgress()
+    void UpdateProgress()
     {
         //TODO Set the current challenge as completed in database
         ChallengeResult challengeResult = new ChallengeResult();
         challengeResult.challengeID = Challenge.challengeID;
         challengeResult.emailID = SecurityToken.Email;
-        challengeResult.score = score;
-        challengeResult.timeTaken = ChallengeGameController.endTime - ChallengeGameController.startTime;
+        challengeResult.receiverScore = score;
+        challengeResult.receiverTime = ChallengeGameController.endTime - ChallengeGameController.startTime;
 
-        StartCoroutine(ServerController.Put("http://localhost:5000/student/challenge/attemptChallenge", challengeResult.stringify(),
+        StartCoroutine(ServerController.Put("http://localhost:5000/student/challenge/endChallenge", challengeResult.stringify(),
         result =>
         {
+            Debug.Log(result);
             Debug.Log("Done");
         }
         ));
@@ -77,8 +80,8 @@ public class ChallengeResult
 {
     public string challengeID;
     public string emailID;
-    public double score;
-    public float timeTaken;
+    public double receiverScore;
+    public float receiverTime;
 
     public string stringify()
     {

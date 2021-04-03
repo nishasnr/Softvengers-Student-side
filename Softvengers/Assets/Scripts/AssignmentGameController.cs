@@ -90,36 +90,36 @@ public class AssignmentGameController : MonoBehaviour
 
 
     protected virtual void Start()
+    {
+    paused = true;
+    StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/assignments/getAssignmentQuestions?assignmentID={0}", AssignmentScene.selectedAssignmentid),
+        result =>
         {
-        paused = true;
-        StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/assignments/getAssignmentQuestions?assignmentID={0}", AssignmentScene.selectedAssignmentid),
-            result =>
+            if (result != null)
             {
-                if (result != null)
+                Debug.Log("Hello1");
+                Debug.Log(result);
+                Debug.Log("Hello2");
+                qSet = JsonUtility.FromJson<AssQuestions>("{ \"questions\": " + result + "}");
+                Debug.Log("Number of questions: " + qSet.questions.Length);
+                foreach(AssQuestion q in qSet.questions)
                 {
-                    Debug.Log("Hello1");
-                    Debug.Log(result);
-                    Debug.Log("Hello2");
-                    qSet = JsonUtility.FromJson<AssQuestions>("{ \"questions\": " + result + "}");
-                    Debug.Log("Number of questions: " + qSet.questions.Length);
-                    foreach(AssQuestion q in qSet.questions)
-                    {
-                        print(q.body);
-                    }
-
-                    initQstBank();
-                    numQuestions = questionBank.Count;
-                    DisplayQuestion();
-
+                    print(q.body);
                 }
-                else
-                {
-                    Debug.Log("No sent challenges");
 
-                }
+                initQstBank();
+                numQuestions = questionBank.Count;
+                DisplayQuestion();
+
             }
-            ));
+            else
+            {
+                Debug.Log("No sent challenges");
+
+            }
         }
+        ));
+    }
 
     void Update()
     {

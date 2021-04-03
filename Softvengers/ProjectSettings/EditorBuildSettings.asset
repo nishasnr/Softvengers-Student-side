@@ -60,7 +60,7 @@ EditorBuildSettings:
     path: Assets/Scenes/ChallengeSent.unity
     guid: 8a1b5b7dffc0b6e459c178eefeeced03
   - enabled: 1
-    path: Assets/Scenes/ChallengeRecieved.unity
+    path: Assets/Scenes/ChallengeReceived.unity
     guid: 8a1ee7595a19d10498875ed1104f1cd4
   - enabled: 1
     path: Assets/Scenes/LoginUI.unity

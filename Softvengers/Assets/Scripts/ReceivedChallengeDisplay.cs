@@ -118,6 +118,7 @@ new Dictionary<string, List<string>>()
     void Awake()
     {
         // "emailID=aratrika001@e.ntu.edu.sg" use this for immediate testing
+        Challenge.playerType = PlayerType.Challengee;
 
         StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/challenge/getReceivedChallenges?emailID={0}", SecurityToken.Email),
         result =>
@@ -306,6 +307,7 @@ new Dictionary<string, List<string>>()
     {
         Challenge.challengeID = btn.transform.parent.gameObject.name;
         Challenge.playerType = PlayerType.Challengee;
+        Challenge.challengeName = btn.transform.parent.Find("Cname").GetComponent<Text>().text;
         //selectedChallengeid = btn.transform.parent.gameObject.name;
     }
 
