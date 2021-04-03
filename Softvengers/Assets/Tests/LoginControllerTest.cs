@@ -11,13 +11,6 @@ namespace Tests
         private string emailID;
         private string passWord;
 
-        // A Test behaves as an ordinary method
-        [Test]
-        public void LoginControllerTestSimplePasses()
-        {
-            // Use the Assert class to test conditions
-        }
-
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
         // `yield return null;` to skip a frame.
         [UnityTest]
@@ -34,6 +27,7 @@ namespace Tests
             gameObject.GetComponent<LoginController>().AuthenticateDetails(emailID, passWord);
 
             yield return new WaitForSeconds(2.0f);
+            Debug.Log(SecurityToken.Email);
             Assert.AreEqual(SecurityToken.Email, emailID);
         }
 

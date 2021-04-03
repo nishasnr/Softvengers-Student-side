@@ -30,7 +30,8 @@ public class LoginController : MonoBehaviour
 
     public void Start()
     {
-        errorMsg.SetActive(false);
+        if (errorMsg != null)
+            errorMsg.SetActive(false);
     }
 
     public void AuthenticateDetails(string emailID, string password)
@@ -38,7 +39,6 @@ public class LoginController : MonoBehaviour
 
         Login player = new Login(emailID, password);
 
-        Debug.Log(player.password);
         StartCoroutine(ServerController.Post("http://localhost:5000/student/login", player.stringify(),
             result =>
             {
@@ -86,7 +86,8 @@ public class LoginController : MonoBehaviour
                     else
                     {
                         SecurityToken.Email = "";
-                        errorMsg.SetActive(true);
+                        if (errorMsg != null)
+                            errorMsg.SetActive(true);
                         Debug.Log("Invalid Credentials");
                     }
                 }
