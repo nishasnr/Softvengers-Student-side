@@ -47,19 +47,19 @@ public static class Multiverse
         {
             "Software Testing", new List<string>()
             {
-                "Test Cases", "Black Box", "Regression Test", "Conformance Test", "Performance Test"
+                "Unit Test", "Integration Test"
             }
         },
         {
             "Software Deployment", new List<string>()
             {
-                "G", "H", "I"
+                "AWS", "GCP", "Heroku"
             }
         },
         {
             "Software Maintenance", new List<string>()
             {
-                "G", "H", "I"
+                "Management", "Maintenance"
             }
         }
     };
