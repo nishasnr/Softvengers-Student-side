@@ -1847,9 +1847,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ddf3baea503f241bae6b2c5ea5d30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentPassword: {fileID: 1694201504}
-  NewPassword: {fileID: 535135564}
-  ReNewPassword: {fileID: 1238203754}
+  currentPasswordField: {fileID: 1694201506}
+  newPasswordField: {fileID: 535135566}
+  confirmationPasswordField: {fileID: 1238203756}
 --- !u!4 &1602652715
 Transform:
   m_ObjectHideFlags: 0
@@ -2088,7 +2088,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1602652714}
-        m_MethodName: updatePassword
+        m_MethodName: ChangePassword
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

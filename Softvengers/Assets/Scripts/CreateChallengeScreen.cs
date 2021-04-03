@@ -2,12 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+
+[System.Serializable]
+public class TopicInfo
+{
+    
+    public int universe;
+    public int solarSystem;
+    public int planet;
+    public int noOfQuestions;
+}
+
+[System.Serializable]
+public class ChallengeInfo
+{
+    public string senderEmailID;
+    public string challengeName;
+    public List<TopicInfo> topics;
+}
+
+[System.Serializable]
+public class CreateChallengeResult
+{
+    public string challengeID;
+    public qsts[] questions;
+
+
+}
 
 public class CreateChallengeScreen : MonoBehaviour
 {
     public int nextOptionsid;
     public GameObject OptionsCard;
+    //public static string challengeID;
     // Start is called before the first frame update
 
     public Dictionary<int, List<string>> Universe_SS_mapping = new Dictionary<int, List<string>>()
@@ -23,7 +53,12 @@ public class CreateChallengeScreen : MonoBehaviour
     void Start()
     {
         nextOptionsid = 1;
-        print(Universe_SS_mapping[0][0]);
+        //print(Universe_SS_mapping[0][0]);
+        GameObject SSDD = GameObject.Find("Solar System Dropdown").gameObject;
+        Dropdown SSDropdown = SSDD.GetComponent<Dropdown>();
+        changeSSOptions(SSDropdown);
+
+        
 
     }
 
@@ -48,6 +83,7 @@ public class CreateChallengeScreen : MonoBehaviour
         Button btn = newOptionsCard.GetComponentInChildren<Button>();
         btn.onClick.AddListener(OnRemoveClick);
         Dropdown UniDD = newOptionsCard.transform.Find("Universe Dropdown").gameObject.GetComponent<Dropdown>();
+        changeSSOptions(UniDD);
         UniDD.onValueChanged.AddListener(delegate {
             changeSSOptions(UniDD);
         });
@@ -67,7 +103,11 @@ public class CreateChallengeScreen : MonoBehaviour
             {
                 child.localPosition += new Vector3(0,195,0);
             }
-            else if(int.Parse(child.name)>ind)
+            else if (child.name == "ChallengeNameHeading" || child.name== "ChallengeNameIF")
+            {
+                continue;
+            }
+            else if (int.Parse(child.name)>ind)
             {
                 child.localPosition += new Vector3(0, 175, 0);
             }
@@ -82,7 +122,7 @@ public class CreateChallengeScreen : MonoBehaviour
         Dropdown SSDropdown = SSObject.GetComponent<Dropdown>();
         SSDropdown.ClearOptions();
         
-        foreach (string SS in Universe_SS_mapping[change.value])
+        foreach (string SS in Multiverse.getSolarSystems(change.value))
         {
             Dropdown.OptionData NewData = new Dropdown.OptionData();
             NewData.text = SS;
@@ -90,7 +130,7 @@ public class CreateChallengeScreen : MonoBehaviour
         }
 
         SSDropdown.value = 0;
-        SSDropdown.captionText.text = Universe_SS_mapping[change.value][0];
+        SSDropdown.captionText.text = Multiverse.getSolarSystems(change.value)[0];
 
 
 
@@ -101,32 +141,104 @@ public class CreateChallengeScreen : MonoBehaviour
     {
         List <List<string>> submitInfo= new List<List<string>>();
         string[] attri = new string[4] { "Universe Dropdown", "Solar System Dropdown", "Qnum", "Dl" };
-                                           
+        //TopicInfo topicInfo = new TopicInfo();
+        ChallengeInfo challengeInfo = new ChallengeInfo();
+        challengeInfo.topics = new List<TopicInfo>();
+
+
         foreach (Transform child in transform)
         {
-            if (child.name=="AddButton")
+            if (child.name=="AddButton" || child.name== "ChallengeNameHeading")
             {
                 continue;
             }
-            List<string> tempList = new List<string>();
+            else if(child.name=="ChallengeNameIF")
+            {
+                GameObject cname = child.transform.Find("Text").gameObject;
+                Text cNameText = cname.GetComponentInChildren<Text>();
+                //print(cNameText.text);
+                challengeInfo.challengeName = cNameText.text;
+                continue;
+                
+            }
+            // List<string> tempList = new List<string>();
+            TopicInfo topicInfo = new TopicInfo();
             for (int i = 0;i< 4;i++)
             {
 
                 GameObject DropDownObj = child.Find(attri[i]).gameObject;
                 Dropdown DropdownComp = DropDownObj.GetComponent<Dropdown>();
-                tempList.Add(DropdownComp.captionText.text);
-            }
+                switch(attri[i])
+                {
+                    case "Universe Dropdown": topicInfo.universe = DropdownComp.value;
+                        break;
+                    case "Solar System Dropdown":
+                        topicInfo.solarSystem = DropdownComp.value;
+                        break;
+                    case "Qnum":
+                        topicInfo.noOfQuestions = int.Parse(DropdownComp.captionText.text);
+                        //topicInfo.noOfQuestions = 1;
+                        break;
+                    case "Dl":
+                        topicInfo.planet= DropdownComp.value;
+                        break;
 
-            submitInfo.Add(tempList);
+
+
+                }
+
+                
+                //tempList.Add(DropdownComp.captionText.text);
+            }
+            challengeInfo.topics.Add(topicInfo);
+            //submitInfo.Add(tempList);
 
         }
 
-        foreach (List<string> subList in submitInfo)
+        
+        //challengeInfo.senderEmailID = SecurityToken.Email;
+        challengeInfo.senderEmailID = SecurityToken.Email;
+        string json = JsonUtility.ToJson(challengeInfo);
+        print(json);
+        StartCoroutine(ServerController.Post("http://localhost:5000/student/challenge/createChallenge",json,
+             result =>
+             {
+                 if (result != null)
+                 {
+                     //need to convert into complete object to store challenge id
+                     Debug.Log(result);
+                     CreateChallengeResult createchallengeResult = JsonUtility.FromJson<CreateChallengeResult>(result);
+                     Challenge.challengeID = createchallengeResult.challengeID;
+                     print(Challenge.challengeID);
+                     Challenge.playerType = PlayerType.Challenger;
+
+
+                     SceneManager.LoadScene("ChallengeGamePlayScene");
+                     /*for (int i = 0; i < questionResult.questions.Length; i++)
+                     {
+                         Debug.Log(questionResult.questions[i].body);
+                     }*/
+                 }
+                 else
+                 {
+                     Debug.Log("No challengeID!");
+
+                 }
+             }
+        ));
+        /*foreach (var item in challengeInfo.topics )
         {
-            foreach(string val in subList)
-            {
-               print(val);
-            }
+            print(item.universe);
+            print(item.solarSystem);
+            print(item.planet);
+            print(item.noOfQuestions);
         }
+
+        print(challengeInfo.senderEmailID);
+        print(challengeInfo.challengeName);*/
+
+
+
+
     }
 }

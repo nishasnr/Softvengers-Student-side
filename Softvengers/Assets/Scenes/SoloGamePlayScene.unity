@@ -266,6 +266,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5894,19 +5895,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1165403022}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aff40e780b39a3945bd6023a52060076, type: 3}
+  m_Script: {fileID: 11500000, guid: 66a1243bb48de6748b86412288d13f21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navigationData: {fileID: 11400000, guid: 9017bbbd809fb5740850809ede01fa0e, type: 2}
   questionName: {fileID: 1894933863}
   option1: {fileID: 801912644}
   option2: {fileID: 204196241}
   option3: {fileID: 1914643251}
   option4: {fileID: 372732115}
-  healthBar: {fileID: 1656279123}
   timeBar: {fileID: 2095737172}
   asteroid: {fileID: 3124901293411361072, guid: edc4298d8618646838a4520f13b7550e,
     type: 3}
+  navigationData: {fileID: 11400000, guid: 9017bbbd809fb5740850809ede01fa0e, type: 2}
+  healthBar: {fileID: 1656279123}
 --- !u!1 &1225525797
 GameObject:
   m_ObjectHideFlags: 0
@@ -6926,6 +6927,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

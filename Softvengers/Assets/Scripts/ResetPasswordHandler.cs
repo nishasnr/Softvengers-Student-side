@@ -5,26 +5,61 @@ using UnityEngine.UI;
 
 public class ResetPasswordHandler : MonoBehaviour
 {
+    public InputField currentPasswordField;
+    public InputField newPasswordField;
+    public InputField confirmationPasswordField;
     // Start is called before the first frame update
-    public GameObject CurrentPassword;
-    public GameObject NewPassword;
-    public GameObject ReNewPassword;
-    private string currPass;
-    private string newPass;
-    private string reNewPass;
-    public void updatePassword()
+    public void ChangePassword()
     {
-        currPass = CurrentPassword.GetComponent<InputField>().text;
-        newPass= NewPassword.GetComponent<InputField>().text;
-        reNewPass= ReNewPassword.GetComponent<InputField>().text;
-        if(string.Compare(newPass,reNewPass)==0 && newPass!="" && currPass!="")
+        string oldPassword = currentPasswordField.text;
+        string password = newPasswordField.text;
+        string confirmationPassword = confirmationPasswordField.text;
+
+        if (password != confirmationPassword)
         {
-            Debug.Log("True");
+            Debug.Log("Password should be same as confirmation password");
+            return;
         }
+
         else
         {
-            Debug.Log("False");
+            PasswordDetails passwordDetails = new PasswordDetails();
+            passwordDetails.oldPassword = oldPassword;
+            passwordDetails.newPassword = password;
+            passwordDetails.emailID = SecurityToken.Email;
+
+            StartCoroutine(ServerController.Put("http://localhost:5000/student/details/changePassword", passwordDetails.stringify(),
+                result =>
+                {
+                    Debug.Log("Done");
+                }
+                ));
+
         }
 
     }
+
 }
+
+public struct PasswordDetails
+{
+    public string emailID;
+    public string newPassword;
+    public string oldPassword;
+
+
+    public string stringify()
+    {
+
+        //return JsonUtility.ToJson(this);
+        return JsonUtility.ToJson(this);
+    }
+
+
+    // JSON ------------> string
+    public static Login Parse(string json)
+    {
+        return JsonUtility.FromJson<Login>(json);
+    }
+}
+

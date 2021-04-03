@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GamePlayController : MonoBehaviour
-{
+{/*
     public Navigation navigationData;
 
     List<List<Question>> questions = new List<List<Question>>();
@@ -51,7 +51,7 @@ public class GamePlayController : MonoBehaviour
     private int questionNumberE = 0;
     private int questionNumberM = 0;
     private int questionNumberH = 0;
-
+    
     public GamePlayController()
     { 
         initEasyQsts();
@@ -66,7 +66,7 @@ public class GamePlayController : MonoBehaviour
         Debug.Log(planetDifficulty);
     }
 
-
+    
     public void initEasyQsts()
     {
         questionNumberE = 0;
@@ -385,6 +385,22 @@ public class GamePlayController : MonoBehaviour
                 BreakAsteroid();
                 questionNumber++;
                 paused = true;
+
+                if (questDifficulty == planetDifficulty)
+                {
+                    incorrectStreak++;
+                    correctStreak = 0;
+                    if (incorrectStreak == incorrectThreshold && questDifficulty > 0)
+                    {
+                        questDifficulty--;
+                    }
+                }
+                else if (questDifficulty > planetDifficulty)
+                {
+                    correctStreak--;
+                    questDifficulty--;
+                }
+
                 Invoke("DisplayQuestion", timeDelay); 
             }
         }
@@ -510,11 +526,12 @@ public class GamePlayController : MonoBehaviour
         healthBar.color = new Color((1 - ratio), (ratio), 0.0f, 0.8f);
     }
 
-    bool GameOver()
+    public virtual bool GameOver()
     {
         if (health <= 0.0f)
             return true;
         return false;
     }
+    */
 }
 

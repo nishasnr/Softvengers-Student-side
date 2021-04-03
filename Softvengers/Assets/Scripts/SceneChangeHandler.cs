@@ -9,7 +9,8 @@ public class SceneChangeHandler : MonoBehaviour
     public AudioSource buttonAudio;
     public void updateScene(string sceneName)
     {
-        buttonAudio.Play();
+        if (buttonAudio != null)
+            buttonAudio.Play();
         SceneManager.LoadScene(sceneName); 
     }
 
