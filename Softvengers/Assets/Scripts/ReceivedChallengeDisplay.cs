@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -409,7 +410,7 @@ new Dictionary<string, List<string>>()
                      //need to convert into complete object to store challenge id
                      Debug.Log(result);
 
-
+                     SceneManager.LoadScene("ChallengeReceived");
 
                      /*for (int i = 0; i < questionResult.questions.Length; i++)
                      {
