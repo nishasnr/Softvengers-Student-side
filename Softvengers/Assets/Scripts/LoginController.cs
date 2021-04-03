@@ -16,6 +16,15 @@ public class LoginController : MonoBehaviour
         string emailID = usernameField.text;
         string password = passwordField.text;
 
+        emailID = emailID.Trim();
+
+        string[] splitString = emailID.Split('@');
+
+        if (splitString.Length > 1)
+        {
+            emailID = splitString[0].ToUpper() + "@" + splitString[1].ToLower();
+        }
+
         AuthenticateDetails(emailID, password);
     }
 
