@@ -19,9 +19,39 @@ public class ResultManager : MonoBehaviour
     void Awake()
     {
         SendData();
-        UpDatePlayerProgress();
 
+        var numQuery = results.Where(result => result == true);
+        Debug.Log(results.Count);
+
+        if (numQuery.Count() > 5) // Pass
+        {
+            UpDatePlayerProgress(playerData, navigation);
+
+            if (playerData != null)
+            {
+                Results newProgress = new Results();
+                newProgress.emailID = SecurityToken.Email;
+                newProgress.conqueredPlanet = playerData.planetProgress;
+                newProgress.conqueredSolarSystem = playerData.solarSystemProgress;
+                newProgress.conqueredUniverse = playerData.universePogress;
+
+
+                StartCoroutine(ServerController.Put("http://localhost:5000/student/game/unlock", newProgress.stringify(), result =>
+                {
+                    if (result != null)
+                    {
+                        Debug.Log("Updated Successfully");
+                    }
+                    else
+                    {
+                        Debug.Log("Error");
+                    }
+                }
+                ));
+            }
+        }
     }
+    
 
     void Start()
     {
@@ -34,34 +64,38 @@ public class ResultManager : MonoBehaviour
         double sum = 0;
         for (int i = 0; i < scores.Count; ++i)
             sum += scores[i];
-        title.GetComponent<Text>().text = string.Format("Final Score : {0}", Math.Round(sum, 2));
-        for (int i=0; i<results.Count; ++i)
-        {
-            GameObject result = Instantiate(resultRecord, new Vector3(x, startY, z), Quaternion.identity);
-            result.transform.SetParent(GameObject.FindGameObjectWithTag("ResultPage").transform, false);
-            Transform questionNumber = result.transform.Find("QuestionNumber");
-            Transform outcome = result.transform.Find("Outcome");
-            Transform score = result.transform.Find("Score");
-            questionNumber.GetComponent<Text>().text = string.Format("Question {0}", i+1);
-            outcome.GetComponent<Text>().text = results[i] ? "Correct" : "Wrong";
-            outcome.GetComponent<Text>().color = results[i] ? new Color(0, 1, 0) : new Color(1, 0, 0);
 
-            score.GetComponent<Text>().text = Math.Round(scores[i], 2).ToString();
-            startY -= 60.0f;
-        }
-
-        for (int i = results.Count; i<10; i++)
+        if (title != null)
         {
-            GameObject result = Instantiate(resultRecord, new Vector3(x, startY, z), Quaternion.identity);
-            result.transform.SetParent(GameObject.FindGameObjectWithTag("ResultPage").transform, false);
-            Transform questionNumber = result.transform.Find("QuestionNumber");
-            Transform outcome = result.transform.Find("Outcome");
-            questionNumber.GetComponent<Text>().text = string.Format("Question {0}", i + 1);
-            outcome.GetComponent<Text>().text = "Not Attempted";
-            outcome.GetComponent<Text>().color = new Color(0.4f, 0.4f, 0.4f);
-            startY -= 60.0f;
+            title.GetComponent<Text>().text = string.Format("Final Score : {0}", Math.Round(sum, 2));
+            for (int i = 0; i < results.Count; ++i)
+            {
+                GameObject result = Instantiate(resultRecord, new Vector3(x, startY, z), Quaternion.identity);
+                result.transform.SetParent(GameObject.FindGameObjectWithTag("ResultPage").transform, false);
+                Transform questionNumber = result.transform.Find("QuestionNumber");
+                Transform outcome = result.transform.Find("Outcome");
+                Transform score = result.transform.Find("Score");
+                questionNumber.GetComponent<Text>().text = string.Format("Question {0}", i + 1);
+                outcome.GetComponent<Text>().text = results[i] ? "Correct" : "Wrong";
+                outcome.GetComponent<Text>().color = results[i] ? new Color(0, 1, 0) : new Color(1, 0, 0);
+
+                score.GetComponent<Text>().text = Math.Round(scores[i], 2).ToString();
+                startY -= 60.0f;
+            }
+
+            for (int i = results.Count; i < 10; i++)
+            {
+                GameObject result = Instantiate(resultRecord, new Vector3(x, startY, z), Quaternion.identity);
+                result.transform.SetParent(GameObject.FindGameObjectWithTag("ResultPage").transform, false);
+                Transform questionNumber = result.transform.Find("QuestionNumber");
+                Transform outcome = result.transform.Find("Outcome");
+                questionNumber.GetComponent<Text>().text = string.Format("Question {0}", i + 1);
+                outcome.GetComponent<Text>().text = "Not Attempted";
+                outcome.GetComponent<Text>().color = new Color(0.4f, 0.4f, 0.4f);
+                startY -= 60.0f;
+            }
         }
-        //UpDatePlayerProgress();
+        
     }
 
     public void BackButton()
@@ -81,8 +115,12 @@ public class ResultManager : MonoBehaviour
 
     void SendData()
     {
-
-        StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/details/getMaxScore/?emailID={0}&universe={1}&SolarSystem={2}&planet={3}", SecurityToken.Email, navigation.universeSelected, navigation.solarSystemSelected, navigation.planetSelected), 
+       if (navigation == null)
+        {
+            return;
+        }
+        
+       StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/details/getMaxScore/?emailID={0}&universe={1}&SolarSystem={2}&planet={3}", SecurityToken.Email, navigation.universeSelected, navigation.solarSystemSelected, navigation.planetSelected), 
        result => {
        double maxScore;
        double score = 0.0;
@@ -124,64 +162,35 @@ public class ResultManager : MonoBehaviour
                }));
        }
        ));
-        // Get max score
-        //if current score is greater than max score then
-        // change max score of student
-        // Send score details
 
     }
 
-    void UpDatePlayerProgress()
+    public void UpDatePlayerProgress(Player playerData, Navigation navigation)
     {
-        Debug.Log(results.Count);
-        var numQuery = results.Where(result => result == true);
-        Debug.Log(results.Count);
+        if (playerData == null || navigation == null)
+            return;
 
-        if (numQuery.Count() > 5) // Pass
+        if (IsLatestLevel(playerData, navigation))
         {
-            if (IsLatestLevel())
+            if (playerData.planetProgress < 2) // Not last planet
             {
-                if (playerData.planetProgress < 2) // Not last planet
-                {
-                    playerData.planetProgress += 1;
-                }
-                else if (playerData.solarSystemProgress < Multiverse.getSolarSystems(playerData.universePogress).Count - 1) // Check if player didnt exceed max solar systems of the universe 
-                {
-                    playerData.solarSystemProgress += 1;
-                    playerData.planetProgress = 0;
-                }
-                else if (playerData.universePogress < Multiverse.getUniverses().Count)// Check if player has not exceeded total num universes
-                {
-                    playerData.universePogress += 1;
-                    playerData.solarSystemProgress = 0;
-                    playerData.planetProgress = 0;
-                }
-
-
-                Results newProgress = new Results();
-                newProgress.emailID = SecurityToken.Email;
-                newProgress.conqueredPlanet = playerData.planetProgress;
-                newProgress.conqueredSolarSystem = playerData.solarSystemProgress;
-                newProgress.conqueredUniverse = playerData.universePogress;
-               
-
-                StartCoroutine(ServerController.Put("http://localhost:5000/student/game/unlock", newProgress.stringify(), result =>
-                {
-                    if (result != null)
-                    {
-                        Debug.Log("Updated Successfully");
-                    }
-                    else
-                    {
-                        Debug.Log("Error");
-                    }
-                }
-                ));
+                playerData.planetProgress += 1;
+            }
+            else if (playerData.solarSystemProgress < Multiverse.getSolarSystems(playerData.universePogress).Count - 1) // Check if player didnt exceed max solar systems of the universe 
+            {
+                playerData.solarSystemProgress += 1;
+                playerData.planetProgress = 0;
+            }
+            else if (playerData.universePogress < Multiverse.getUniverses().Count)// Check if player has not exceeded total num universes
+            {
+                playerData.universePogress += 1;
+                playerData.solarSystemProgress = 0;
+                playerData.planetProgress = 0;
             }
         }
     }
 
-    bool IsLatestLevel()
+    bool IsLatestLevel(Player playerData, Navigation navigation)
     {
         if (navigation.universeSelected == playerData.universePogress && navigation.solarSystemSelected == playerData.solarSystemProgress && playerData.planetProgress == navigation.planetSelected)
             return true;

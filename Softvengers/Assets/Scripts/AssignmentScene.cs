@@ -90,8 +90,12 @@ public class AssignmentScene : MonoBehaviour
 
     void Awake()
     {
-        //SecurityToken.MatricNo
-        StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/assignments/getassignmentList?matricNo={0}", SecurityToken.MatricNo),
+    pending_assignment = new List<Assignment>();
+    completed_assignment = new List<Assignment>();
+    overdue_assignment = new List<Assignment>();
+    AssignmentSets = new AssignmentList();
+    //SecurityToken.MatricNo
+    StartCoroutine(ServerController.Get(string.Format("http://localhost:5000/student/assignments/getassignmentList?matricNo={0}", SecurityToken.MatricNo),
             result =>
             {
                 if (result != null)
@@ -252,8 +256,9 @@ public class AssignmentScene : MonoBehaviour
         {
 
             var newPA = Instantiate(CompletedAssignment, gameObject.transform, false);
-            newPA.name = item._id;
+            newPA.name = item.assignmentName;
             newPA.transform.localPosition = curPos;
+            
             foreach (Transform child in newPA.transform)
             {
                 if (child.name == "CompletedButton")
@@ -271,9 +276,9 @@ public class AssignmentScene : MonoBehaviour
                     sText.text = counter.ToString();
                     counter += 1;
                 }
-                else if (child.name == "AnameText")
+                else if (child.name == "Aname")
                 {
-                    Text cText = child.GetComponentInChildren<Text>();
+                    Text cText = child.GetComponent<Text>();
                     cText.text = item.assignmentName;
                 }
                 else if (child.name == "Time")
