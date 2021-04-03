@@ -315,7 +315,7 @@ new Dictionary<string, List<string>>()
     {
         Scrollbar s = scroll.GetComponent<Scrollbar>();
         s.value = 1;
-        ReceivedChallenge_single selected = findSelectedChallenge(selectedChallengeid);
+        ReceivedChallenge_single selected = findSelectedChallenge(Challenge.challengeID);
         foreach (Transform child in infoContent.transform)
         {
              if (child.name == "Cname")
@@ -394,10 +394,10 @@ new Dictionary<string, List<string>>()
 
 
         DeclinedChallengeInfo declinedChallengeInfo = new DeclinedChallengeInfo();
-        declinedChallengeInfo.challengeID = selectedChallengeid;
-        ReceivedChallenge_single selected = findSelectedChallenge(selectedChallengeid);
+        declinedChallengeInfo.challengeID = Challenge.challengeID;
+        ReceivedChallenge_single selected = findSelectedChallenge(Challenge.challengeID);
         //for testing
-        declinedChallengeInfo.emailID= "aratrika001@e.ntu.edu.sg";
+        declinedChallengeInfo.emailID= SecurityToken.Email;
         string json = JsonUtility.ToJson(declinedChallengeInfo);
 
         print(json);
