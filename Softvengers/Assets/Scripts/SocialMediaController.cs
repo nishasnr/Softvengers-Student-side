@@ -8,7 +8,7 @@ public class SocialMediaController : MonoBehaviour
     string challengeName;
     string textToDisplay;
 
-    private void Start()
+    void Start()
     {
         double sum = 0;
         for (int i = 0; i < ResultManager.scores.Count; ++i)

@@ -157,7 +157,14 @@ public class CreateChallengeScreen : MonoBehaviour
                 GameObject cname = child.transform.Find("Text").gameObject;
                 Text cNameText = cname.GetComponentInChildren<Text>();
                 //print(cNameText.text);
+                Debug.Log("Searching for error");
                 challengeInfo.challengeName = cNameText.text;
+                Challenge.challengeName = cNameText.text;
+                Debug.Log(Challenge.challengeName);
+                if (Challenge.challengeName == "" || Challenge.challengeName == null)
+                {
+                    Challenge.challengeName = "Challenge by " + SecurityToken.Email.Substring(0, SecurityToken.Email.LastIndexOf('@'));
+                }
                 continue;
                 
             }
@@ -195,7 +202,6 @@ public class CreateChallengeScreen : MonoBehaviour
 
         }
 
-        
         //challengeInfo.senderEmailID = SecurityToken.Email;
         challengeInfo.senderEmailID = SecurityToken.Email;
         string json = JsonUtility.ToJson(challengeInfo);

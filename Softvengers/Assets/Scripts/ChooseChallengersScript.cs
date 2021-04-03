@@ -38,6 +38,7 @@ public class ChooseChallengersScript : MonoBehaviour
     public List<SingleStudent> existStud = new List<SingleStudent>();
     public GameObject toggleTemplate;
     public GameObject scroll;
+    public GameObject socialMedia;
     
     //public StudentList studs = new StudentList();
 
@@ -166,12 +167,19 @@ public class ChooseChallengersScript : MonoBehaviour
     void Setup()
     {
         Debug.Log("ChooseL" + Challenge.playerType);
+        GameObject sm;
         if (Challenge.playerType == PlayerType.Challengee)
         {
+            sm = Instantiate(socialMedia, new Vector3(0, -130, 0), Quaternion.identity);
             scroll.SetActive(false);
         }
-
+        else
+        {
+            sm = Instantiate(socialMedia, new Vector3(0, -380, 0), Quaternion.identity);
+        }
         //302,-79,0
+
+        sm.transform.SetParent(GameObject.FindGameObjectWithTag("ResultPage").transform, false);
         foreach (Transform child in infoContent.transform)
         {
             print(child.name + child.localPosition);

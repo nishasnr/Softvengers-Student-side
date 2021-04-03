@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.39906785, g: 0.32255197, b: 0.47959995, a: 1}
+  m_IndirectSpecularColor: {r: 0.39898694, g: 0.32240185, b: 0.47958243, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2195,7 +2195,7 @@ PrefabInstance:
     - target: {fileID: 2438921907214862248, guid: f5ec9453fb808174380ec9d65bdf84a8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: ChallengeRecieved
+      value: ChallengeReceived
       objectReference: {fileID: 0}
     - target: {fileID: 2438921907214862248, guid: f5ec9453fb808174380ec9d65bdf84a8,
         type: 3}

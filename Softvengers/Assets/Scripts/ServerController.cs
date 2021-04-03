@@ -9,6 +9,7 @@ public class ServerController : MonoBehaviour
         using (UnityWebRequest www = UnityWebRequest.Post(url, jsonData))
         {
             www.SetRequestHeader("content-type", "application/json");
+            www.SetRequestHeader("Authorization", "Bearer " + SecurityToken.Token);
             www.uploadHandler.contentType = "application/json";
             www.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(jsonData));
 
