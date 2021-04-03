@@ -176,8 +176,8 @@ public class CreateChallengeScreen : MonoBehaviour
                         topicInfo.solarSystem = DropdownComp.value;
                         break;
                     case "Qnum":
-                        //topicInfo.noOfQuestions = int.Parse(DropdownComp.captionText.text);
-                        topicInfo.noOfQuestions = 1;
+                        topicInfo.noOfQuestions = int.Parse(DropdownComp.captionText.text);
+                        //topicInfo.noOfQuestions = 1;
                         break;
                     case "Dl":
                         topicInfo.planet= DropdownComp.value;
