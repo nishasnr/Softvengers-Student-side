@@ -9,7 +9,7 @@ public class LoginController : MonoBehaviour
     public InputField usernameField;
     public InputField passwordField;
     public Player playerData;
-
+    public GameObject errorMsg;
 
     public void CheckValidLogin()
     {
@@ -17,6 +17,11 @@ public class LoginController : MonoBehaviour
         string password = passwordField.text;
 
         AuthenticateDetails(emailID, password);
+    }
+
+    public void Start()
+    {
+        errorMsg.SetActive(false);
     }
 
     public void AuthenticateDetails(string emailID, string password)
@@ -62,6 +67,7 @@ public class LoginController : MonoBehaviour
                                 else
                                 {
                                     Debug.Log("Could not retrieve player data");
+                                    
                                 }
                                 
                             }                          
@@ -71,13 +77,21 @@ public class LoginController : MonoBehaviour
                     else
                     {
                         SecurityToken.Email = "";
+                        errorMsg.SetActive(true);
                         Debug.Log("Invalid Credentials");
                     }
                 }
             }
             ));
     }
+
+    public void onClickDismiss()
+    {
+        errorMsg.SetActive(false);
+    }
+
 }
+
 
 
 public struct LoginResult
