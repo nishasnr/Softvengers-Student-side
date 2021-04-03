@@ -105,6 +105,7 @@ public class SoloGamePlayController : ChallengeGameController
     {
         base.RewardPlayer();
 
+        /*
         if (questDifficulty == planetDifficulty)
         {
             correctStreak++;
@@ -119,6 +120,8 @@ public class SoloGamePlayController : ChallengeGameController
             incorrectStreak--;
             questDifficulty++;
         }
+        */
+        questDifficulty = AdaptiveQuestioning.GetNextQuestionDifficultyOnCorrect(planetDifficulty, questDifficulty, ref correctStreak, ref incorrectStreak);
 
         // Change Question Bank
         questionBank = questions[questDifficulty];
@@ -128,6 +131,7 @@ public class SoloGamePlayController : ChallengeGameController
     {
         base.PenalizePlayer();
         DecreaseHealth();
+        /*
         if (questDifficulty == planetDifficulty)
         {
             incorrectStreak++;
@@ -142,6 +146,8 @@ public class SoloGamePlayController : ChallengeGameController
             correctStreak--;
             questDifficulty--;
         }
+        */
+        questDifficulty = AdaptiveQuestioning.GetNextQuestionDifficultyOnWrong(planetDifficulty, questDifficulty, ref correctStreak, ref incorrectStreak);
 
         // Change Question Bank
         questionBank = questions[questDifficulty];
