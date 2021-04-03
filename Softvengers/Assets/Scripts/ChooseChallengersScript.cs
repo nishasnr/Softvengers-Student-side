@@ -124,7 +124,7 @@ public class ChooseChallengersScript : MonoBehaviour
     
     void Awake()
     {
-        Debug.Log("CHoose challenge");
+        Debug.Log("Choose challenge");
         Debug.Log(PlayerType.Challengee);
         Debug.Log(Challenge.playerType);
 
@@ -140,7 +140,8 @@ public class ChooseChallengersScript : MonoBehaviour
                    StudentList slist = JsonUtility.FromJson<StudentList>("{ \"studentsTut\": " + result + "}");
 
                    existStud = (slist.studentsTut).ToList<SingleStudent>();
-                   
+                   existStud.Remove(existStud.Single(student => student.emailID == SecurityToken.Email));
+
                    //print(existStudent.Count);
 
                }
