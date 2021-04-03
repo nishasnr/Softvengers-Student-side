@@ -309,7 +309,7 @@ new Dictionary<string, List<string>>()
         Challenge.challengeID = btn.transform.parent.gameObject.name;
         Challenge.playerType = PlayerType.Challengee;
         Challenge.challengeName = btn.transform.parent.Find("Cname").GetComponent<Text>().text;
-        //selectedChallengeid = btn.transform.parent.gameObject.name;
+        selectedChallengeid = btn.transform.parent.gameObject.name;
     }
 
     public void setInfopopup()
@@ -409,8 +409,6 @@ new Dictionary<string, List<string>>()
                  {
                      //need to convert into complete object to store challenge id
                      Debug.Log(result);
-
-                     SceneManager.LoadScene("ChallengeReceived");
 
                      /*for (int i = 0; i < questionResult.questions.Length; i++)
                      {
