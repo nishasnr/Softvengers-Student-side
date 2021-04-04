@@ -8,6 +8,7 @@ public class UniverseNavigation : ExplorationController
     // Start is called before the first frame update
     protected float radius;
     public GameObject spaceObject;
+    private List<GameObject> universes;
     void Start()
     {
         this.radius = 65.0f;
@@ -18,6 +19,7 @@ public class UniverseNavigation : ExplorationController
 
     public override void RenderObjects()
     {
+        universes = new List<GameObject>();
         int numObjects = this.names.Count;
 
         float increment = 360.0f / numObjects;
@@ -28,7 +30,13 @@ public class UniverseNavigation : ExplorationController
             float x = radius * Mathf.Sin(0.01745f * angle);
             float z = radius * Mathf.Cos(0.01745f * angle);
 
+            if (spaceObject == null)
+            {
+                universes.Add(new GameObject());
+                continue;
+            }
             GameObject galaxy = Instantiate(spaceObject, new Vector3(x, -5f, z), Quaternion.identity);
+            universes.Add(galaxy);
             Transform canvas = galaxy.transform.Find("Canvas");
             Transform button = canvas.transform.Find("Button");
             int currentUniverse = objectID;
@@ -70,9 +78,15 @@ public class UniverseNavigation : ExplorationController
         if (this.IsUnlocked(spaceObjectID))
         {
             this.navigation.universeSelected = spaceObjectID;
+            Debug.Log("Unlocked");
             this.ChangeScene("SolarSystemScene");
         }
         else
             Debug.Log("Locked");
+    }
+
+    public List<GameObject> GetGameObjects()
+    {
+        return this.universes;
     }
 }

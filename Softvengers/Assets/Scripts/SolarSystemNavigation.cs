@@ -8,6 +8,7 @@ public class SolarSystemNavigation : ExplorationController
     // Start is called before the first frame update
     protected float radius;
     public GameObject spaceObject;
+    private List<GameObject> solarSystems;
     void Start()
     {
         this.radius = 50.0f;
@@ -18,6 +19,7 @@ public class SolarSystemNavigation : ExplorationController
 
     public override void RenderObjects()
     {
+        solarSystems = new List<GameObject>();
         int numObjects = this.names.Count;
 
         float increment = 360.0f / numObjects;
@@ -29,6 +31,7 @@ public class SolarSystemNavigation : ExplorationController
             float z = radius * Mathf.Cos(0.01745f * angle);
 
             GameObject solarSystem = Instantiate(spaceObject, new Vector3(x, -5f, z), Quaternion.identity);
+            solarSystems.Add(solarSystem);
             Transform canvas = solarSystem.transform.Find("Canvas");
             Transform button = canvas.transform.Find("Button");
             int currentSolarSystem = objectID;
@@ -76,5 +79,10 @@ public class SolarSystemNavigation : ExplorationController
         }
         else
             Debug.Log("Locked");
+    }
+
+    public List<GameObject> GetGameObjects()
+    {
+        return this.solarSystems;
     }
 }
