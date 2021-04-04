@@ -232,13 +232,9 @@ namespace Tests
             planetNavigation.playerData.solarSystemProgress = 0;
             planetNavigation.playerData.planetProgress = 0;
 
-            planetNavigation.ExploreWorld(0);
+            bool unlocked = planetNavigation.IsUnlocked(0);
 
-            yield return new WaitForSeconds(1.0f);
-
-            string currentScene = SceneManager.GetActiveScene().name;
-
-            Assert.AreEqual("SoloGamePlayScene", currentScene);
+            Assert.AreEqual(true, unlocked);
         }
     }
 }

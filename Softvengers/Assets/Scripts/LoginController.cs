@@ -10,6 +10,7 @@ public class LoginController : MonoBehaviour
     public InputField passwordField;
     public Player playerData;
     public GameObject errorMsg;
+    public AudioSource audioSource;
 
     public void CheckValidLogin()
     {
@@ -24,6 +25,9 @@ public class LoginController : MonoBehaviour
         {
             emailID = splitString[0].ToUpper() + "@" + splitString[1].ToLower();
         }
+
+        if (audioSource != null)
+            audioSource.Play();
 
         AuthenticateDetails(emailID, password);
     }
