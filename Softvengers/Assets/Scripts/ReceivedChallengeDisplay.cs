@@ -328,12 +328,12 @@ new Dictionary<string, List<string>>()
             else if (child.name == "CTime")
             {
                 Text cText = child.GetComponentInChildren<Text>();
-                cText.text = selected.sender.score.ToString();
+                cText.text = selected.sender.timeTaken.ToString();
             }
             else if (child.name == "Cscore")
             {
                 Text cText = child.GetComponentInChildren<Text>();
-                cText.text = selected.sender.timeTaken.ToString();
+                cText.text = selected.sender.score.ToString();
             }
             else if(child.name=="ScoreMessage")
             {
