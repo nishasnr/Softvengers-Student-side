@@ -8,6 +8,6 @@ public class HelpController : MonoBehaviour
 
     public void OpenTutorialVideo()
     {
-        Application.OpenURL("https://www.youtube.com/watch?v=_pLO4jFDeIc");
+        Application.OpenURL("https://www.youtube.com/watch?v=6tREMOZixZc");
     }
 }
