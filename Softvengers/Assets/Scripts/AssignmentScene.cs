@@ -46,6 +46,8 @@ public class AssignmentScene : MonoBehaviour
     public List<Assignment> overdue_assignment = new List<Assignment>();
     public AssignmentList AssignmentSets=new AssignmentList();
 
+    List<GameObject> gameObjects = new List<GameObject>();
+
     // Start is called before the first frame update
 
     public static Dictionary<string, Dictionary<string, string>> Assign_info =
@@ -114,8 +116,6 @@ public class AssignmentScene : MonoBehaviour
             }
             ));
 
-        
-
     }
 
 
@@ -157,6 +157,7 @@ public class AssignmentScene : MonoBehaviour
         {
 
             var newPA = Instantiate(PendingAssignment, gameObject.transform, false);
+            gameObjects.Add(newPA);
             newPA.name = item.assignmentID.ToString();   // what is assignment id and _id??
             newPA.transform.localPosition = curPos;
             foreach (Transform child in newPA.transform)
@@ -206,6 +207,7 @@ public class AssignmentScene : MonoBehaviour
         {
 
             var newPA = Instantiate(OverdueAssignment, gameObject.transform, false);
+            gameObjects.Add(newPA);
             newPA.name = item.assignmentID.ToString();
             newPA.transform.localPosition = curPos;
             foreach (Transform child in newPA.transform)
@@ -256,6 +258,7 @@ public class AssignmentScene : MonoBehaviour
         {
 
             var newPA = Instantiate(CompletedAssignment, gameObject.transform, false);
+            gameObjects.Add(newPA);
             newPA.name = item.assignmentName;
             newPA.transform.localPosition = curPos;
             
@@ -366,6 +369,11 @@ public class AssignmentScene : MonoBehaviour
     {
         selectedAssignmentid = int.Parse(btn.transform.parent.gameObject.name);
         Debug.Log(selectedAssignmentid);
+    }
+
+    public List<GameObject> getAssignmentObjects()
+    {
+        return gameObjects;
     }
     //get selectedID
 

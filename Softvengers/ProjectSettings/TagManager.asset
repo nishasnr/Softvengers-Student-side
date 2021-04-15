@@ -11,6 +11,7 @@ TagManager:
   - AssignmentResultPage
   - Posts
   - Choose
+  - Content
   layers:
   - Default
   - TransparentFX
