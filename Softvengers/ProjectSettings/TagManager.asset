@@ -12,6 +12,7 @@ TagManager:
   - Posts
   - Choose
   - Content
+  - InputField
   layers:
   - Default
   - TransparentFX

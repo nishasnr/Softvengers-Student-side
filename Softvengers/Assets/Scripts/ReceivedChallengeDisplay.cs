@@ -47,6 +47,9 @@ public class ReceivedChallengeDisplay : MonoBehaviour
     public List<ReceivedChallenge_single> pending = new List<ReceivedChallenge_single>();
     public List<ReceivedChallenge_single> completed = new List<ReceivedChallenge_single>();
     public ReceivedChallenges ReceivedSets = new ReceivedChallenges();
+
+    List<GameObject> challengeObjects = new List<GameObject>();
+
     // Start is called before the first frame update
 
     /*public static Dictionary<string, Dictionary<string, string>> RC_info =
@@ -167,6 +170,7 @@ new Dictionary<string, List<string>>()
         {
             
             var newPC = Instantiate(PendingChallenge, gameObject.transform, false);
+            challengeObjects.Add(newPC);
             newPC.name = item._id;
             newPC.transform.localPosition = curPos;
             foreach (Transform child in newPC.transform)
@@ -218,6 +222,7 @@ new Dictionary<string, List<string>>()
         {
 
             var newPC = Instantiate(CompletedChallenge, gameObject.transform, false);
+            challengeObjects.Add(newPC);
             newPC.name = item._id;
             newPC.transform.localPosition = curPos;
             foreach (Transform child in newPC.transform)
@@ -447,5 +452,10 @@ new Dictionary<string, List<string>>()
             }
         }
         return selected;
+    }
+
+    public List<GameObject> GetGameObjects()
+    {
+        return challengeObjects;
     }
 }

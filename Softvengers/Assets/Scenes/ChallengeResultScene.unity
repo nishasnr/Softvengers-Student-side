@@ -610,7 +610,7 @@ GameObject:
   - component: {fileID: 496258020}
   - component: {fileID: 496258019}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SendChallenge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

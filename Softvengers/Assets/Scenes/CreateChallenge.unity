@@ -379,8 +379,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1864790501}
   m_HandleRect: {fileID: 1864790500}
   m_Direction: 2
-  m_Value: 1.0000001
-  m_Size: 0.38300002
+  m_Value: 1.0000002
+  m_Size: 0.383
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1038,7 +1038,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1762490215}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1724,7 +1724,7 @@ GameObject:
   - component: {fileID: 1452601467}
   m_Layer: 5
   m_Name: Text
-  m_TagString: Untagged
+  m_TagString: InputField
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

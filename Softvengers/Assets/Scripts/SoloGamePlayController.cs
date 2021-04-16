@@ -240,7 +240,7 @@ public class SoloGamePlayController : ChallengeGameController
         for (int i = 0; i < questionResult.hard.Length; i++)
         {
             string body = questionResult.hard[i].body;
-            int points = questionResult.easy[i].points;
+            int points = questionResult.hard[i].points;
             List<Option> ol = new List<Option>();
             Option corr = new Option(questionResult.hard[i].correctOption, true);
             ol.Add(corr);

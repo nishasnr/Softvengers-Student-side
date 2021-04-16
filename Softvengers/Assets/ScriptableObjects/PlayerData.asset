@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68604e1c9d70774438b4ba82645fbc16, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  universePogress: 2
-  solarSystemProgress: 1
-  planetProgress: 1
-  colorChoice: 2
+  universePogress: 1
+  solarSystemProgress: 0
+  planetProgress: 0
+  colorChoice: 1
+  totalScore: 1191.8658125400543
